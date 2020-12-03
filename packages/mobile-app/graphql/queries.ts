@@ -31,3 +31,32 @@ export const listTodos = /* GraphQL */ `
     }
   }
 `;
+export const getTherapist = /* GraphQL */ `
+  query GetTherapist($id: ID!) {
+    getTherapist(id: $id) {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listTherapists = /* GraphQL */ `
+  query ListTherapists(
+    $filter: ModelTherapistFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTherapists(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        firstName
+        lastName
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;

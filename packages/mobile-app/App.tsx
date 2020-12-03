@@ -4,9 +4,9 @@ import {
 } from 'react-native'
 import { API, graphqlOperation } from 'aws-amplify'
 import { createTodo } from './graphql/mutations'
-import { listTodos } from './graphql/queries'
+import { listTodos, listTherapists } from './graphql/queries';
 import { withAuthenticator } from 'aws-amplify-react-native'
-import Amplify from 'aws-amplify'
+import Amplify, {Auth} from 'aws-amplify'
 import config from './aws-exports'
 
 Amplify.configure(config)
@@ -19,6 +19,12 @@ const App = () => {
 
   useEffect(() => {
     fetchTodos()
+    fetchTherapists()
+    async function test() {
+      const user = await Auth.currentUserInfo()
+      // console.log(user)
+    }
+    test()
   }, [])
 
   function setInput(key, value) {
@@ -31,6 +37,14 @@ const App = () => {
       const todos = todoData.data.listTodos.items
       setTodos(todos)
     } catch (err) { console.log('error fetching todos') }
+  }
+
+  async function fetchTherapists() {
+    try {
+      const therapistsData = await API.graphql(graphqlOperation(listTherapists))
+      const therapists = therapistsData.data.listTherapists.items
+      console.log(therapists)
+    } catch (err) { console.log(err) }
   }
 
   async function addTodo() {

@@ -3,3 +3,9 @@ type Todo @model {
   name: String!
   description: String
 }
+
+type Therapist @model {
+  id: ID!
+  firstName: String!
+  lastName: String!
+}

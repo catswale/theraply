@@ -35,3 +35,36 @@ export const onDeleteTodo = /* GraphQL */ `
     }
   }
 `;
+export const onCreateTherapist = /* GraphQL */ `
+  subscription OnCreateTherapist {
+    onCreateTherapist {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateTherapist = /* GraphQL */ `
+  subscription OnUpdateTherapist {
+    onUpdateTherapist {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteTherapist = /* GraphQL */ `
+  subscription OnDeleteTherapist {
+    onDeleteTherapist {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+    }
+  }
+`;
