@@ -1,81 +1,93 @@
 /* src/App.js */
 import React, { useEffect, useState } from 'react'
-import Amplify, { API, graphqlOperation } from 'aws-amplify'
-import { createTodo } from './graphql/mutations'
-import { listTodos } from './graphql/queries'
-
+import Amplify, { API, graphqlOperation, Auth } from 'aws-amplify'
+import '@aws-amplify/pubsub';
+import { onCreateMessage } from './graphql/subscriptions';
+import { messagesByChannelId } from './graphql/queries';
+import { createMessage } from './graphql/mutations';
+import { withAuthenticator } from '@aws-amplify/ui-react'
+import './App.css'
 import awsExports from "./aws-exports";
 Amplify.configure(awsExports);
 
-const initialState = { name: '', description: '' }
 
 const App = () => {
-  const [formState, setFormState] = useState(initialState)
-  const [todos, setTodos] = useState([] as any)
+  const [messages, setMessages] = useState([] as any[]);
+  const [messageBody, setMessageBody] = useState('');
 
   useEffect(() => {
-    fetchTodos()
-  }, [])
+    fetchMessages()
+  }, []);
 
-  function setInput(key: any, value: any) {
-    setFormState({ ...formState, [key]: value })
+  useEffect(() => {
+    
+    const subscription = API
+      .graphql(graphqlOperation(onCreateMessage)) // @ts-ignore
+      .subscribe({ // @ts-ignore
+        next: (event) => { 
+          setMessages([...messages, event.value.data.onCreateMessage]);
+        }
+      });
+    
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [messages]);
+
+  async function fetchMessages() {
+    const messageData: any = await API.graphql(graphqlOperation(messagesByChannelId, {
+        channelID: '1',
+        sortDirection: 'ASC'
+      }))
+    const messages = messageData.data.messagesByChannelID.items;
+    setMessages(messages)
   }
-
-  async function fetchTodos() {
+  // @ts-ignore
+  const handleChange = (event) => { 
+    setMessageBody(event.target.value);
+  };
+  // @ts-ignore
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+  
+    const input = {
+      channelID: '1',
+      author: 'Dave',
+      body: messageBody.trim()
+    };
+  
     try {
-      const todoData: any = await API.graphql(graphqlOperation(listTodos))
-      const todos: any = todoData.data.listTodos.items
-      setTodos(todos)
-    } catch (err) { console.log('error fetching todos') }
-  }
-
-  async function addTodo() {
-    try {
-      if (!formState.name || !formState.description) return
-      const todo = { ...formState }
-      setTodos([...todos, todo])
-      setFormState(initialState)
-      await API.graphql(graphqlOperation(createTodo, {input: todo}))
-    } catch (err) {
-      console.log('error creating todo:', err)
+      setMessageBody('');
+      // @ts-ignore
+      await API.graphql(graphqlOperation(createMessage, { input }))
+    } catch (error) {
+      console.warn(error);
     }
-  }
-
-  return (
-    <div style={styles.container}>
-      <h2>Amplify Todos</h2>
-      <input
-        onChange={event => setInput('name', event.target.value)}
-        style={styles.input}
-        value={formState.name}
-        placeholder="Name"
-      />
-      <input
-        onChange={event => setInput('description', event.target.value)}
-        style={styles.input}
-        value={formState.description}
-        placeholder="Description"
-      />
-      <button style={styles.button} onClick={addTodo}>Create Todo</button>
-      {
-        todos.map((todo: any, index: any) => (
-          <div key={todo.id ? todo.id : index} style={styles.todo}>
-            <p style={styles.todoName}>{todo.name}</p>
-            <p style={styles.todoDescription}>{todo.description}</p>
-          </div>
-        ))
-      }
-    </div>
-  )
+  };
+    
+    return (
+      <div className="container">
+        <div className="messages">
+        {messages.map((message) => (
+          <div
+            key={message.id}
+            className={message.author === 'Dave' ? 'message me' : 'message'}>{message.body}</div>
+          ))}
+        </div>
+        <div className="chat-bar">
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="message"
+              placeholder="Type your message here"
+              onChange={handleChange}
+              value={messageBody}
+            />
+          </form>
+        </div>
+      </div>
+    );
 }
 
-const styles: any = {
-  container: { width: 400, margin: '0 auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: 20 },
-  todo: {  marginBottom: 15 },
-  input: { border: 'none', backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18 },
-  todoName: { fontSize: 20, fontWeight: 'bold' },
-  todoDescription: { marginBottom: 0 },
-  button: { backgroundColor: 'black', color: 'white', outline: 'none', fontSize: 18, padding: '12px 0px' }
-}
-
-export default App
+export default withAuthenticator(App)
