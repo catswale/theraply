@@ -8,7 +8,7 @@ import { listTodos, listTherapists } from './graphql/queries';
 import { withAuthenticator } from 'aws-amplify-react-native'
 import Amplify, {Auth} from 'aws-amplify'
 import config from './aws-exports'
-
+import {Chat} from './src/chat/Chat.page';
 Amplify.configure(config)
 
 const initialState = { name: '', description: '' }
@@ -58,32 +58,33 @@ const App = () => {
       console.log(err)
     }
   }
+  return <Chat/>
 
-  return (
-    <View style={styles.container}>
-      <TextInput
-        onChangeText={val => setInput('name', val)}
-        style={styles.input}
-        value={formState.name}
-        placeholder="Name"
-      />
-      <TextInput
-        onChangeText={val => setInput('description', val)}
-        style={styles.input}
-        value={formState.description}
-        placeholder="Description"
-      />
-      <Button title="Create Todos" onPress={addTodo} />
-      {
-        todos.map((todo, index) => (
-          <View key={todo.id ? todo.id : index} style={styles.todo}>
-            <Text style={styles.todoName}>{todo.name}</Text>
-            <Text>{todo.description}</Text>
-          </View>
-        ))
-      }
-    </View>
-  )
+  // return (
+  //   <View style={styles.container}>
+  //     <TextInput
+  //       onChangeText={val => setInput('name', val)}
+  //       style={styles.input}
+  //       value={formState.name}
+  //       placeholder="Name"
+  //     />
+  //     <TextInput
+  //       onChangeText={val => setInput('description', val)}
+  //       style={styles.input}
+  //       value={formState.description}
+  //       placeholder="Description"
+  //     />
+  //     <Button title="Create Todos" onPress={addTodo} />
+  //     {
+  //       todos.map((todo, index) => (
+  //         <View key={todo.id ? todo.id : index} style={styles.todo}>
+  //           <Text style={styles.todoName}>{todo.name}</Text>
+  //           <Text>{todo.description}</Text>
+  //         </View>
+  //       ))
+  //     }
+  //   </View>
+  // )
 }
 
 const styles = StyleSheet.create({

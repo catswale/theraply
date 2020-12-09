@@ -10,9 +10,27 @@ import './App.css'
 import awsExports from "./aws-exports";
 Amplify.configure(awsExports);
 
+interface Message {
+  id: string;
+  channelID: string;
+  author: string;
+  body: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface Event {
+  provider: object;
+  value: {
+    data: {
+      onCreateMessage: Message
+    }
+  }
+}
+
 
 const App = () => {
-  const [messages, setMessages] = useState([] as any[]);
+  const [messages, setMessages] = useState([] as Message[]);
   const [messageBody, setMessageBody] = useState('');
 
   useEffect(() => {
@@ -20,34 +38,31 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    
     const subscription = API
       .graphql(graphqlOperation(onCreateMessage)) // @ts-ignore
-      .subscribe({ // @ts-ignore
-        next: (event) => { 
+      .subscribe({
+        next: (event: Event) => { 
           setMessages([...messages, event.value.data.onCreateMessage]);
         }
       });
-    
     return () => {
       subscription.unsubscribe();
     };
   }, [messages]);
 
   async function fetchMessages() {
-    const messageData: any = await API.graphql(graphqlOperation(messagesByChannelId, {
-        channelID: '1',
-        sortDirection: 'ASC'
-      }))
+    const messageData = await API.graphql(graphqlOperation(messagesByChannelId, {
+      channelID: '1',
+      sortDirection: 'ASC'
+    })) as MessageData
+    type MessageData = {data: {messagesByChannelID: {items: Message[]}}}
     const messages = messageData.data.messagesByChannelID.items;
     setMessages(messages)
   }
-  // @ts-ignore
-  const handleChange = (event) => { 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => { 
     setMessageBody(event.target.value);
   };
-  // @ts-ignore
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     event.stopPropagation();
   
@@ -66,28 +81,28 @@ const App = () => {
     }
   };
     
-    return (
-      <div className="container">
-        <div className="messages">
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={message.author === 'Dave' ? 'message me' : 'message'}>{message.body}</div>
-          ))}
-        </div>
-        <div className="chat-bar">
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="message"
-              placeholder="Type your message here"
-              onChange={handleChange}
-              value={messageBody}
-            />
-          </form>
-        </div>
+  return (
+    <div className="container">
+      <div className="messages">
+      {messages.map((message) => (
+        <div
+          key={message.id}
+          className={message.author === 'Dave' ? 'message me' : 'message'}>{message.body}</div>
+        ))}
       </div>
-    );
+      <div className="chat-bar">
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="message"
+            placeholder="Type your message here"
+            onChange={handleChange}
+            value={messageBody}
+          />
+        </form>
+      </div>
+    </div>
+  );
 }
 
 export default withAuthenticator(App)
