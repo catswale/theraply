@@ -1,10 +1,20 @@
-type Todo @model {
+type Therapist
+  @model
+  @auth(
+    rules: [
+      # Defaults to use the "owner" field.
+      { allow: owner }
+      # Authorize the update mutation and both queries.
+      { allow: owner, ownerField: "clients", operations: [read] }
+    ]
+  ) {
   id: ID!
-  name: String!
-  description: String
+  firstName: String!
+  lastName: String!
+  clients: [String]
 }
 
-type Therapist @model {
+type Client @model {
   id: ID!
   firstName: String!
   lastName: String!
@@ -19,7 +29,7 @@ type Message
   ) {
   id: ID!
   channelID: ID!
-  author: String!
+  authorID: String!
   body: String!
   createdAt: AWSDateTime
   updatedAt: AWSDateTime

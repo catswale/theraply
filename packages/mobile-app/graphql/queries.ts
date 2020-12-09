@@ -2,43 +2,16 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getTodo = /* GraphQL */ `
-  query GetTodo($id: ID!) {
-    getTodo(id: $id) {
-      id
-      name
-      description
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const listTodos = /* GraphQL */ `
-  query ListTodos(
-    $filter: ModelTodoFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
-        name
-        description
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
 export const getTherapist = /* GraphQL */ `
   query GetTherapist($id: ID!) {
     getTherapist(id: $id) {
       id
       firstName
       lastName
+      clients
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -49,6 +22,37 @@ export const listTherapists = /* GraphQL */ `
     $nextToken: String
   ) {
     listTherapists(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        firstName
+        lastName
+        clients
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getClient = /* GraphQL */ `
+  query GetClient($id: ID!) {
+    getClient(id: $id) {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listClients = /* GraphQL */ `
+  query ListClients(
+    $filter: ModelClientFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listClients(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
         firstName
@@ -65,7 +69,7 @@ export const getMessage = /* GraphQL */ `
     getMessage(id: $id) {
       id
       channelID
-      author
+      authorID
       body
       createdAt
       updatedAt
@@ -82,7 +86,7 @@ export const listMessages = /* GraphQL */ `
       items {
         id
         channelID
-        author
+        authorID
         body
         createdAt
         updatedAt
@@ -111,7 +115,7 @@ export const messagesByChannelId = /* GraphQL */ `
       items {
         id
         channelID
-        author
+        authorID
         body
         createdAt
         updatedAt

@@ -3,8 +3,7 @@ import {
   View, Text, StyleSheet, TextInput, Button
 } from 'react-native'
 import { API, graphqlOperation } from 'aws-amplify'
-import { createTodo } from './graphql/mutations'
-import { listTodos, listTherapists } from './graphql/queries';
+import { listTherapists } from './graphql/queries';
 import { withAuthenticator } from 'aws-amplify-react-native'
 import Amplify, {Auth} from 'aws-amplify'
 import config from './aws-exports'
@@ -15,10 +14,8 @@ const initialState = { name: '', description: '' }
 
 const App = () => {
   const [formState, setFormState] = useState(initialState)
-  const [todos, setTodos] = useState([])
 
   useEffect(() => {
-    fetchTodos()
     fetchTherapists()
     async function test() {
       const user = await Auth.currentUserInfo()
@@ -31,14 +28,6 @@ const App = () => {
     setFormState({ ...formState, [key]: value })
   }
 
-  async function fetchTodos() {
-    try {
-      const todoData = await API.graphql(graphqlOperation(listTodos))
-      const todos = todoData.data.listTodos.items
-      setTodos(todos)
-    } catch (err) { console.log('error fetching todos') }
-  }
-
   async function fetchTherapists() {
     try {
       const therapistsData = await API.graphql(graphqlOperation(listTherapists))
@@ -47,17 +36,6 @@ const App = () => {
     } catch (err) { console.log(err) }
   }
 
-  async function addTodo() {
-    try {
-      const todo = { ...formState }
-      setTodos([...todos, todo])
-      setFormState(initialState)
-      await API.graphql(graphqlOperation(createTodo, {input: todo}))
-    } catch (err) {
-      console.log('error creating todo:')
-      console.log(err)
-    }
-  }
   return <Chat/>
 
   // return (

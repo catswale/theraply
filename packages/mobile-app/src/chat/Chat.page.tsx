@@ -10,7 +10,7 @@ import Amplify, { API, graphqlOperation, Auth } from 'aws-amplify'
 interface Message { // todo move to shared lib
   id: string;
   channelID: string;
-  author: string;
+  authorID: string;
   body: string;
   createdAt: Date;
   updatedAt: Date;
@@ -19,10 +19,16 @@ interface Message { // todo move to shared lib
 export const Chat = () => {
   const [messages, setMessages] = useState([] as Message[]);
   const [messageBody, setMessageBody] = React.useState('');
-  
+  const [userID, setUserID] = React.useState('');
   useEffect(() => {
     fetchMessages()
+    fetchUserInfo()
   }, []);
+  
+  const fetchUserInfo = async () => {
+    const {username} = await Auth.currentAuthenticatedUser()
+    setUserID(username)
+  }
 
   useEffect(() => {
     const subscription = API
@@ -44,14 +50,13 @@ export const Chat = () => {
     })) as MessageData
     type MessageData = {data: {messagesByChannelID: {items: Message[]}}}
     const messages = messageData.data.messagesByChannelID.items;
-    console.log(messages)
     setMessages(messages)
   }
 
   const handleSubmit = async (event) => {
     const input = {
       channelID: '1',
-      author: 'Monica',
+      authorID: userID,
       body: messageBody.trim()
     };
   
@@ -70,7 +75,7 @@ export const Chat = () => {
       {messages.map((message) => (
         <View
           key={message.id}
-          style={message.author === 'Dave' ? styles.messageMe : styles.message}>
+          style={message.authorID === userID ? styles.messageMe : styles.message}>
             <Text style={styles.text}>{message.body}</Text>
           </View>
         ))}

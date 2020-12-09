@@ -2,53 +2,48 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateTodo = /* GraphQL */ `
-  subscription OnCreateTodo {
-    onCreateTodo {
-      id
-      name
-      description
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateTodo = /* GraphQL */ `
-  subscription OnUpdateTodo {
-    onUpdateTodo {
-      id
-      name
-      description
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteTodo = /* GraphQL */ `
-  subscription OnDeleteTodo {
-    onDeleteTodo {
-      id
-      name
-      description
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const onCreateTherapist = /* GraphQL */ `
-  subscription OnCreateTherapist {
-    onCreateTherapist {
+  subscription OnCreateTherapist($owner: String!, $clients: String!) {
+    onCreateTherapist(owner: $owner, clients: $clients) {
       id
       firstName
       lastName
+      clients
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateTherapist = /* GraphQL */ `
-  subscription OnUpdateTherapist {
-    onUpdateTherapist {
+  subscription OnUpdateTherapist($owner: String!, $clients: String!) {
+    onUpdateTherapist(owner: $owner, clients: $clients) {
+      id
+      firstName
+      lastName
+      clients
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteTherapist = /* GraphQL */ `
+  subscription OnDeleteTherapist($owner: String!, $clients: String!) {
+    onDeleteTherapist(owner: $owner, clients: $clients) {
+      id
+      firstName
+      lastName
+      clients
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onCreateClient = /* GraphQL */ `
+  subscription OnCreateClient {
+    onCreateClient {
       id
       firstName
       lastName
@@ -57,9 +52,20 @@ export const onUpdateTherapist = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteTherapist = /* GraphQL */ `
-  subscription OnDeleteTherapist {
-    onDeleteTherapist {
+export const onUpdateClient = /* GraphQL */ `
+  subscription OnUpdateClient {
+    onUpdateClient {
+      id
+      firstName
+      lastName
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteClient = /* GraphQL */ `
+  subscription OnDeleteClient {
+    onDeleteClient {
       id
       firstName
       lastName
@@ -73,7 +79,7 @@ export const onCreateMessage = /* GraphQL */ `
     onCreateMessage {
       id
       channelID
-      author
+      authorID
       body
       createdAt
       updatedAt
@@ -85,7 +91,7 @@ export const onUpdateMessage = /* GraphQL */ `
     onUpdateMessage {
       id
       channelID
-      author
+      authorID
       body
       createdAt
       updatedAt
@@ -97,7 +103,7 @@ export const onDeleteMessage = /* GraphQL */ `
     onDeleteMessage {
       id
       channelID
-      author
+      authorID
       body
       createdAt
       updatedAt
