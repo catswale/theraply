@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import {
   View, Text, StyleSheet, TextInput, Button, ViewStyle, TextStyle,
 } from 'react-native'
-import { messagesByChannelId } from '../../graphql/queries';
-import { onCreateMessage } from '../../graphql/subscriptions';
-import { createMessage } from '../../graphql/mutations';
+import { messagesByChannelId } from '../graphql/queries';
+import { onCreateMessage } from '../graphql/subscriptions';
+import { createMessage } from '../graphql/mutations';
 import Amplify, { API, graphqlOperation, Auth } from 'aws-amplify'
 
 interface Message { // todo move to shared lib
@@ -16,6 +16,15 @@ interface Message { // todo move to shared lib
   updatedAt: Date;
 }
 
+interface Event {
+  provider: object;
+  value: {
+    data: {
+      onCreateMessage: Message
+    }
+  }
+}
+
 export const Chat = () => {
   const [messages, setMessages] = useState([] as Message[]);
   const [messageBody, setMessageBody] = React.useState('');
@@ -24,7 +33,7 @@ export const Chat = () => {
     fetchMessages()
     fetchUserInfo()
   }, []);
-  
+
   const fetchUserInfo = async () => {
     const {username} = await Auth.currentAuthenticatedUser()
     setUserID(username)

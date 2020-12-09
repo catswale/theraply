@@ -6,8 +6,10 @@ import { API, graphqlOperation } from 'aws-amplify'
 import { listTherapists } from './graphql/queries';
 import { withAuthenticator } from 'aws-amplify-react-native'
 import Amplify, {Auth} from 'aws-amplify'
-import config from './aws-exports'
-import {Chat} from './src/chat/Chat.page';
+import config from '../aws-exports'
+import { registerRootComponent } from 'expo';
+import {Chat} from './chat/Chat.page';
+
 Amplify.configure(config)
 
 const initialState = { name: '', description: '' }
@@ -72,4 +74,4 @@ const styles = StyleSheet.create({
   todoName: { fontSize: 18 }
 })
 
-export default withAuthenticator(App)
+export default registerRootComponent(withAuthenticator(App))
