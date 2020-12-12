@@ -1,0 +1,217 @@
+/* tslint:disable */
+/* eslint-disable */
+// this is an auto generated file. This will be overwritten
+
+export const onCreateTherapist = /* GraphQL */ `
+  subscription OnCreateTherapist {
+    onCreateTherapist {
+      id
+      firstName
+      lastName
+      clients {
+        nextToken
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateTherapist = /* GraphQL */ `
+  subscription OnUpdateTherapist {
+    onUpdateTherapist {
+      id
+      firstName
+      lastName
+      clients {
+        nextToken
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteTherapist = /* GraphQL */ `
+  subscription OnDeleteTherapist {
+    onDeleteTherapist {
+      id
+      firstName
+      lastName
+      clients {
+        nextToken
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onCreateTherapistClientRelationship = /* GraphQL */ `
+  subscription OnCreateTherapistClientRelationship {
+    onCreateTherapistClientRelationship {
+      id
+      therapistID
+      clientID
+      therapist {
+        id
+        firstName
+        lastName
+        createdAt
+        updatedAt
+        owner
+      }
+      client {
+        id
+        firstName
+        lastName
+        therapistIDs
+        createdAt
+        updatedAt
+        owner
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateTherapistClientRelationship = /* GraphQL */ `
+  subscription OnUpdateTherapistClientRelationship {
+    onUpdateTherapistClientRelationship {
+      id
+      therapistID
+      clientID
+      therapist {
+        id
+        firstName
+        lastName
+        createdAt
+        updatedAt
+        owner
+      }
+      client {
+        id
+        firstName
+        lastName
+        therapistIDs
+        createdAt
+        updatedAt
+        owner
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteTherapistClientRelationship = /* GraphQL */ `
+  subscription OnDeleteTherapistClientRelationship {
+    onDeleteTherapistClientRelationship {
+      id
+      therapistID
+      clientID
+      therapist {
+        id
+        firstName
+        lastName
+        createdAt
+        updatedAt
+        owner
+      }
+      client {
+        id
+        firstName
+        lastName
+        therapistIDs
+        createdAt
+        updatedAt
+        owner
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateClient = /* GraphQL */ `
+  subscription OnCreateClient($owner: String!) {
+    onCreateClient(owner: $owner) {
+      id
+      firstName
+      lastName
+      therapists {
+        nextToken
+      }
+      therapistIDs
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateClient = /* GraphQL */ `
+  subscription OnUpdateClient($owner: String!) {
+    onUpdateClient(owner: $owner) {
+      id
+      firstName
+      lastName
+      therapists {
+        nextToken
+      }
+      therapistIDs
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteClient = /* GraphQL */ `
+  subscription OnDeleteClient($owner: String!) {
+    onDeleteClient(owner: $owner) {
+      id
+      firstName
+      lastName
+      therapists {
+        nextToken
+      }
+      therapistIDs
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onCreateMessage = /* GraphQL */ `
+  subscription OnCreateMessage {
+    onCreateMessage {
+      id
+      channelID
+      authorID
+      body
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateMessage = /* GraphQL */ `
+  subscription OnUpdateMessage {
+    onUpdateMessage {
+      id
+      channelID
+      authorID
+      body
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteMessage = /* GraphQL */ `
+  subscription OnDeleteMessage {
+    onDeleteMessage {
+      id
+      channelID
+      authorID
+      body
+      createdAt
+      updatedAt
+    }
+  }
+`;

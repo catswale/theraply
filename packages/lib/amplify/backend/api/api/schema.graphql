@@ -1,0 +1,44 @@
+type Therapist
+  @model
+  @auth(rules: [{ allow: owner, operations: [create, delete, update] }]) {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  clients: [TherapistClientRelationship]
+    @connection(keyName: "byTherapist", fields: ["id"])
+}
+
+type TherapistClientRelationship
+  @model
+  @key(name: "byTherapist", fields: ["therapistID", "clientID"])
+  @key(name: "byClient", fields: ["clientID", "therapistID"]) {
+  id: ID!
+  therapistID: ID!
+  clientID: ID!
+  therapist: Therapist! @connection(fields: ["therapistID"])
+  client: Client! @connection(fields: ["clientID"])
+}
+
+type Client @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  therapists: [TherapistClientRelationship]
+    @connection(keyName: "byClient", fields: ["id"])
+  therapistIDs: [String]
+}
+
+type Message
+  @model
+  @key(
+    name: "byChannelID"
+    fields: ["channelID", "createdAt"]
+    queryField: "messagesByChannelID"
+  ) {
+  id: ID!
+  channelID: ID!
+  authorID: String!
+  body: String!
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}

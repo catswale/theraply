@@ -2,23 +2,8 @@ import React, { useEffect, useState } from 'react'
 import {
   View, Text, StyleSheet, TextInput, Button, ViewStyle, TextStyle,
 } from 'react-native'
-import { messagesByChannelId } from '../graphql/queries';
-import { onCreateMessage } from '../graphql/subscriptions';
-import { createMessage } from '../graphql/mutations';
+import {Message, mutations, subscriptions, queries} from '@theraply/lib';
 import Amplify, { API, graphqlOperation, Auth } from 'aws-amplify'
-// @ts-ignore
-import {Message, test} from '@theraply/lib';
-// const lib = require('@theraply/lib')
-// const {test} = lib
-
-// export interface Message {
-//   id: string;
-//   channelID: string;
-//   authorID: string;
-//   body: string;
-//   createdAt: Date;
-//   updatedAt: Date;
-// }
 
 interface Event {
   provider: object;
@@ -30,7 +15,6 @@ interface Event {
 }
 
 export const Chat = () => {
-  console.log('TEST ' + test)
   const [messages, setMessages] = useState([] as Message[]);
   const [messageBody, setMessageBody] = React.useState('');
   const [userID, setUserID] = React.useState('');
@@ -46,7 +30,7 @@ export const Chat = () => {
 
   useEffect(() => {
     const subscription = API
-      .graphql(graphqlOperation(onCreateMessage)) // @ts-ignore
+      .graphql(graphqlOperation(subscriptions.onCreateMessage)) // @ts-ignore
       .subscribe({
         next: (event: Event) => { 
           setMessages([...messages, event.value.data.onCreateMessage]);
@@ -58,7 +42,7 @@ export const Chat = () => {
   }, [messages]);
   
   async function fetchMessages() {
-    const messageData = await API.graphql(graphqlOperation(messagesByChannelId, {
+    const messageData = await API.graphql(graphqlOperation(queries.messagesByChannelId, {
       channelID: '1',
       sortDirection: 'ASC'
     })) as MessageData
@@ -77,7 +61,7 @@ export const Chat = () => {
     try {
       setMessageBody('');
       // @ts-ignore
-      await API.graphql(graphqlOperation(createMessage, { input }))
+      await API.graphql(graphqlOperation(mutations.createMessage, { input }))
     } catch (error) {
       console.warn(error);
     }
