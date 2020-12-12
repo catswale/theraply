@@ -2,19 +2,12 @@
 import React, { useEffect, useState } from 'react'
 import { API, graphqlOperation, Auth } from 'aws-amplify'
 import '@aws-amplify/pubsub';
-import { onCreateMessage } from 'graphql/subscriptions';
-import { messagesByChannelId } from 'graphql/queries';
-import { createMessage } from 'graphql/mutations';
-import './Chat.css'
+import { onCreateMessage } from '../graphql/subscriptions';
+import { messagesByChannelId } from '../graphql/queries';
+import { createMessage } from '../graphql/mutations';
+import {Message} from '@theraply/lib';
 
-interface Message {
-  id: string;
-  channelID: string;
-  authorID: string;
-  body: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import './Chat.css'
 
 interface Event {
   provider: object;

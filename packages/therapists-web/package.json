@@ -1,7 +1,12 @@
 {
-  "name": "therapists-web",
-  "version": "0.1.0",
+  "name": "@theraply/therapists-web",
+  "version": "1.0.0",
   "private": true,
+  "main": "dist/index",
+  "types": "dist/index",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@aws-amplify/ui-react": "^0.2.31",
     "@testing-library/jest-dom": "^5.11.4",
@@ -11,6 +16,7 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
+    "@theraply/lib": "1.0.0",
     "aws-amplify": "^3.3.11",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

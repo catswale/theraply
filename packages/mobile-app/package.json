@@ -1,12 +1,16 @@
 {
   "main": "node_modules/expo/AppEntry.js",
+  "name": "@theraply/mobile-app",
+  "version": "1.0.0",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "_comment": "expo-yarn-workspaces is not yet configured for windows",
+    "postinstall": "expo-yarn-workspaces postinstall"
   },
   "jest": {
     "preset": "jest-expo"
@@ -18,6 +22,7 @@
     "@react-navigation/bottom-tabs": "^5.8.0",
     "@react-navigation/native": "^5.7.3",
     "@react-navigation/stack": "^5.9.0",
+    "@theraply/lib": "1.0.0",
     "aws-amplify": "^3.3.10",
     "aws-amplify-react-native": "^4.2.9",
     "expo": "~39.0.2",
@@ -40,6 +45,7 @@
     "@babel/core": "~7.9.0",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
+    "expo-yarn-workspaces": "^1.2.1",
     "jest-expo": "~39.0.0",
     "typescript": "~3.9.5"
   },

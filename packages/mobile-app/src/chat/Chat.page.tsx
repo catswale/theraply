@@ -6,15 +6,19 @@ import { messagesByChannelId } from '../graphql/queries';
 import { onCreateMessage } from '../graphql/subscriptions';
 import { createMessage } from '../graphql/mutations';
 import Amplify, { API, graphqlOperation, Auth } from 'aws-amplify'
+// @ts-ignore
+import {Message, test} from '@theraply/lib';
+// const lib = require('@theraply/lib')
+// const {test} = lib
 
-interface Message { // todo move to shared lib
-  id: string;
-  channelID: string;
-  authorID: string;
-  body: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+// export interface Message {
+//   id: string;
+//   channelID: string;
+//   authorID: string;
+//   body: string;
+//   createdAt: Date;
+//   updatedAt: Date;
+// }
 
 interface Event {
   provider: object;
@@ -26,6 +30,7 @@ interface Event {
 }
 
 export const Chat = () => {
+  console.log('TEST ' + test)
   const [messages, setMessages] = useState([] as Message[]);
   const [messageBody, setMessageBody] = React.useState('');
   const [userID, setUserID] = React.useState('');

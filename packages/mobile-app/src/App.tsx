@@ -16,7 +16,6 @@ const initialState = { name: '', description: '' }
 
 const App = () => {
   const [formState, setFormState] = useState(initialState)
-
   useEffect(() => {
     fetchTherapists()
     async function test() {
