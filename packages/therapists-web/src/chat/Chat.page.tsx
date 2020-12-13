@@ -1,14 +1,18 @@
-/* src/App.js */
 import React, { useEffect, useState } from 'react'
 import { API, graphqlOperation, Auth } from 'aws-amplify'
 import '@aws-amplify/pubsub';
-import { onCreateMessage } from '../graphql/subscriptions';
-import { messagesByChannelId } from '../graphql/queries';
-import { createMessage } from '../graphql/mutations';
-import {Message} from '@theraply/lib';
+// import {Message} from '@theraply/lib';
+import {mutations, subscriptions, queries} from '@theraply/lib';
 
 import './Chat.css'
-
+type Message = {
+  id: string;
+  channelID: string;
+  authorID: string;
+  body: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 interface Event {
   provider: object;
   value: {
@@ -34,7 +38,7 @@ export const Chat = () => {
 
   useEffect(() => {
     const subscription = API
-      .graphql(graphqlOperation(onCreateMessage)) // @ts-ignore
+      .graphql(graphqlOperation(subscriptions.onCreateMessage)) // @ts-ignore
       .subscribe({
         next: (event: Event) => { 
           setMessages([...messages, event.value.data.onCreateMessage]);
@@ -47,7 +51,7 @@ export const Chat = () => {
 
   async function fetchMessages() {
     console.log('getting messages')
-    const messageData = await API.graphql(graphqlOperation(messagesByChannelId, {
+    const messageData = await API.graphql(graphqlOperation(queries.messagesByChannelId, {
       channelID: '1',
       sortDirection: 'ASC'
     })) as MessageData
@@ -72,7 +76,7 @@ export const Chat = () => {
     try {
       setMessageBody('');
       // @ts-ignore
-      await API.graphql(graphqlOperation(createMessage, { input }))
+      await API.graphql(graphqlOperation(mutations.createMessage, { input }))
     } catch (error) {
       console.warn(error);
     }

@@ -9,6 +9,7 @@ import Amplify, {Auth} from 'aws-amplify'
 import config from '../aws-exports'
 import { registerRootComponent } from 'expo';
 import {Chat} from './chat/Chat.page';
+import {Dashboard} from './dashboard/Dashboard.page';
 
 Amplify.configure(config)
 
@@ -16,28 +17,28 @@ const initialState = { name: '', description: '' }
 
 const App = () => {
   const [formState, setFormState] = useState(initialState)
-  useEffect(() => {
-    fetchTherapists()
-    async function test() {
-      const user = await Auth.currentUserInfo()
-      // console.log(user)
-    }
-    test()
-  }, [])
+  // useEffect(() => {
+  //   fetchTherapists()
+  //   async function test() {
+  //     const user = await Auth.currentUserInfo()
+  //     // console.log(user)
+  //   }
+  //   test()
+  // }, [])
 
-  function setInput(key, value) {
-    setFormState({ ...formState, [key]: value })
-  }
+  // function setInput(key, value) {
+  //   setFormState({ ...formState, [key]: value })
+  // }
 
-  async function fetchTherapists() {
-    try {
-      const therapistsData = await API.graphql(graphqlOperation(listTherapists))
-      const therapists = therapistsData.data.listTherapists.items
-      console.log(therapists)
-    } catch (err) { console.log(err) }
-  }
+  // async function fetchTherapists() {
+  //   try {
+  //     const therapistsData = await API.graphql(graphqlOperation(listTherapists))
+  //     const therapists = therapistsData.data.listTherapists.items
+  //     console.log(therapists)
+  //   } catch (err) { console.log(err) }
+  // }
 
-  return <Chat/>
+  return <Dashboard/>
 
   // return (
   //   <View style={styles.container}>

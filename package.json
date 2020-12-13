@@ -4,9 +4,9 @@
   "dependencies": {
   },
   "scripts": {
+    "bootstrap": "lerna bootstrap",
     "web": "lerna --scope=therapist-web run start --stream --",
-    "expo": "lerna --scope=mobile-app run start --stream --",
-    "postinstall": "cd ./packages/mobile-app && expo-yarn-workspaces postinstall"
+    "expo": "lerna --scope=mobile-app run start --stream --"
   },
   "workspaces": {
     "packages": [
