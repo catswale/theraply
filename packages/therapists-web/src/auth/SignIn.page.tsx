@@ -45,7 +45,6 @@ async function getAuth() {
     console.log(typeof err)
     console.log(err)
   }
-
 }
 
 async function signOut() {

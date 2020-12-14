@@ -59,14 +59,8 @@ async function signUp(firstName: string, lastName: string, email: string,  phone
                 phone_number: phoneNumber,
             }
         });
-        createTherapist(userSub, firstName, lastName, email, phoneNumber)
     } catch (error) {
         console.log('error signing up:', error);
     }
 }
 
-async function createTherapist(id: string, firstName: string, lastName: string, email: string, phoneNumber: string) {
-  const data = await API.graphql(graphqlOperation(mutations.createTherapist, {input: {id, firstName, lastName}})) as Data
-  type Data = {data: {createTherapist: {items: any[]}}}
-  console.log(data)
-}

@@ -4,6 +4,8 @@ type Therapist
   id: ID!
   firstName: String!
   lastName: String
+  email: String!
+  phoneNumber: String
   clients: [TherapistClientRelationship]
     @connection(keyName: "byTherapist", fields: ["id"])
 }
@@ -23,6 +25,8 @@ type Client @model @auth(rules: [{ allow: owner }]) {
   id: ID!
   firstName: String!
   lastName: String!
+  email: String!
+  phoneNumber: String
   therapists: [TherapistClientRelationship]
     @connection(keyName: "byClient", fields: ["id"])
   therapistIDs: [String]

@@ -35,9 +35,3 @@ async function confirmSignUp(email: string, code: string) {
       console.log('error confirming sign up', error);
   }
 }
-
-async function createTherapist(firstName: string, lastName: string, email: string, phoneNumber: string) {
-  const data = await API.graphql(graphqlOperation(mutations.createTherapist, {input: {id: email, firstName, lastName}})) as Data
-  type Data = {data: {createTherapist: {items: any[]}}}
-  console.log(data)
-}
