@@ -55,7 +55,6 @@ export const Chat = () => {
       channelID: '1',
       sortDirection: 'ASC'
     })) as MessageData
-    console.log(messageData)
     type MessageData = {data: {messagesByChannelID: {items: Message[]}}}
     const messages = messageData.data.messagesByChannelID.items;
     setMessages(messages)

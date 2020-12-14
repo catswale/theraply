@@ -3,7 +3,7 @@ type Therapist
   @auth(rules: [{ allow: owner, operations: [create, delete, update] }]) {
   id: ID!
   firstName: String!
-  lastName: String!
+  lastName: String
   clients: [TherapistClientRelationship]
     @connection(keyName: "byTherapist", fields: ["id"])
 }

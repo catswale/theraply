@@ -1,8 +1,7 @@
 {
   "name": "root",
   "private": true,
-  "dependencies": {
-  },
+  "dependencies": {},
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "web": "lerna --scope=therapist-web run start --stream --",
@@ -12,7 +11,12 @@
     "packages": [
       "packages/*"
     ],
-    "nohoist": ["**/react-native", "**/react-native/**", "**/expo", "**/expo/**"]
+    "nohoist": [
+      "**/react-native",
+      "**/react-native/**",
+      "**/expo",
+      "**/expo/**"
+    ]
   },
   "devDependencies": {
     "lerna": "^3.20.2",
