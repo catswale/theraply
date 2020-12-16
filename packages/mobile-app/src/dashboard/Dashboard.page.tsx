@@ -22,6 +22,7 @@ interface Therapist {
   lastName: string,
   email: string,
   id: string,
+  channelID?: string,
 }
 
 export const Dashboard = ({navigation}) => {
@@ -44,7 +45,7 @@ export const Dashboard = ({navigation}) => {
   async function fetchClient() {
     const {username, attributes} = await Auth.currentAuthenticatedUser();
     const data = await API.graphql(graphqlOperation(queries.getClient, {id: username})) as Data
-    type Data = {data: {getClient: Client}}
+    type Data = {data: {getClient: any}}
     const client = data.data.getClient
     if (!client) {
       console.log('client doesnt exist in db, creating')
@@ -55,6 +56,10 @@ export const Dashboard = ({navigation}) => {
       }}))
       fetchClient()
     } else {
+      client.therapists = client.therapists.items.map(connection => ({
+        ...connection.therapist,
+        channelID: connection.id,
+      }))
       setClient(client)
     }
   }
@@ -65,7 +70,12 @@ export const Dashboard = ({navigation}) => {
       <Text>All Therapists</Text>
       <FlatList
         data={therapists}
-        renderItem={({item}) => <Card therapist={item}/>}
+        renderItem={({item}) => <Card therapist={item} client={client}/>}
+      />
+      <Text>Your Therapists</Text>
+      <FlatList
+        data={client.therapists}
+        renderItem={({item}) => <ClientTherapistCard therapist={item} client={client} navigation={navigation}/>}
       />
       <Button title='LOGOUT' onPress={() => signOut(dispatch)}/>
 
@@ -73,13 +83,30 @@ export const Dashboard = ({navigation}) => {
   )
 }
 
-const Card = ({therapist}: {therapist: Therapist}) => {
+const Card = ({therapist, client}: {therapist: Therapist, client: Client}) => {
   return (
     <View style={styles.cardContainer}>
       <Text>{therapist.firstName}</Text>
-      <Button title='CONNECT' onPress={() => {}}/>
+      <Button title='CONNECT' onPress={() => createTherapistClientConnection(therapist, client)}/>
     </View>
   )
+}
+
+const ClientTherapistCard = ({therapist, client, navigation}: {therapist: Therapist, client: Client}) => {
+  return (
+    <View style={styles.cardContainer}>
+      <Text>{therapist.firstName}</Text>
+      <Button title='CHAT' onPress={() => navigation.navigate('Chat', {channelID: therapist.channelID})}/>
+    </View>
+  )
+}
+
+async function createTherapistClientConnection(therapist: Therapist, client: Client) {
+  const res = await API.graphql(graphqlOperation(mutations.createTherapistClientRelationship, {input: {
+    therapistID: therapist.id,
+    clientID: client.id,
+  }}))
+  console.log(res)
 }
 
 async function signOut(dispatch) {

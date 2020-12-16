@@ -44,21 +44,10 @@ export const SignIn = ({navigation}) => {
         value={password}
       />
 
-      <Button title='SIGN IN' onPress={() => signIn(dispatch, email, password)}/>
+      <Button title='SIGN IN' onPress={() => signIn()}/>
       <Button title='SIGN UP' onPress={() => navigation.navigate('SignUp')}/>
     </View>
   )
-}
-
-async function signIn(dispatch, email?: string, password?: string) {
-  try {
-      if (!email || !password) return
-      await Auth.signIn(email, password);
-      dispatch(setIsSignedIn(true))
-  } catch (error) {
-      console.log('error signing in', error);
-      // todo handle wrong password
-  }
 }
 
 interface Style {

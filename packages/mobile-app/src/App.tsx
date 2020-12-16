@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import store from './store'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Amplify, {Auth} from 'aws-amplify'
+import Amplify from 'aws-amplify'
 import config from '../aws-exports'
 import { registerRootComponent } from 'expo';
 import {Chat} from './chat/Chat.page';
@@ -15,7 +15,6 @@ import {SignIn} from './auth/SignIn.page';
 import {SignUp} from './auth/SignUp.page';
 import {SignUpConfirm} from './auth/SignUpConfirm.page';
 import { useAuth } from './auth/auth.hooks';
-import { useSelector } from 'react-redux'
 
 Amplify.configure({
   ...config,

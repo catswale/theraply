@@ -103,7 +103,13 @@ export const getClient = /* GraphQL */ `
       email
       phoneNumber
       therapists {
-        nextToken
+        items {
+          therapist {
+            firstName
+            lastName
+          }
+          id
+        }
       }
       therapistIDs
       createdAt

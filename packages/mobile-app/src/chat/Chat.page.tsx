@@ -22,10 +22,11 @@ interface Event {
   }
 }
 
-export const Chat = () => {
+export const Chat = ({route, navigation}) => {
   const [messages, setMessages] = useState([] as Message[]);
   const [messageBody, setMessageBody] = React.useState('');
   const [userID, setUserID] = React.useState('');
+  const { channelID } = route.params;
   useEffect(() => {
     fetchMessages()
     fetchUserInfo()
@@ -51,7 +52,7 @@ export const Chat = () => {
   
   async function fetchMessages() {
     const messageData = await API.graphql(graphqlOperation(queries.messagesByChannelId, {
-      channelID: '1',
+      channelID,
       sortDirection: 'ASC'
     })) as MessageData
     type MessageData = {data: {messagesByChannelID: {items: Message[]}}}
@@ -61,7 +62,7 @@ export const Chat = () => {
 
   const handleSubmit = async (event) => {
     const input = {
-      channelID: '1',
+      channelID: channelID,
       authorID: userID,
       body: messageBody.trim()
     };
