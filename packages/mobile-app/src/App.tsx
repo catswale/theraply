@@ -2,76 +2,63 @@ import React, { useEffect, useState } from 'react'
 import {
   View, Text, StyleSheet, TextInput, Button
 } from 'react-native'
-import { API, graphqlOperation } from 'aws-amplify'
-import { listTherapists } from './graphql/queries';
-import { withAuthenticator } from 'aws-amplify-react-native'
+import { Provider } from 'react-redux';
+import store from './store'
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import Amplify, {Auth} from 'aws-amplify'
 import config from '../aws-exports'
 import { registerRootComponent } from 'expo';
 import {Chat} from './chat/Chat.page';
 import {Dashboard} from './dashboard/Dashboard.page';
+import {SignIn} from './auth/SignIn.page';
+import {SignUp} from './auth/SignUp.page';
+import {SignUpConfirm} from './auth/SignUpConfirm.page';
+import { useAuth } from './auth/auth.hooks';
+import { useSelector } from 'react-redux'
 
-Amplify.configure(config)
-
-const initialState = { name: '', description: '' }
-
-const App = () => {
-  const [formState, setFormState] = useState(initialState)
-  // useEffect(() => {
-  //   fetchTherapists()
-  //   async function test() {
-  //     const user = await Auth.currentUserInfo()
-  //     // console.log(user)
-  //   }
-  //   test()
-  // }, [])
-
-  // function setInput(key, value) {
-  //   setFormState({ ...formState, [key]: value })
-  // }
-
-  // async function fetchTherapists() {
-  //   try {
-  //     const therapistsData = await API.graphql(graphqlOperation(listTherapists))
-  //     const therapists = therapistsData.data.listTherapists.items
-  //     console.log(therapists)
-  //   } catch (err) { console.log(err) }
-  // }
-
-  return <Dashboard/>
-
-  // return (
-  //   <View style={styles.container}>
-  //     <TextInput
-  //       onChangeText={val => setInput('name', val)}
-  //       style={styles.input}
-  //       value={formState.name}
-  //       placeholder="Name"
-  //     />
-  //     <TextInput
-  //       onChangeText={val => setInput('description', val)}
-  //       style={styles.input}
-  //       value={formState.description}
-  //       placeholder="Description"
-  //     />
-  //     <Button title="Create Todos" onPress={addTodo} />
-  //     {
-  //       todos.map((todo, index) => (
-  //         <View key={todo.id ? todo.id : index} style={styles.todo}>
-  //           <Text style={styles.todoName}>{todo.name}</Text>
-  //           <Text>{todo.description}</Text>
-  //         </View>
-  //       ))
-  //     }
-  //   </View>
-  // )
-}
-
-const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 20 },
-  todo: {  marginBottom: 15 },
-  input: { height: 50, backgroundColor: '#ddd', marginBottom: 10, padding: 8 },
-  todoName: { fontSize: 18 }
+Amplify.configure({
+  ...config,
+  Analytics: {
+    disabled: true,
+  },
 })
 
-export default registerRootComponent(withAuthenticator(App))
+const Stack = createStackNavigator();
+
+const App = () => {
+  const {isSignedIn, loading} = useAuth()
+
+  if (loading) return <View><Text>Loading...</Text></View>
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        {
+          isSignedIn ? (
+            <>
+            <Stack.Screen name="Dashboard" component={Dashboard} />
+            <Stack.Screen name="Chat" component={Chat} />
+            </>
+          ) : (
+            <>
+            <Stack.Screen name="SignIn" component={SignIn} />
+            <Stack.Screen name="SignUp" component={SignUp} />
+            <Stack.Screen name="SignUpConfirm" component={SignUpConfirm} />
+            </>
+          )
+        }
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+const AppWrapper = () => {
+
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  )
+}
+
+export default registerRootComponent(AppWrapper)

@@ -8,6 +8,8 @@ export const getTherapist = /* GraphQL */ `
       id
       firstName
       lastName
+      email
+      phoneNumber
       clients {
         nextToken
       }
@@ -28,6 +30,8 @@ export const listTherapists = /* GraphQL */ `
         id
         firstName
         lastName
+        email
+        phoneNumber
         createdAt
         updatedAt
         owner
@@ -46,6 +50,8 @@ export const getTherapistClientRelationship = /* GraphQL */ `
         id
         firstName
         lastName
+        email
+        phoneNumber
         createdAt
         updatedAt
         owner
@@ -54,6 +60,8 @@ export const getTherapistClientRelationship = /* GraphQL */ `
         id
         firstName
         lastName
+        email
+        phoneNumber
         therapistIDs
         createdAt
         updatedAt
@@ -92,6 +100,8 @@ export const getClient = /* GraphQL */ `
       id
       firstName
       lastName
+      email
+      phoneNumber
       therapists {
         nextToken
       }
@@ -113,6 +123,8 @@ export const listClients = /* GraphQL */ `
         id
         firstName
         lastName
+        email
+        phoneNumber
         therapistIDs
         createdAt
         updatedAt

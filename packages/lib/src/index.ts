@@ -9,7 +9,6 @@
 import * as queries from '../graphql/queries'
 import * as subscriptions from '../graphql/subscriptions'
 import * as mutations from '../graphql/mutations'
-
 export {
   queries,
   subscriptions,

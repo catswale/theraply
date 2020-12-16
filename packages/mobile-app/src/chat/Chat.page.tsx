@@ -2,9 +2,17 @@ import React, { useEffect, useState } from 'react'
 import {
   View, Text, StyleSheet, TextInput, Button, ViewStyle, TextStyle,
 } from 'react-native'
-import {Message, mutations, subscriptions, queries} from '@theraply/lib';
+import {mutations, subscriptions, queries} from '@theraply/lib';
 import Amplify, { API, graphqlOperation, Auth } from 'aws-amplify'
 
+export type Message = {
+  id: string;
+  channelID: string;
+  authorID: string;
+  body: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 interface Event {
   provider: object;
   value: {

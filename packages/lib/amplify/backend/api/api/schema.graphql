@@ -24,7 +24,7 @@ type TherapistClientRelationship
 type Client @model @auth(rules: [{ allow: owner }]) {
   id: ID!
   firstName: String!
-  lastName: String!
+  lastName: String
   email: String!
   phoneNumber: String
   therapists: [TherapistClientRelationship]

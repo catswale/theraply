@@ -8,6 +8,8 @@ export const onCreateTherapist = /* GraphQL */ `
       id
       firstName
       lastName
+      email
+      phoneNumber
       clients {
         nextToken
       }
@@ -23,6 +25,8 @@ export const onUpdateTherapist = /* GraphQL */ `
       id
       firstName
       lastName
+      email
+      phoneNumber
       clients {
         nextToken
       }
@@ -38,6 +42,8 @@ export const onDeleteTherapist = /* GraphQL */ `
       id
       firstName
       lastName
+      email
+      phoneNumber
       clients {
         nextToken
       }
@@ -57,6 +63,8 @@ export const onCreateTherapistClientRelationship = /* GraphQL */ `
         id
         firstName
         lastName
+        email
+        phoneNumber
         createdAt
         updatedAt
         owner
@@ -65,6 +73,8 @@ export const onCreateTherapistClientRelationship = /* GraphQL */ `
         id
         firstName
         lastName
+        email
+        phoneNumber
         therapistIDs
         createdAt
         updatedAt
@@ -85,6 +95,8 @@ export const onUpdateTherapistClientRelationship = /* GraphQL */ `
         id
         firstName
         lastName
+        email
+        phoneNumber
         createdAt
         updatedAt
         owner
@@ -93,6 +105,8 @@ export const onUpdateTherapistClientRelationship = /* GraphQL */ `
         id
         firstName
         lastName
+        email
+        phoneNumber
         therapistIDs
         createdAt
         updatedAt
@@ -113,6 +127,8 @@ export const onDeleteTherapistClientRelationship = /* GraphQL */ `
         id
         firstName
         lastName
+        email
+        phoneNumber
         createdAt
         updatedAt
         owner
@@ -121,6 +137,8 @@ export const onDeleteTherapistClientRelationship = /* GraphQL */ `
         id
         firstName
         lastName
+        email
+        phoneNumber
         therapistIDs
         createdAt
         updatedAt
@@ -137,6 +155,8 @@ export const onCreateClient = /* GraphQL */ `
       id
       firstName
       lastName
+      email
+      phoneNumber
       therapists {
         nextToken
       }
@@ -153,6 +173,8 @@ export const onUpdateClient = /* GraphQL */ `
       id
       firstName
       lastName
+      email
+      phoneNumber
       therapists {
         nextToken
       }
@@ -169,6 +191,8 @@ export const onDeleteClient = /* GraphQL */ `
       id
       firstName
       lastName
+      email
+      phoneNumber
       therapists {
         nextToken
       }
