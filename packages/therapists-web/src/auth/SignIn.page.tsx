@@ -1,24 +1,18 @@
 import React from 'react'
-import { API, graphqlOperation, Auth } from 'aws-amplify';
-import {mutations, subscriptions, queries} from '@theraply/lib';
-import {
-  AuthenticationDetails,
-  CognitoUserPool,
-  CognitoUser,
-  CognitoUserAttribute,
-  ICognitoUserAttributeData,
-  ISignUpResult,
-  CognitoUserSession,
-} from 'amazon-cognito-identity-js';
+import { Auth } from 'aws-amplify';
 import './SignIn.css'
+import { useHistory } from "react-router-dom";
 
 export const SignIn = () => {
+  let history = useHistory();
 
   function handleSubmit(event: any) {
     event.preventDefault();
     const data = new FormData(event.target);
     signIn(data.get('email') as string, data.get('password') as string)
+    history.push("/dashboard")
   }
+
   return (
     <form onSubmit={handleSubmit}>
       <h1>Sign In</h1>
@@ -31,8 +25,8 @@ export const SignIn = () => {
         <input id="password" type="password" name="password" />
       </div>
 
-      <button>SIGN IN</button>
-      <button onClick={getAuth}>GET AUTH</button>
+      <button >SIGN IN</button>
+      <button onClick={() => history.push('signup')}>SIGN UP</button>
     </form>
   )
 }
@@ -44,15 +38,6 @@ async function getAuth() {
   } catch (err) {
     console.log(typeof err)
     console.log(err)
-  }
-}
-
-async function signOut() {
-  try {
-    console.log('signing out')
-      await Auth.signOut();
-  } catch (error) {
-      console.log('error signing out: ', error);
   }
 }
 

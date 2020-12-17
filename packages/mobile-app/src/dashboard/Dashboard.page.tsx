@@ -8,14 +8,6 @@ import {useAuth} from '../auth/auth.hooks'
 import {setIsSignedIn} from '../auth/auth.slice'
 import {useDispatch } from 'react-redux';
 
-interface Client {
-  id: string,
-  firstName: string,
-  lastName?: string,
-  email: string,
-  phoneNumber?: string,
-  therapists?: any[],
-}
 
 interface Therapist {
   firstName: string,

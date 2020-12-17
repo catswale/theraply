@@ -11,7 +11,7 @@ type Therapist
 }
 
 type TherapistClientRelationship
-  @model
+  @model(queries: null)
   @key(name: "byTherapist", fields: ["therapistID", "clientID"])
   @key(name: "byClient", fields: ["clientID", "therapistID"]) {
   id: ID!
@@ -21,7 +21,10 @@ type TherapistClientRelationship
   client: Client! @connection(fields: ["clientID"])
 }
 
-type Client @model @auth(rules: [{ allow: owner }]) {
+type Client @model @auth(rules: [
+  { allow: owner }, 
+  { allow: owner, ownerField: "therapistIDs", operations: [read] }
+  ]) {
   id: ID!
   firstName: String!
   lastName: String

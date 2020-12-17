@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import Amplify, {Auth} from 'aws-amplify'
-import '@aws-amplify/pubsub';
 import awsExports from "./aws-exports";
+import { Provider } from 'react-redux';
+import store from './store'
 import {Chat} from './chat/Chat.page'
 import {Dashboard} from './dashboard/Dashboard.page'
 import {SignIn} from './auth/SignIn.page'
 import {SignUp} from './auth/SignUp.page'
-import {ConfirmSignUp} from './auth/ConfirmSignUp.page'
+import {ConfirmSignUp} from './auth/SignUpConfirm.page'
 import { ProtectedRoute } from './auth/ProtectedRoute';
 import {
   BrowserRouter as Router,
@@ -30,7 +31,13 @@ const App = () => {
   )
 }
 
+const AppWrapper = () => {
 
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  )
+}
 
-
-export default App
+export default AppWrapper

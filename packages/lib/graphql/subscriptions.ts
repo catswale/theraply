@@ -150,8 +150,8 @@ export const onDeleteTherapistClientRelationship = /* GraphQL */ `
   }
 `;
 export const onCreateClient = /* GraphQL */ `
-  subscription OnCreateClient($owner: String!) {
-    onCreateClient(owner: $owner) {
+  subscription OnCreateClient($owner: String!, $therapistIDs: String!) {
+    onCreateClient(owner: $owner, therapistIDs: $therapistIDs) {
       id
       firstName
       lastName
@@ -168,8 +168,8 @@ export const onCreateClient = /* GraphQL */ `
   }
 `;
 export const onUpdateClient = /* GraphQL */ `
-  subscription OnUpdateClient($owner: String!) {
-    onUpdateClient(owner: $owner) {
+  subscription OnUpdateClient($owner: String!, $therapistIDs: String!) {
+    onUpdateClient(owner: $owner, therapistIDs: $therapistIDs) {
       id
       firstName
       lastName
@@ -186,8 +186,8 @@ export const onUpdateClient = /* GraphQL */ `
   }
 `;
 export const onDeleteClient = /* GraphQL */ `
-  subscription OnDeleteClient($owner: String!) {
-    onDeleteClient(owner: $owner) {
+  subscription OnDeleteClient($owner: String!, $therapistIDs: String!) {
+    onDeleteClient(owner: $owner, therapistIDs: $therapistIDs) {
       id
       firstName
       lastName

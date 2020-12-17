@@ -11,7 +11,36 @@ export const getTherapist = /* GraphQL */ `
       email
       phoneNumber
       clients {
-        nextToken
+        items {
+          client {
+            firstName
+            lastName
+          }
+          id
+        }      
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const getTherapistAndClients = /* GraphQL */ `
+  query getTherapistAndClients($id: ID!) {
+    getTherapist(id: $id) {
+      id
+      firstName
+      lastName
+      email
+      phoneNumber
+      clients {
+        items {
+          client {
+            firstName
+            lastName
+          }
+          id
+        }      
       }
       createdAt
       updatedAt
@@ -96,6 +125,30 @@ export const listTherapistClientRelationships = /* GraphQL */ `
 `;
 export const getClient = /* GraphQL */ `
   query GetClient($id: ID!) {
+    getClient(id: $id) {
+      id
+      firstName
+      lastName
+      email
+      phoneNumber
+      therapists {
+        items {
+          therapist {
+            firstName
+            lastName
+          }
+          id
+        }
+      }
+      therapistIDs
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const getClientAndTherapists = /* GraphQL */ `
+  query getClientAndTherapists($id: ID!) {
     getClient(id: $id) {
       id
       firstName

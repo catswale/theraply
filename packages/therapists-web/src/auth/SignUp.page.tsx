@@ -1,12 +1,11 @@
 import React from 'react'
-import { API, graphqlOperation, Auth } from 'aws-amplify';
-import {mutations} from '@theraply/lib';
-import {
-  CognitoUser,
-} from 'amazon-cognito-identity-js';
+import { Auth } from 'aws-amplify';
 import './SignUp.css'
+import { useHistory } from "react-router-dom";
 
 export const SignUp = () => {
+  const history = useHistory()
+
   function handleSubmit(event: any) {
     event.preventDefault();
     const data = new FormData(event.target);
@@ -16,6 +15,7 @@ export const SignUp = () => {
     const phoneNumber = data.get('phoneNumber') as string;
     const password = data.get('password') as string;
     signUp(firstName, lastName, email, phoneNumber, password)
+    history.push('signup-confirm')
   }
 
   return (

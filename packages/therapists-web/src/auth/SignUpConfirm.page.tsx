@@ -1,13 +1,16 @@
 import React from 'react'
-import { API, graphqlOperation, Auth } from 'aws-amplify';
-import {mutations} from '@theraply/lib';
+import { Auth } from 'aws-amplify';
 import './SignUp.css'
+import { useHistory } from 'react-router-dom';
 
 export const ConfirmSignUp = (props: any) => {
+  const history = useHistory()
+
   function handleSubmit(event: any) {
     event.preventDefault();
     const data = new FormData(event.target);
     confirmSignUp(data.get('email') as string, data.get('code') as string)
+    history.push('login')
   }
 
   return (
