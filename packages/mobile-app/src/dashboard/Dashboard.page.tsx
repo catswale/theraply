@@ -7,7 +7,7 @@ import {Auth, API, graphqlOperation} from 'aws-amplify'
 import {useAuth} from '../auth/auth.hooks'
 import {setIsSignedIn} from '../auth/auth.slice'
 import {useDispatch } from 'react-redux';
-
+import {Client} from '../client/types'
 
 interface Therapist {
   firstName: string,
@@ -94,11 +94,16 @@ const ClientTherapistCard = ({therapist, client, navigation}: {therapist: Therap
 }
 
 async function createTherapistClientConnection(therapist: Therapist, client: Client) {
+  if (client.therapistIDs.find(id => id === therapist.id)) return
   const res = await API.graphql(graphqlOperation(mutations.createTherapistClientRelationship, {input: {
     therapistID: therapist.id,
     clientID: client.id,
   }}))
-  console.log(res)
+  client.therapistIDs.push(therapist.id)
+  const update = await API.graphql(graphqlOperation(mutations.updateClient, {input: {
+    therapistIDs: client.therapistIDs,
+  }}))
+  console.log(update)
 }
 
 async function signOut(dispatch) {
