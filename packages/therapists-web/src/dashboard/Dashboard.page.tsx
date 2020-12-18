@@ -53,17 +53,15 @@ export const Dashboard = () => {
   }
 
   return (
-    <div>
+    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
       <h1>Dashboard</h1>
       <h2>Hello {therapist.firstName}</h2>
       <h3>Your Clients</h3>
-      <div>
-        {
-          therapist?.clients?.map(client => (
-            <ClientCard key={client.channelID} client={client} therapist={therapist}/>
-          ))
-        }
-      </div>
+      {
+        therapist?.clients?.map(client => (
+          <ClientCard key={client.channelID} client={client} therapist={therapist}/>
+        ))
+      }
       <button onClick={signOut}>SIGN OUT</button>
     </div>
   )

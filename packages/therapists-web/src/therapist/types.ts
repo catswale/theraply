@@ -5,9 +5,11 @@ export interface Therapist {
     lastName: string,
     email: string,
     id: string,
-    clients: {
-        channelID: string,
-        firstName: string,
-        lastName: string,
-    }[]
+    clients: TherapistClient[]
   }
+
+export interface TherapistClient {
+    channelID: string,
+    firstName: string,
+    lastName: string,
+}
