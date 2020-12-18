@@ -95,7 +95,7 @@ export const Chat = (props: any) => {
           <input
             type="text"
             name="message"
-            placeholder="Type your message here"
+            placeholder="Type your message here.."
             onChange={handleChange}
             value={messageBody}
           />
