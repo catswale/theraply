@@ -1,6 +1,6 @@
 type Therapist
   @model
-  @auth(rules: [{ allow: owner, operations: [create, delete, update] }]) {
+  @auth(rules: [{ allow: owner }]) {
   id: ID!
   firstName: String!
   lastName: String
@@ -41,11 +41,16 @@ type Message
     name: "byChannelID"
     fields: ["channelID", "createdAt"]
     queryField: "messagesByChannelID"
-  ) {
+  )
+  @auth(rules: [
+  { allow: owner, operations: [create] },
+  { allow: owner, ownerField: "participants", operations: [create, read] }
+  ]) {
   id: ID!
   channelID: ID!
   authorID: String!
   body: String!
+  participants: [String]!
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
 }

@@ -41,9 +41,11 @@ export const Dashboard = () => {
 
         fetchUser({username, attributes})
       } else {
+        console.log(therapist)
         therapist.clients = therapist.clients.items.map((connection: any) => ({
           ...connection.client,
           channelID: connection.id,
+          id: connection.clientID,
         }))
         setTherapist(therapist)
       }

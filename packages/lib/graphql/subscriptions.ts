@@ -3,8 +3,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateTherapist = /* GraphQL */ `
-  subscription OnCreateTherapist {
-    onCreateTherapist {
+  subscription OnCreateTherapist($owner: String!) {
+    onCreateTherapist(owner: $owner) {
       id
       firstName
       lastName
@@ -20,8 +20,8 @@ export const onCreateTherapist = /* GraphQL */ `
   }
 `;
 export const onUpdateTherapist = /* GraphQL */ `
-  subscription OnUpdateTherapist {
-    onUpdateTherapist {
+  subscription OnUpdateTherapist($owner: String!) {
+    onUpdateTherapist(owner: $owner) {
       id
       firstName
       lastName
@@ -37,8 +37,8 @@ export const onUpdateTherapist = /* GraphQL */ `
   }
 `;
 export const onDeleteTherapist = /* GraphQL */ `
-  subscription OnDeleteTherapist {
-    onDeleteTherapist {
+  subscription OnDeleteTherapist($owner: String!) {
+    onDeleteTherapist(owner: $owner) {
       id
       firstName
       lastName
@@ -204,38 +204,44 @@ export const onDeleteClient = /* GraphQL */ `
   }
 `;
 export const onCreateMessage = /* GraphQL */ `
-  subscription OnCreateMessage {
-    onCreateMessage {
+  subscription OnCreateMessage($owner: String!) {
+    onCreateMessage(owner: $owner) {
       id
       channelID
       authorID
       body
+      participants
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateMessage = /* GraphQL */ `
-  subscription OnUpdateMessage {
-    onUpdateMessage {
+  subscription OnUpdateMessage($owner: String!) {
+    onUpdateMessage(owner: $owner) {
       id
       channelID
       authorID
       body
+      participants
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteMessage = /* GraphQL */ `
-  subscription OnDeleteMessage {
-    onDeleteMessage {
+  subscription OnDeleteMessage($owner: String!) {
+    onDeleteMessage(owner: $owner) {
       id
       channelID
       authorID
       body
+      participants
       createdAt
       updatedAt
+      owner
     }
   }
 `;

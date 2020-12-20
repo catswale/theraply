@@ -24,6 +24,7 @@ const App = () => {
       <Route path="/login" component={SignIn} />
       <Route path="/signup" component={SignUp} />
       <Route path="/signup-confirm" component={ConfirmSignUp} />
+      {/* <ProtectedRoute path="/" component={Dashboard}/> */}
       <ProtectedRoute path="/dashboard" component={Dashboard}/>
       <ProtectedRoute path="/chat" component={Chat} />
     </Switch>

@@ -10,10 +10,12 @@ interface Props {
 }
 export const ClientCard = ({client, therapist}: Props) => {
     const history = useHistory()
+    console.log(client)
+    const args = {channelID: client.channelID, participants: [client.id, therapist.id]}
     return (
         <div style={containerStyle}>
             <p>{client.firstName} {client.lastName}</p>
-            <button onClick={() => history.push('chat', {channelID: client.channelID})}>CHAT</button>
+            <button onClick={() => history.push('chat', args)}>CHAT</button>
         </div>
     )
 }

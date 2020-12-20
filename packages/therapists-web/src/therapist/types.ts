@@ -9,6 +9,7 @@ export interface Therapist {
   }
 
 export interface TherapistClient {
+    id: string,
     channelID: string,
     firstName: string,
     lastName: string,

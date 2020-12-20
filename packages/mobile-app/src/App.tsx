@@ -59,5 +59,26 @@ const AppWrapper = () => {
     </Provider>
   )
 }
+const HelloWorldApp = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+      <Stack.Screen name="SignIn" component={H} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
+}
+const H = () => {
+  return (
+    <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center"
+          }}>
+          <Text>Hello, world!</Text>
+        </View>
+  )
+}
 
 export default registerRootComponent(AppWrapper)

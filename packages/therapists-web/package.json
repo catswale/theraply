@@ -35,6 +35,9 @@
     "build": "cross-env SKIP_PREFLIGHT_CHECK=true react-app-rewired build",
     "test": "yarn run build"
   },
+  "workspaces": {
+    "nohoist": ["**/cross-env", "**/cross-env/**"]
+  },
   "eslintConfig": {
     "extends": [
       "react-app",

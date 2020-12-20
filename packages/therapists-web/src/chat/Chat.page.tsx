@@ -23,7 +23,7 @@ interface Event {
 }
 
 export const Chat = (props: any) => {
-  const {channelID} = props.location.state
+  const {channelID, participants} = props.location.state
   const [messages, setMessages] = useState([] as Message[]);
   const [messageBody, setMessageBody] = useState('');
   const [userID, setUserID] = React.useState({});
@@ -36,15 +36,17 @@ export const Chat = (props: any) => {
     const {username} = await Auth.currentAuthenticatedUser()
     setUserID(username)
   }
-
   useEffect(() => {
     const subscription = API
-      .graphql(graphqlOperation(subscriptions.onCreateMessage)) // @ts-ignore
+      .graphql(graphqlOperation(subscriptions.onCreateMessage, {owner: participants[1], participants})) // @ts-ignore
       .subscribe({
         next: (event: Event) => { 
+          console.log('got message')
+          console.log(event)
           setMessages([...messages, event.value.data.onCreateMessage]);
         }
       });
+      console.log(subscription)
     return () => {
       subscription.unsubscribe();
     };
@@ -69,7 +71,8 @@ export const Chat = (props: any) => {
     const input = {
       channelID,
       authorID: userID,
-      body: messageBody.trim()
+      body: messageBody.trim(),
+      participants,
     };
   
     try {

@@ -1,5 +1,6 @@
 export interface Client {
     id: string,
+    owner: string,
     firstName: string,
     lastName?: string,
     email: string,
@@ -7,4 +8,6 @@ export interface Client {
     therapists?: any[],
     therapistIDs: string[],
     channelID?: string,
+    createdAt: Date,
+    updatedAt: Date,
   }

@@ -240,8 +240,10 @@ export const createMessage = /* GraphQL */ `
       channelID
       authorID
       body
+      participants
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -255,8 +257,10 @@ export const updateMessage = /* GraphQL */ `
       channelID
       authorID
       body
+      participants
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -270,8 +274,10 @@ export const deleteMessage = /* GraphQL */ `
       channelID
       authorID
       body
+      participants
       createdAt
       updatedAt
+      owner
     }
   }
 `;
