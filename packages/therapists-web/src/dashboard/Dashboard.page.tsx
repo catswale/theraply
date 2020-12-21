@@ -11,6 +11,7 @@ export const Dashboard = () => {
   const history = useHistory()
   useEffect(() => {
     fetchUserInfo()
+    fetchUser()
   }, []);
 
   const signOut = async () => {
@@ -25,33 +26,38 @@ export const Dashboard = () => {
 
   const fetchUserInfo = async () => {
     const authUser = await Auth.currentAuthenticatedUser()
-    fetchUser(authUser)
+    fetchTherapist(authUser)
   }
-  async function fetchUser({username, attributes}: any) {
+  async function fetchTherapist({username, attributes}: any) {
     try {
-      const data = await API.graphql(graphqlOperation(queries.getTherapistAndClients, {id: username})) as TherapistData
+      const data = await API.graphql(graphqlOperation(queries.getTherapist, {id: username})) as TherapistData
       type TherapistData = {data: {getTherapist: any}}
       const therapist = data.data.getTherapist;
-
+      console.log(therapist)
       if (!therapist) {
         console.log('therapist doesnt exist in db, creating')
         await API.graphql(graphqlOperation(mutations.createTherapist, {input: {
           id: username, firstName: attributes.given_name, lastName: attributes.family_name, email: attributes.email
         }}))
 
-        fetchUser({username, attributes})
+        fetchTherapist({username, attributes})
       } else {
         console.log(therapist)
         therapist.clients = therapist.clients.items.map((connection: any) => ({
           ...connection.client,
           channelID: connection.id,
-          id: connection.clientID,
         }))
         setTherapist(therapist)
       }
     } catch (err) {
+      console.log('error getting (user) therapist')
       console.log(err)
     }
+  }
+
+  async function fetchUser() {
+    // const data = await API.graphql(graphqlOperation(queries.getClient, {id: '40bec478-66b7-44d2-b327-5fa6fbe42de4'})) as any
+    // console.log(data)
   }
 
   return (

@@ -1,6 +1,5 @@
 type Therapist
-  @model
-  @auth(rules: [{ allow: owner }]) {
+  @model {
   id: ID!
   firstName: String!
   lastName: String
@@ -21,9 +20,10 @@ type TherapistClientRelationship
   client: Client! @connection(fields: ["clientID"])
 }
 
-type Client @model @auth(rules: [
-  { allow: owner }, 
-  { allow: owner, ownerField: "therapistIDs", operations: [read] }
+type Client @model 
+  @auth(rules: [
+    { allow: owner }, 
+    { allow: owner, ownerField: "therapistIDs", operations: [read] }
   ]) {
   id: ID!
   firstName: String!
@@ -41,16 +41,13 @@ type Message
     name: "byChannelID"
     fields: ["channelID", "createdAt"]
     queryField: "messagesByChannelID"
-  )
-  @auth(rules: [
-  { allow: owner, operations: [create] },
-  { allow: owner, ownerField: "participants", operations: [create, read] }
-  ]) {
+  ) {
   id: ID!
   channelID: ID!
   authorID: String!
   body: String!
   participants: [String]!
+  participant1: String
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
 }

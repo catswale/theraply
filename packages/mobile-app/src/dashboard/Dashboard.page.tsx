@@ -32,7 +32,7 @@ export const Dashboard = ({navigation}) => {
   async function fetchTherapists() {
     const data = await API.graphql(graphqlOperation(queries.listTherapists)) as Data
     type Data = {data: {listTherapists: {items: any[]}}}
-    const therapists = data.data.listTherapists.items;
+    const therapists = data.data?.listTherapists?.items || [];
     setTherapists(therapists)
   }
   async function fetchClient() {
@@ -49,7 +49,7 @@ export const Dashboard = ({navigation}) => {
       }}))
       fetchClient()
     } else {
-      client.therapists = client.therapists.items.map(connection => ({
+      client.therapists = client?.therapists?.items && client.therapists.items.map(connection => ({
         ...connection.therapist,
         channelID: connection.id,
       }))
@@ -89,7 +89,7 @@ const ClientTherapistCard = ({therapist, client, navigation}: {therapist: Therap
   return (
     <View style={styles.cardContainer}>
       <Text>{therapist.firstName}</Text>
-      <Button title='CHAT' onPress={() => navigation.navigate('Chat', {channelID: therapist.channelID})}/>
+      <Button title='CHAT' onPress={() => navigation.navigate('Chat', {therapist, client})}/>
     </View>
   )
 }

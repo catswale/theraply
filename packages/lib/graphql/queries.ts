@@ -15,31 +15,6 @@ export const getTherapist = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
-    }
-  }
-`;
-export const getTherapistAndClients = /* GraphQL */ `
-  query getTherapistAndClients($id: ID!) {
-    getTherapist(id: $id) {
-      id
-      firstName
-      lastName
-      email
-      phoneNumber
-      clients {
-        items {
-          client {
-            id,
-            firstName
-            lastName
-          }
-          id
-        }      
-      }
-      createdAt
-      updatedAt
-      owner
     }
   }
 `;
@@ -58,7 +33,6 @@ export const listTherapists = /* GraphQL */ `
         phoneNumber
         createdAt
         updatedAt
-        owner
       }
       nextToken
     }
@@ -112,9 +86,9 @@ export const getMessage = /* GraphQL */ `
       authorID
       body
       participants
+      participant1
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -131,9 +105,9 @@ export const listMessages = /* GraphQL */ `
         authorID
         body
         participants
+        participant1
         createdAt
         updatedAt
-        owner
       }
       nextToken
     }
@@ -162,9 +136,9 @@ export const messagesByChannelId = /* GraphQL */ `
         authorID
         body
         participants
+        participant1
         createdAt
         updatedAt
-        owner
       }
       nextToken
     }

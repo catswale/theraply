@@ -3,8 +3,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateTherapist = /* GraphQL */ `
-  subscription OnCreateTherapist($owner: String!) {
-    onCreateTherapist(owner: $owner) {
+  subscription OnCreateTherapist {
+    onCreateTherapist {
       id
       firstName
       lastName
@@ -15,13 +15,12 @@ export const onCreateTherapist = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onUpdateTherapist = /* GraphQL */ `
-  subscription OnUpdateTherapist($owner: String!) {
-    onUpdateTherapist(owner: $owner) {
+  subscription OnUpdateTherapist {
+    onUpdateTherapist {
       id
       firstName
       lastName
@@ -32,13 +31,12 @@ export const onUpdateTherapist = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onDeleteTherapist = /* GraphQL */ `
-  subscription OnDeleteTherapist($owner: String!) {
-    onDeleteTherapist(owner: $owner) {
+  subscription OnDeleteTherapist {
+    onDeleteTherapist {
       id
       firstName
       lastName
@@ -49,7 +47,6 @@ export const onDeleteTherapist = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -67,7 +64,6 @@ export const onCreateTherapistClientRelationship = /* GraphQL */ `
         phoneNumber
         createdAt
         updatedAt
-        owner
       }
       client {
         id
@@ -99,7 +95,6 @@ export const onUpdateTherapistClientRelationship = /* GraphQL */ `
         phoneNumber
         createdAt
         updatedAt
-        owner
       }
       client {
         id
@@ -131,7 +126,6 @@ export const onDeleteTherapistClientRelationship = /* GraphQL */ `
         phoneNumber
         createdAt
         updatedAt
-        owner
       }
       client {
         id
@@ -204,44 +198,44 @@ export const onDeleteClient = /* GraphQL */ `
   }
 `;
 export const onCreateMessage = /* GraphQL */ `
-  subscription OnCreateMessage($owner: String!) {
-    onCreateMessage(owner: $owner) {
+  subscription OnCreateMessage {
+    onCreateMessage {
       id
       channelID
       authorID
       body
       participants
+      participant1
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onUpdateMessage = /* GraphQL */ `
-  subscription OnUpdateMessage($owner: String!) {
-    onUpdateMessage(owner: $owner) {
+  subscription OnUpdateMessage {
+    onUpdateMessage {
       id
       channelID
       authorID
       body
       participants
+      participant1
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onDeleteMessage = /* GraphQL */ `
-  subscription OnDeleteMessage($owner: String!) {
-    onDeleteMessage(owner: $owner) {
+  subscription OnDeleteMessage {
+    onDeleteMessage {
       id
       channelID
       authorID
       body
       participants
+      participant1
       createdAt
       updatedAt
-      owner
     }
   }
 `;

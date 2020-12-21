@@ -18,7 +18,6 @@ export const createTherapist = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -38,7 +37,6 @@ export const updateTherapist = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -58,7 +56,6 @@ export const deleteTherapist = /* GraphQL */ `
       }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -79,7 +76,6 @@ export const createTherapistClientRelationship = /* GraphQL */ `
         phoneNumber
         createdAt
         updatedAt
-        owner
       }
       client {
         id
@@ -114,7 +110,6 @@ export const updateTherapistClientRelationship = /* GraphQL */ `
         phoneNumber
         createdAt
         updatedAt
-        owner
       }
       client {
         id
@@ -149,7 +144,6 @@ export const deleteTherapistClientRelationship = /* GraphQL */ `
         phoneNumber
         createdAt
         updatedAt
-        owner
       }
       client {
         id
@@ -241,9 +235,9 @@ export const createMessage = /* GraphQL */ `
       authorID
       body
       participants
+      participant1
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -258,9 +252,9 @@ export const updateMessage = /* GraphQL */ `
       authorID
       body
       participants
+      participant1
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -275,9 +269,9 @@ export const deleteMessage = /* GraphQL */ `
       authorID
       body
       participants
+      participant1
       createdAt
       updatedAt
-      owner
     }
   }
 `;

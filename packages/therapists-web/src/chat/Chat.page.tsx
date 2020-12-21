@@ -37,8 +37,10 @@ export const Chat = (props: any) => {
     setUserID(username)
   }
   useEffect(() => {
+    console.log('subscirbing ' + userID)
+    console.log('subscirbing ' + participants[0])
     const subscription = API
-      .graphql(graphqlOperation(subscriptions.onCreateMessage, {owner: participants[1], participants})) // @ts-ignore
+      .graphql(graphqlOperation(subscriptions.onCreateMessage, {owner: userID, participant1: participants[0]})) // @ts-ignore
       .subscribe({
         next: (event: Event) => { 
           console.log('got message')
@@ -73,6 +75,7 @@ export const Chat = (props: any) => {
       authorID: userID,
       body: messageBody.trim(),
       participants,
+      participant1: participants[0],
     };
   
     try {

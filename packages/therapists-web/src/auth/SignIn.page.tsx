@@ -6,10 +6,10 @@ import { useHistory } from "react-router-dom";
 export const SignIn = () => {
   let history = useHistory();
 
-  function handleSubmit(event: any) {
+  async function handleSubmit(event: any) {
     event.preventDefault();
     const data = new FormData(event.target);
-    signIn(data.get('email') as string, data.get('password') as string)
+    await signIn(data.get('email') as string, data.get('password') as string)
     history.push("/dashboard")
   }
 

@@ -26,7 +26,7 @@ export const Chat = ({route, navigation}) => {
   const [messages, setMessages] = useState([] as Message[]);
   const [messageBody, setMessageBody] = React.useState('');
   const [userID, setUserID] = React.useState('');
-  const { channelID } = route.params;
+  const { therapist, client } = route.params;
   useEffect(() => {
     fetchMessages()
     fetchUserInfo()
@@ -39,7 +39,7 @@ export const Chat = ({route, navigation}) => {
 
   useEffect(() => {
     const subscription = API
-      .graphql(graphqlOperation(subscriptions.onCreateMessage)) // @ts-ignore
+      .graphql(graphqlOperation(subscriptions.onCreateMessage, {owner: client.id, participant1: therapist.id})) // @ts-ignore
       .subscribe({
         next: (event: Event) => { 
           setMessages([...messages, event.value.data.onCreateMessage]);
@@ -52,9 +52,10 @@ export const Chat = ({route, navigation}) => {
   
   async function fetchMessages() {
     const messageData = await API.graphql(graphqlOperation(queries.messagesByChannelId, {
-      channelID,
+      channelID: therapist.channelID,
       sortDirection: 'ASC'
     })) as MessageData
+    console.log(messageData)
     type MessageData = {data: {messagesByChannelID: {items: Message[]}}}
     const messages = messageData.data.messagesByChannelID.items;
     setMessages(messages)
@@ -62,9 +63,11 @@ export const Chat = ({route, navigation}) => {
 
   const handleSubmit = async (event) => {
     const input = {
-      channelID: channelID,
+      channelID: therapist.channelID,
       authorID: userID,
-      body: messageBody.trim()
+      body: messageBody.trim(),
+      participants: [client.id],
+      participant1: therapist.id,
     };
   
     try {
