@@ -15,7 +15,7 @@ export const SignIn = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h1>Sign In</h1>
+      <h1>Sign In </h1>
       <div>
         <label htmlFor="email">Email:</label>
         <input id="email" name="email" type="email" />
