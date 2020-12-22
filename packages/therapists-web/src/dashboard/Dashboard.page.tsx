@@ -35,7 +35,7 @@ export const Dashboard = () => {
       const therapist = data.data.getTherapist;
       console.log(therapist)
       if (!therapist) {
-        console.log('therapist doesnt exist in db, creating')
+        console.log('therapist doesnt exist in db, creating.')
         await API.graphql(graphqlOperation(mutations.createTherapist, {input: {
           id: username, firstName: attributes.given_name, lastName: attributes.family_name, email: attributes.email
         }}))
