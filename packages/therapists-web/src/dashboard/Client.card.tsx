@@ -1,7 +1,7 @@
 import React from 'react'
-import {Client} from '../client/types'
-import {Therapist, TherapistClient} from '../therapist/types'
 import { useHistory } from "react-router-dom";
+import {Therapist, TherapistClient} from '@theraply/lib';
+
 import './Client.card'
 
 interface Props {

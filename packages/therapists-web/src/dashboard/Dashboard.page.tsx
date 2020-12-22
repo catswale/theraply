@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { API, graphqlOperation, Auth } from 'aws-amplify'
-import {queries, mutations} from '@theraply/lib';
+import {queries, mutations, Therapist} from '@theraply/lib';
 import { useHistory } from "react-router-dom";
 import { ClientCard } from './Client.card';
-import {Client} from '../client/types'
-import {Therapist} from '../therapist/types'
 
 export const Dashboard = () => {
   const [therapist, setTherapist] = useState({} as Therapist);

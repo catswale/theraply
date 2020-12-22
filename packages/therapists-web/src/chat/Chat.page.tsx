@@ -2,17 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { API, graphqlOperation, Auth } from 'aws-amplify'
 import '@aws-amplify/pubsub';
 // import {Message} from '@theraply/lib';
-import {mutations, subscriptions, queries} from '@theraply/lib';
+import {mutations, subscriptions, queries, Message} from '@theraply/lib';
 
 import './Chat.css'
-type Message = {
-  id: string;
-  channelID: string;
-  authorID: string;
-  body: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+
 interface Event {
   provider: object;
   value: {

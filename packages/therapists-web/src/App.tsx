@@ -13,6 +13,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
 } from "react-router-dom";
 
 Amplify.configure(awsExports);
@@ -24,7 +25,13 @@ const App = () => {
       <Route path="/login" component={SignIn} />
       <Route path="/signup" component={SignUp} />
       <Route path="/signup-confirm" component={ConfirmSignUp} />
-      {/* <ProtectedRoute path="/" component={Dashboard}/> */}
+      <Route exact path="/"
+        render={() => {
+            return (
+              <Redirect to="/dashboard" />
+            )
+        }}
+      />
       <ProtectedRoute path="/dashboard" component={Dashboard}/>
       <ProtectedRoute path="/chat" component={Chat} />
     </Switch>
