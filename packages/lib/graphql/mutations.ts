@@ -13,7 +13,15 @@ export const createTherapist = /* GraphQL */ `
       lastName
       email
       phoneNumber
+      availability {
+        id
+        start
+        end
+      }
       clients {
+        nextToken
+      }
+      bookings {
         nextToken
       }
       createdAt
@@ -32,7 +40,15 @@ export const updateTherapist = /* GraphQL */ `
       lastName
       email
       phoneNumber
+      availability {
+        id
+        start
+        end
+      }
       clients {
+        nextToken
+      }
+      bookings {
         nextToken
       }
       createdAt
@@ -51,7 +67,15 @@ export const deleteTherapist = /* GraphQL */ `
       lastName
       email
       phoneNumber
+      availability {
+        id
+        start
+        end
+      }
       clients {
+        nextToken
+      }
+      bookings {
         nextToken
       }
       createdAt
@@ -175,6 +199,9 @@ export const createClient = /* GraphQL */ `
       therapists {
         nextToken
       }
+      bookings {
+        nextToken
+      }
       therapistIDs
       createdAt
       updatedAt
@@ -196,6 +223,9 @@ export const updateClient = /* GraphQL */ `
       therapists {
         nextToken
       }
+      bookings {
+        nextToken
+      }
       therapistIDs
       createdAt
       updatedAt
@@ -215,6 +245,9 @@ export const deleteClient = /* GraphQL */ `
       email
       phoneNumber
       therapists {
+        nextToken
+      }
+      bookings {
         nextToken
       }
       therapistIDs
@@ -270,6 +303,117 @@ export const deleteMessage = /* GraphQL */ `
       body
       participants
       participant1
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createBooking = /* GraphQL */ `
+  mutation CreateBooking(
+    $input: CreateBookingInput!
+    $condition: ModelBookingConditionInput
+  ) {
+    createBooking(input: $input, condition: $condition) {
+      id
+      start
+      end
+      state
+      therapistID
+      clientID
+      therapist {
+        id
+        firstName
+        lastName
+        email
+        phoneNumber
+        createdAt
+        updatedAt
+      }
+      client {
+        id
+        firstName
+        lastName
+        email
+        phoneNumber
+        therapistIDs
+        createdAt
+        updatedAt
+        owner
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateBooking = /* GraphQL */ `
+  mutation UpdateBooking(
+    $input: UpdateBookingInput!
+    $condition: ModelBookingConditionInput
+  ) {
+    updateBooking(input: $input, condition: $condition) {
+      id
+      start
+      end
+      state
+      therapistID
+      clientID
+      therapist {
+        id
+        firstName
+        lastName
+        email
+        phoneNumber
+        createdAt
+        updatedAt
+      }
+      client {
+        id
+        firstName
+        lastName
+        email
+        phoneNumber
+        therapistIDs
+        createdAt
+        updatedAt
+        owner
+      }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteBooking = /* GraphQL */ `
+  mutation DeleteBooking(
+    $input: DeleteBookingInput!
+    $condition: ModelBookingConditionInput
+  ) {
+    deleteBooking(input: $input, condition: $condition) {
+      id
+      start
+      end
+      state
+      therapistID
+      clientID
+      therapist {
+        id
+        firstName
+        lastName
+        email
+        phoneNumber
+        createdAt
+        updatedAt
+      }
+      client {
+        id
+        firstName
+        lastName
+        email
+        phoneNumber
+        therapistIDs
+        createdAt
+        updatedAt
+        owner
+      }
       createdAt
       updatedAt
     }

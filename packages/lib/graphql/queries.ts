@@ -10,7 +10,15 @@ export const getTherapist = /* GraphQL */ `
       lastName
       email
       phoneNumber
+      availability {
+        id
+        start
+        end
+      }
       clients {
+        nextToken
+      }
+      bookings {
         nextToken
       }
       createdAt
@@ -47,6 +55,9 @@ export const getClient = /* GraphQL */ `
       email
       phoneNumber
       therapists {
+        nextToken
+      }
+      bookings {
         nextToken
       }
       therapistIDs

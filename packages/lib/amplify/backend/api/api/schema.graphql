@@ -5,15 +5,17 @@ type Therapist
   lastName: String
   email: String!
   phoneNumber: String
-  availability: [{
-    id: ID!
-    start: AWSDateTime!
-    end: AWSDateTime!
-  }]
+  availability: [Availability]
   clients: [TherapistClientRelationship]
     @connection(keyName: "byTherapist", fields: ["id"])
-  bookings: [Bookings]
+  bookings: [Booking]
     @connection(keyName: "byTherapist", fields: ["id"])
+}
+
+type Availability {
+  id: ID!
+  start: AWSDateTime!
+  end: AWSDateTime!
 }
 
 type TherapistClientRelationship
@@ -39,7 +41,7 @@ type Client @model
   phoneNumber: String
   therapists: [TherapistClientRelationship]
     @connection(keyName: "byClient", fields: ["id"])
-  therapists: [Bookings]
+  bookings: [Booking]
     @connection(keyName: "byClient", fields: ["id"])
   therapistIDs: [String]
 }
