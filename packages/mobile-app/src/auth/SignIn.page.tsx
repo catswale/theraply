@@ -13,8 +13,9 @@ export const SignIn = ({navigation}) => {
 
   const signIn = async () => {
     try {
-      await Auth.signIn(email, password);
+      const user = await Auth.signIn(email, password);
       auth.setIsSignedIn(true)
+      auth.setUser(user)
     } catch (error) {
         console.log('error signing in', error);
         setError(error.message)

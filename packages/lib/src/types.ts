@@ -9,12 +9,16 @@ export type Message = {
 
 export type Client = {
   id: string,
+  owner: string,
   firstName: string,
   lastName?: string,
   email: string,
   phoneNumber?: string,
   therapists?: any[],
+  therapistIDs: string[],
   channelID?: string,
+  createdAt: Date,
+  updatedAt: Date,
 }
 
 export interface Therapist {

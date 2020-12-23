@@ -4,6 +4,7 @@ import {Auth} from 'aws-amplify'
 export const authSlice = createSlice({
   name: 'auth',
   initialState: {
+    user: {}, // cognitos authenticated user
     isSignedIn: false,
     loading: true,
   },
@@ -14,10 +15,13 @@ export const authSlice = createSlice({
     setIsSignedIn: (state, action) => {
       state.isSignedIn = action.payload;
     },
+    setUser: (state, action) => {
+      state.user = action.payload;
+    },
   },
 });
 
-export const { setLoading, setIsSignedIn } = authSlice.actions;
+export const { setLoading, setIsSignedIn, setUser } = authSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
@@ -34,5 +38,6 @@ export const { setLoading, setIsSignedIn } = authSlice.actions;
 
 export const selectIsSignedIn = state => state.auth.isSignedIn;
 export const selectLoading = state => state.auth.loading;
+export const selectUser = state => state.auth.user;
 
 export default authSlice.reducer;

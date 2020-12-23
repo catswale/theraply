@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import Amplify, {Auth} from 'aws-amplify'
 import awsExports from "./aws-exports";
 import { Provider } from 'react-redux';
-import store from './store'
+import store from '@theraply/mobile-app/src/store'
 import {Chat} from './chat/Chat.page'
 import {Dashboard} from './dashboard/Dashboard.page'
 import {SignIn} from './auth/SignIn.page'

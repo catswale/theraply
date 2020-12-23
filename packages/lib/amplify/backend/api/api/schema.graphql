@@ -5,7 +5,14 @@ type Therapist
   lastName: String
   email: String!
   phoneNumber: String
+  availability: [{
+    id: ID!
+    start: AWSDateTime!
+    end: AWSDateTime!
+  }]
   clients: [TherapistClientRelationship]
+    @connection(keyName: "byTherapist", fields: ["id"])
+  bookings: [Bookings]
     @connection(keyName: "byTherapist", fields: ["id"])
 }
 
@@ -32,6 +39,8 @@ type Client @model
   phoneNumber: String
   therapists: [TherapistClientRelationship]
     @connection(keyName: "byClient", fields: ["id"])
+  therapists: [Bookings]
+    @connection(keyName: "byClient", fields: ["id"])
   therapistIDs: [String]
 }
 
@@ -50,4 +59,18 @@ type Message
   participant1: String
   createdAt: AWSDateTime
   updatedAt: AWSDateTime
+}
+
+type Booking
+  @model(queries: null)
+  @key(name: "byTherapist", fields: ["therapistID", "clientID"])
+  @key(name: "byClient", fields: ["clientID", "therapistID"]) {
+  id: ID!
+  start: AWSDateTime!
+  end: AWSDateTime!
+  state: String!
+  therapistID: ID!
+  clientID: ID!
+  therapist: Therapist! @connection(fields: ["therapistID"])
+  client: Client! @connection(fields: ["clientID"])
 }

@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react'
 import {
   View, Text, StyleSheet, ViewStyle, Button, FlatList,
 } from 'react-native'
-import {mutations, subscriptions, queries} from '@theraply/lib';
+import {mutations, Client, queries} from '@theraply/lib';
 import {Auth, API, graphqlOperation} from 'aws-amplify'
 import {useAuth} from '../auth/auth.hooks'
 import {setIsSignedIn} from '../auth/auth.slice'
 import {useDispatch } from 'react-redux';
-import {Client} from '../client/types'
-import { updateClient } from '../graphql/mutations';
+import {useClient} from '../client/client.hooks'
 
 interface Therapist {
   firstName: string,
@@ -19,13 +18,12 @@ interface Therapist {
 }
 
 export const Dashboard = ({navigation}) => {
-  const [client, setClient] = useState({} as Client)
   const [therapists, setTherapists] = useState({} as Therapist[])
-  const authData = useAuth()
   const dispatch = useDispatch();
-
+  const {client} = useClient()
+  console.log('client')
+  console.log(client)
   useEffect(() => {
-    fetchClient()
     fetchTherapists()
   }, [])
 
@@ -34,27 +32,6 @@ export const Dashboard = ({navigation}) => {
     type Data = {data: {listTherapists: {items: any[]}}}
     const therapists = data.data?.listTherapists?.items || [];
     setTherapists(therapists)
-  }
-  async function fetchClient() {
-    const {username, attributes} = await Auth.currentAuthenticatedUser();
-    const data = await API.graphql(graphqlOperation(queries.getClient, {id: username})) as Data
-    type Data = {data: {getClient: any}}
-    const client = data.data.getClient
-    if (!client) {
-      console.log('client doesnt exist in db, creating')
-      await API.graphql(graphqlOperation(mutations.createClient, {input: {
-        id: username,
-        firstName: attributes.given_name,
-        email: attributes.email,
-      }}))
-      fetchClient()
-    } else {
-      client.therapists = client?.therapists?.items && client.therapists.items.map(connection => ({
-        ...connection.therapist,
-        channelID: connection.id,
-      }))
-      setClient(client)
-    }
   }
 
   return (
@@ -71,7 +48,6 @@ export const Dashboard = ({navigation}) => {
         renderItem={({item}) => <ClientTherapistCard therapist={item} client={client} navigation={navigation}/>}
       />
       <Button title='LOGOUT' onPress={() => signOut(dispatch)}/>
-
     </View>
   )
 }
