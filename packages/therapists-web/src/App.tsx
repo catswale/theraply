@@ -17,7 +17,7 @@ import {
 } from "react-router-dom";
 
 Amplify.configure(awsExports);
-
+ 
 const App = () => {
   return (
   <Router>
