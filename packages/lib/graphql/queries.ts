@@ -96,10 +96,11 @@ export const getMessage = /* GraphQL */ `
       channelID
       authorID
       body
-      participants
-      participant1
+      therapistID
+      clientID
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -115,10 +116,11 @@ export const listMessages = /* GraphQL */ `
         channelID
         authorID
         body
-        participants
-        participant1
+        therapistID
+        clientID
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }
@@ -146,10 +148,11 @@ export const messagesByChannelId = /* GraphQL */ `
         channelID
         authorID
         body
-        participants
-        participant1
+        therapistID
+        clientID
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }

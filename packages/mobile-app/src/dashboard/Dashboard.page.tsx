@@ -21,8 +21,6 @@ export const Dashboard = ({navigation}) => {
   const [therapists, setTherapists] = useState({} as Therapist[])
   const dispatch = useDispatch();
   const {client} = useClient()
-  console.log('client')
-  console.log(client)
   useEffect(() => {
     fetchTherapists()
   }, [])
@@ -53,10 +51,35 @@ export const Dashboard = ({navigation}) => {
 }
 
 const Card = ({therapist, client}: {therapist: Therapist, client: Client}) => {
+  const {fetchClient} = useClient()
+
+  async function createTherapistClientConnection(therapist: Therapist, client: Client) {
+    if (client.therapistIDs.find(id => id === therapist.id)) return
+    console.log('adding client therapist connection.')
+  
+    const res = await API.graphql(graphqlOperation(mutations.createTherapistClientRelationship, {input: {
+      therapistID: therapist.id,
+      clientID: client.id,
+    }}))
+    const newClient: any = {
+      id: client.id,
+      firstName: client.firstName,
+      lastName: client.lastName,
+      email: client.email,
+      phoneNumber: client.phoneNumber,
+      therapistIDs: [...client.therapistIDs, therapist.id],
+    }
+  
+    const update = await API.graphql({ query: mutations.updateClient, variables: {input: newClient}});
+    await fetchClient()
+  }
+
   return (
     <View style={styles.cardContainer}>
       <Text>{therapist.firstName}</Text>
-      <Button title='CONNECT' onPress={() => createTherapistClientConnection(therapist, client)}/>
+      <Button title='CONNECT' onPress={() => {
+          createTherapistClientConnection(therapist, client)
+        }}/>
     </View>
   )
 }
@@ -68,26 +91,6 @@ const ClientTherapistCard = ({therapist, client, navigation}: {therapist: Therap
       <Button title='CHAT' onPress={() => navigation.navigate('Chat', {therapist, client})}/>
     </View>
   )
-}
-
-async function createTherapistClientConnection(therapist: Therapist, client: Client) {
-  if (client.therapistIDs.find(id => id === therapist.id)) return
-  console.log('adding client therapist connection')
-  const res = await API.graphql(graphqlOperation(mutations.createTherapistClientRelationship, {input: {
-    therapistID: therapist.id,
-    clientID: client.id,
-  }}))
-  // todo add new connection to local client
-  client.therapistIDs.push(therapist.id)
-  // @ts-ignore
-  const u: any = {...client}
-  delete u.therapists
-  delete u.createdAt
-  delete u.updatedAt
-  delete u.owner
-
-  const update = await API.graphql({ query: mutations.updateClientTest, variables: {input: u}});
-  console.log(update)
 }
 
 async function signOut(dispatch) {

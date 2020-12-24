@@ -19,7 +19,7 @@ export const Chat = (props: any) => {
   const {channelID, participants} = props.location.state
   const [messages, setMessages] = useState([] as Message[]);
   const [messageBody, setMessageBody] = useState('');
-  const [userID, setUserID] = React.useState({});
+  const [therapistID, setTherapistID] = React.useState({});
 
   useEffect(() => {
     fetchMessages()
@@ -27,11 +27,13 @@ export const Chat = (props: any) => {
   }, []);
   const fetchUserInfo = async () => {
     const {username} = await Auth.currentAuthenticatedUser()
-    setUserID(username)
+    setTherapistID(username)
   }
   useEffect(() => {
+    console.log('clientid ' + participants[0])
+    console.log('therapistid ' + therapistID)
     const subscription = API
-      .graphql(graphqlOperation(subscriptions.onCreateMessage, {owner: userID, participant1: participants[0]})) // @ts-ignore
+      .graphql(graphqlOperation(subscriptions.onCreateMessage, {owner: therapistID, clientID: participants[0], therapistID: therapistID})) // @ts-ignore
       .subscribe({
         next: (event: Event) => { 
           console.log('got message')
@@ -63,10 +65,10 @@ export const Chat = (props: any) => {
   
     const input = {
       channelID,
-      authorID: userID,
+      authorID: therapistID,
       body: messageBody.trim(),
-      participants,
-      participant1: participants[0],
+      therapistID: therapistID,
+      clientID: participants[0],
     };
   
     try {
@@ -84,7 +86,7 @@ export const Chat = (props: any) => {
       {messages.map((message) => (
         <div
           key={message.id}
-          className={message.authorID === userID ? 'message me' : 'message'}>{message.body}</div>
+          className={message.authorID === therapistID ? 'message me' : 'message'}>{message.body}</div>
         ))}
       </div>
       <div className="chat-bar">

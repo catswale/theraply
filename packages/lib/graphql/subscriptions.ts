@@ -231,44 +231,71 @@ export const onDeleteClient = /* GraphQL */ `
   }
 `;
 export const onCreateMessage = /* GraphQL */ `
-  subscription OnCreateMessage {
-    onCreateMessage {
+  subscription OnCreateMessage(
+    $owner: String!
+    $clientID: String!
+    $therapistID: String!
+  ) {
+    onCreateMessage(
+      owner: $owner
+      clientID: $clientID
+      therapistID: $therapistID
+    ) {
       id
       channelID
       authorID
       body
-      participants
-      participant1
+      therapistID
+      clientID
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateMessage = /* GraphQL */ `
-  subscription OnUpdateMessage {
-    onUpdateMessage {
+  subscription OnUpdateMessage(
+    $owner: String!
+    $clientID: String!
+    $therapistID: String!
+  ) {
+    onUpdateMessage(
+      owner: $owner
+      clientID: $clientID
+      therapistID: $therapistID
+    ) {
       id
       channelID
       authorID
       body
-      participants
-      participant1
+      therapistID
+      clientID
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteMessage = /* GraphQL */ `
-  subscription OnDeleteMessage {
-    onDeleteMessage {
+  subscription OnDeleteMessage(
+    $owner: String!
+    $clientID: String!
+    $therapistID: String!
+  ) {
+    onDeleteMessage(
+      owner: $owner
+      clientID: $clientID
+      therapistID: $therapistID
+    ) {
       id
       channelID
       authorID
       body
-      participants
-      participant1
+      therapistID
+      clientID
       createdAt
       updatedAt
+      owner
     }
   }
 `;

@@ -8,10 +8,13 @@ import {useAuth} from '../auth/auth.hooks'
 export const useClient = () => {
   const {client} = useSelector(state => state.client)
   const dispatch = useDispatch()
-  const {user} = useAuth()
+  const {fetchCurrentAuthUser, user} = useAuth()
   const {username, attributes} = user;
 
   useEffect(() => {
+    if (!username) {
+      fetchCurrentAuthUser()
+    }
     fetchClient()
   }, [user])
 
@@ -28,6 +31,7 @@ export const useClient = () => {
         id: username,
         firstName: attributes.given_name,
         email: attributes.email,
+        therapistIDs: [],
       }}))
       fetchClient()
     } else {
@@ -40,7 +44,8 @@ export const useClient = () => {
   }
     
   return {
-      client,
+    fetchClient,
+    client,
   }
 }
 

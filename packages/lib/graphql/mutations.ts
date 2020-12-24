@@ -220,16 +220,7 @@ export const updateClient = /* GraphQL */ `
       lastName
       email
       phoneNumber
-      therapists {
-        nextToken
-      }
-      bookings {
-        nextToken
-      }
       therapistIDs
-      createdAt
-      updatedAt
-      owner
     }
   }
 `;
@@ -267,10 +258,11 @@ export const createMessage = /* GraphQL */ `
       channelID
       authorID
       body
-      participants
-      participant1
+      therapistID
+      clientID
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -284,10 +276,11 @@ export const updateMessage = /* GraphQL */ `
       channelID
       authorID
       body
-      participants
-      participant1
+      therapistID
+      clientID
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -301,10 +294,11 @@ export const deleteMessage = /* GraphQL */ `
       channelID
       authorID
       body
-      participants
-      participant1
+      therapistID
+      clientID
       createdAt
       updatedAt
+      owner
     }
   }
 `;

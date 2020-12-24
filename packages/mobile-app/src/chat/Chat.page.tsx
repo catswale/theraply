@@ -2,17 +2,10 @@ import React, { useEffect, useState } from 'react'
 import {
   View, Text, StyleSheet, TextInput, Button, ViewStyle, TextStyle,
 } from 'react-native'
-import {mutations, subscriptions, queries} from '@theraply/lib';
+import {mutations, subscriptions, queries, Message} from '@theraply/lib';
 import Amplify, { API, graphqlOperation, Auth } from 'aws-amplify'
+import {useChat} from './chat.hooks'
 
-export type Message = {
-  id: string;
-  channelID: string;
-  authorID: string;
-  body: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
 interface Event {
   provider: object;
   value: {
@@ -25,21 +18,20 @@ interface Event {
 export const Chat = ({route, navigation}) => {
   const [messages, setMessages] = useState([] as Message[]);
   const [messageBody, setMessageBody] = React.useState('');
-  const [userID, setUserID] = React.useState('');
   const { therapist, client } = route.params;
+  const chat = useChat()
   useEffect(() => {
     fetchMessages()
-    fetchUserInfo()
   }, []);
 
-  const fetchUserInfo = async () => {
-    const {username} = await Auth.currentAuthenticatedUser()
-    setUserID(username)
+  async function fetchMessages() {
+    const messages = await chat.fetchMessages(therapist.channelID)
+    setMessages(messages)
   }
 
   useEffect(() => {
     const subscription = API
-      .graphql(graphqlOperation(subscriptions.onCreateMessage, {owner: client.id, participant1: therapist.id})) // @ts-ignore
+      .graphql(graphqlOperation(subscriptions.onCreateMessage, {owner: client.id, clientID: client.id, therapistID: therapist.id})) // @ts-ignore
       .subscribe({
         next: (event: Event) => { 
           setMessages([...messages, event.value.data.onCreateMessage]);
@@ -49,25 +41,14 @@ export const Chat = ({route, navigation}) => {
       subscription.unsubscribe();
     };
   }, [messages]);
-  
-  async function fetchMessages() {
-    const messageData = await API.graphql(graphqlOperation(queries.messagesByChannelId, {
-      channelID: therapist.channelID,
-      sortDirection: 'ASC'
-    })) as MessageData
-    console.log(messageData)
-    type MessageData = {data: {messagesByChannelID: {items: Message[]}}}
-    const messages = messageData.data.messagesByChannelID.items;
-    setMessages(messages)
-  }
 
   const handleSubmit = async (event) => {
     const input = {
       channelID: therapist.channelID,
-      authorID: userID,
+      authorID: client.id,
       body: messageBody.trim(),
-      participants: [client.id],
-      participant1: therapist.id,
+      clientID: client.id,
+      therapistID: therapist.id,
     };
   
     try {
@@ -85,7 +66,7 @@ export const Chat = ({route, navigation}) => {
       {messages.map((message) => (
         <View
           key={message.id}
-          style={message.authorID === userID ? styles.messageMe : styles.message}>
+          style={message.authorID === client.id ? styles.messageMe : styles.message}>
             <Text style={styles.text}>{message.body}</Text>
           </View>
         ))}

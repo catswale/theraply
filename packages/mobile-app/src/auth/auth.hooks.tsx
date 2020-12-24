@@ -7,11 +7,11 @@ import {CognitoUser} from '@aws-amplify/auth'
 export const useAuth = () => {
   const {isSignedIn, loading, user} = useSelector(state => state.auth)
   const dispatch = useDispatch();
-  console.log('usser')
-  console.log(user)
+
   useEffect(() => {
     fetchIsSignedIn()
   }, [])
+
   async function fetchIsSignedIn() {
     try {
       await Auth.currentAuthenticatedUser();
@@ -23,8 +23,8 @@ export const useAuth = () => {
   }
 
   async function fetchCurrentAuthUser() {
-    const user = await Auth.currentAuthenticatedUser();
-    dispatch(setUser(user))
+    const {attributes, username} = await Auth.currentAuthenticatedUser();
+    dispatch(setUser({attributes, username}))
   }
 
   return {
