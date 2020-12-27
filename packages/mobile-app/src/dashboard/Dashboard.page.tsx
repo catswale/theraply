@@ -44,7 +44,7 @@ export const Dashboard = ({navigation}) => {
         renderItem={({item}) => <ClientTherapistCard therapist={item} client={client} navigation={navigation}/>}
       />
       <Text>Bookings</Text>
-      <Text>{client.bookings?.[0].start}</Text>
+      <Text>{client.bookings?.[0]?.start}</Text>
       <Button title='LOGOUT' onPress={() => signOut(dispatch)}/>
     </View>
   )
