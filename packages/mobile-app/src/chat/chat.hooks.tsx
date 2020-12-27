@@ -19,7 +19,11 @@ export const useChat = () => {
     return messageData.data.messagesByChannelID.items;
   }
 
-  // async function getMessage
+  async function getMessage(id: string) {
+    const messageData = await API.graphql(graphqlOperation(queries.getMessage, {id})) as Data
+    type Data = {data: {getMessage: Message}}
+    console.log(messageData.data)
+  }
 
   return {
     fetchMessages,

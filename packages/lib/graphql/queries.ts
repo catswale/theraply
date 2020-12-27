@@ -100,7 +100,6 @@ export const getMessage = /* GraphQL */ `
       clientID
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -120,7 +119,6 @@ export const listMessages = /* GraphQL */ `
         clientID
         createdAt
         updatedAt
-        owner
       }
       nextToken
     }
@@ -152,7 +150,6 @@ export const messagesByChannelId = /* GraphQL */ `
         clientID
         createdAt
         updatedAt
-        owner
       }
       nextToken
     }

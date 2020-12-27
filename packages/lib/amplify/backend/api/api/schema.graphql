@@ -3,8 +3,8 @@ type Therapist
   id: ID!
   firstName: String!
   lastName: String
-  email: String!
-  phoneNumber: String
+  email: AWSEmail!
+  phoneNumber: AWSPhone
   availability: [Availability]
   clients: [TherapistClientRelationship]
     @connection(keyName: "byTherapist", fields: ["id"])
@@ -37,8 +37,8 @@ type Client @model
   id: ID!
   firstName: String!
   lastName: String
-  email: String!
-  phoneNumber: String
+  email: AWSEmail!
+  phoneNumber: AWSPhone
   therapists: [TherapistClientRelationship]
     @connection(keyName: "byClient", fields: ["id"])
   bookings: [Booking]
@@ -72,6 +72,7 @@ type Booking
   @key(name: "byTherapist", fields: ["therapistID", "clientID"])
   @key(name: "byClient", fields: ["clientID", "therapistID"]) {
   id: ID!
+  bookingID: ID!
   start: AWSDateTime!
   end: AWSDateTime!
   state: String!

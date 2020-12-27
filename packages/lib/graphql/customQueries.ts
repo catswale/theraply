@@ -39,6 +39,9 @@ export const getClient = /* GraphQL */ `
           id
         }
       }
+      bookings {
+        nextToken
+      }
       therapistIDs
       createdAt
       updatedAt

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import {Auth, API, graphqlOperation} from 'aws-amplify'
-import {mutations, Client, queries} from '@theraply/lib';
+import {API, graphqlOperation} from 'aws-amplify'
+import {mutations, Client, queries, Therapist} from '@theraply/lib';
 import { setClient } from './client.slice'
 import {useAuth} from '../auth/auth.hooks'
 
@@ -19,7 +19,6 @@ export const useClient = () => {
   }, [user])
 
   async function fetchClient() {
-    console.log(username)
     if (!username) return
     const data = await API.graphql(graphqlOperation(queries.getClient, {id: username})) as Data
     type Data = {data: {getClient: any}}
@@ -42,10 +41,33 @@ export const useClient = () => {
       dispatch(setClient(client))
     }
   }
+
+  async function createTherapistClientConnection(therapist: Therapist, client: Client) {
+    if (client.therapistIDs.find(id => id === therapist.id)) return
+    console.log('adding client therapist connection.')
+  
+    const res = await API.graphql(graphqlOperation(mutations.createTherapistClientRelationship, {input: {
+      therapistID: therapist.id,
+      clientID: client.id,
+    }}))
+    const newClient: any = {
+      id: client.id,
+      firstName: client.firstName,
+      lastName: client.lastName,
+      email: client.email,
+      phoneNumber: client.phoneNumber,
+      therapistIDs: [...client.therapistIDs, therapist.id],
+    }
+  
+    const update = await API.graphql({ query: mutations.updateClient, variables: {input: newClient}});
+    await fetchClient()
+  }
     
   return {
     fetchClient,
+    createTherapistClientConnection,
     client,
+    setClient: (newClient: Client) => dispatch(setClient(newClient))
   }
 }
 

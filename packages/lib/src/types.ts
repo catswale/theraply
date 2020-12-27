@@ -35,3 +35,9 @@ export interface TherapistClient {
   firstName: string,
   lastName: string,
 }
+
+export enum BookingState {
+  BOOKED = 'BOOKED',
+  CANCELLED = 'CANCELLED',
+  COMPLETED = 'COMPLETED'
+}

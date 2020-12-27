@@ -220,7 +220,16 @@ export const updateClient = /* GraphQL */ `
       lastName
       email
       phoneNumber
+      therapists {
+        nextToken
+      }
+      bookings {
+        nextToken
+      }
       therapistIDs
+      createdAt
+      updatedAt
+      owner
     }
   }
 `;
@@ -262,7 +271,6 @@ export const createMessage = /* GraphQL */ `
       clientID
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -280,7 +288,6 @@ export const updateMessage = /* GraphQL */ `
       clientID
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -298,7 +305,6 @@ export const deleteMessage = /* GraphQL */ `
       clientID
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -309,6 +315,7 @@ export const createBooking = /* GraphQL */ `
   ) {
     createBooking(input: $input, condition: $condition) {
       id
+      bookingID
       start
       end
       state
@@ -346,6 +353,7 @@ export const updateBooking = /* GraphQL */ `
   ) {
     updateBooking(input: $input, condition: $condition) {
       id
+      bookingID
       start
       end
       state
@@ -383,6 +391,7 @@ export const deleteBooking = /* GraphQL */ `
   ) {
     deleteBooking(input: $input, condition: $condition) {
       id
+      bookingID
       start
       end
       state

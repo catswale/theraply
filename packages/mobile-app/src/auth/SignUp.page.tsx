@@ -49,7 +49,6 @@ export const SignUp = ({navigation}) => {
 
 async function signUp(firstName: string, email: string, password: string) {
   try {
-    console.log(firstName)
       const result = await Auth.signUp({
           username: email,
           password,

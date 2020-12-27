@@ -231,16 +231,8 @@ export const onDeleteClient = /* GraphQL */ `
   }
 `;
 export const onCreateMessage = /* GraphQL */ `
-  subscription OnCreateMessage(
-    $owner: String!
-    $clientID: String!
-    $therapistID: String!
-  ) {
-    onCreateMessage(
-      owner: $owner
-      clientID: $clientID
-      therapistID: $therapistID
-    ) {
+  subscription OnCreateMessage($clientID: String!, $therapistID: String!) {
+    onCreateMessage(clientID: $clientID, therapistID: $therapistID) {
       id
       channelID
       authorID
@@ -249,21 +241,12 @@ export const onCreateMessage = /* GraphQL */ `
       clientID
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onUpdateMessage = /* GraphQL */ `
-  subscription OnUpdateMessage(
-    $owner: String!
-    $clientID: String!
-    $therapistID: String!
-  ) {
-    onUpdateMessage(
-      owner: $owner
-      clientID: $clientID
-      therapistID: $therapistID
-    ) {
+  subscription OnUpdateMessage($clientID: String!, $therapistID: String!) {
+    onUpdateMessage(clientID: $clientID, therapistID: $therapistID) {
       id
       channelID
       authorID
@@ -272,21 +255,12 @@ export const onUpdateMessage = /* GraphQL */ `
       clientID
       createdAt
       updatedAt
-      owner
     }
   }
 `;
 export const onDeleteMessage = /* GraphQL */ `
-  subscription OnDeleteMessage(
-    $owner: String!
-    $clientID: String!
-    $therapistID: String!
-  ) {
-    onDeleteMessage(
-      owner: $owner
-      clientID: $clientID
-      therapistID: $therapistID
-    ) {
+  subscription OnDeleteMessage($clientID: String!, $therapistID: String!) {
+    onDeleteMessage(clientID: $clientID, therapistID: $therapistID) {
       id
       channelID
       authorID
@@ -295,7 +269,6 @@ export const onDeleteMessage = /* GraphQL */ `
       clientID
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -303,6 +276,7 @@ export const onCreateBooking = /* GraphQL */ `
   subscription OnCreateBooking {
     onCreateBooking {
       id
+      bookingID
       start
       end
       state
@@ -337,6 +311,7 @@ export const onUpdateBooking = /* GraphQL */ `
   subscription OnUpdateBooking {
     onUpdateBooking {
       id
+      bookingID
       start
       end
       state
@@ -371,6 +346,7 @@ export const onDeleteBooking = /* GraphQL */ `
   subscription OnDeleteBooking {
     onDeleteBooking {
       id
+      bookingID
       start
       end
       state
