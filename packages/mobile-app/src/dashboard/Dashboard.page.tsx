@@ -7,13 +7,14 @@ import {Auth, API, graphqlOperation} from 'aws-amplify'
 import {setIsSignedIn} from '../auth/auth.slice'
 import {useDispatch } from 'react-redux';
 import {useClient} from '../client/client.hooks'
-import { useBookings } from '../client/bookings.hooks';
+import { useBookings } from '../bookings/bookings.hooks';
 import moment from 'moment-timezone'
 
 export const Dashboard = ({navigation}) => {
   const [therapists, setTherapists] = useState({} as Therapist[])
   const dispatch = useDispatch();
   const {client} = useClient()
+  const {bookings} = useBookings()
 
   useEffect(() => {
     fetchTherapists()
@@ -25,7 +26,6 @@ export const Dashboard = ({navigation}) => {
     const therapists = data.data?.listTherapists?.items || [];
     setTherapists(therapists)
   }
-
   return (
     <View>
       <Text>Hello {client?.firstName}</Text>
@@ -40,7 +40,9 @@ export const Dashboard = ({navigation}) => {
         renderItem={({item}) => <ClientTherapistCard therapist={item} client={client} navigation={navigation}/>}
       />
       <Text>Bookings</Text>
-      {/* <Text>{client.bookings?.[0]?.start}</Text> */}
+      {
+        bookings.map(b => <Text>{b.createdAt}</Text>)
+      }
       <Button title='LOGOUT' onPress={() => signOut(dispatch)}/>
     </View>
   )

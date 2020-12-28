@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import {API, graphqlOperation} from 'aws-amplify'
-import {mutations, Client, queries, Therapist, BookingState} from '@theraply/lib';
+import {mutations, Booking, queries, Therapist, BookingState} from '@theraply/lib';
 import {Moment} from 'moment'
-import { useClient } from './client.hooks';
+import { useSelector, useDispatch } from 'react-redux';
+import { useClient } from '../client/client.hooks';
 import { v4 as uuidv4 } from 'uuid'
+import {setBookings} from './bookings.slice'
 
 export const useBookings = () => {
-    const {client, setClient} = useClient()
+    const {client} = useClient()
+    const {bookings} = useSelector(state => state.bookings)
+    const dispatch = useDispatch()
+    
+    useEffect(() => {
+        fetchBookings()
+    }, [])
 
     // Adds a new row for each booking state change
+    // bookingID remains the same for the same booking
     async function book(
         therapist: Therapist, 
         start: Moment, 
@@ -25,17 +34,17 @@ export const useBookings = () => {
         type Data = {data: {createBooking: any}}
 
         const newBooking = data.data.createBooking
-        const bookings = client.bookings ? [...client.bookings, newBooking] : [newBooking]
-        // setClient({...client, bookings})
+        dispatch(setBookings([...bookings, newBooking]))
     }
 
     async function fetchBookings() {
         const data = await API.graphql(graphqlOperation(queries.listBookings)) as Data
-        type Data = {data: {listBookings: {items: any[]}}}
-        console.log(data)
+        type Data = {data: {listBookings: {items: Booking[]}}}
+        dispatch(setBookings(data.data.listBookings.items))
     }
 
     return {
+        bookings,
         book,
     }
 }

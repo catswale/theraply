@@ -44,6 +44,8 @@ export interface Booking {
   start: Moment,
   end: Moment,
   state: BookingState,
+  createdAt: Date,
+  updatedAt: Date,
 }
 
 export const BookingState = {
