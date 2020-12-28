@@ -19,10 +19,6 @@ export const Dashboard = ({navigation}) => {
     fetchTherapists()
   }, [])
 
-  useEffect(() => {
-    console.log('dashboard')
-    console.log(client)
-  }, [client])
   async function fetchTherapists() {
     const data = await API.graphql(graphqlOperation(queries.listTherapists)) as Data
     type Data = {data: {listTherapists: {items: any[]}}}
@@ -44,7 +40,7 @@ export const Dashboard = ({navigation}) => {
         renderItem={({item}) => <ClientTherapistCard therapist={item} client={client} navigation={navigation}/>}
       />
       <Text>Bookings</Text>
-      <Text>{client.bookings?.[0]?.start}</Text>
+      {/* <Text>{client.bookings?.[0]?.start}</Text> */}
       <Button title='LOGOUT' onPress={() => signOut(dispatch)}/>
     </View>
   )
@@ -59,15 +55,23 @@ const Card = ({therapist, client}: {therapist: Therapist, client: Client}) => {
       <Button title='CONNECT' onPress={() => {
           createTherapistClientConnection(therapist, client)
         }}/>
+
     </View>
   )
 }
 
 const ClientTherapistCard = ({therapist, client, navigation}: {therapist: Therapist, client: Client}) => {
+  const bookings = useBookings()
+
   return (
     <View style={styles.cardContainer}>
       <Text>{therapist.firstName}</Text>
       <Button title='CHAT' onPress={() => navigation.navigate('Chat', {therapist, client})}/>
+      <Button title='BOOK' onPress={() => {
+          const start = moment().startOf('hour').add(1, 'day')
+          const end = start.clone().add(1, 'hour')
+          bookings.book(therapist, start, end)
+        }}/>
     </View>
   )
 }

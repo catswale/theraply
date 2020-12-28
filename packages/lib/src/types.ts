@@ -1,3 +1,5 @@
+import {Moment} from 'moment'
+
 export type Message = {
   id: string;
   channelID: string;
@@ -36,8 +38,18 @@ export interface TherapistClient {
   lastName: string,
 }
 
-export enum BookingState {
-  BOOKED = 'BOOKED',
-  CANCELLED = 'CANCELLED',
-  COMPLETED = 'COMPLETED'
+export interface Booking {
+  id: string,
+  bookingID: string,
+  start: Moment,
+  end: Moment,
+  state: BookingState,
 }
+
+export const BookingState = {
+  BOOKED: "BOOKED",
+  CANCELLED: "CANCELLED",
+  COMPLETED: "COMPLETED"
+} as const;
+export type BookingState = typeof BookingState[keyof typeof BookingState];
+

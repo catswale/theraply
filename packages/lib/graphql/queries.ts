@@ -18,9 +18,6 @@ export const getTherapist = /* GraphQL */ `
       clients {
         nextToken
       }
-      bookings {
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -55,9 +52,6 @@ export const getClient = /* GraphQL */ `
       email
       phoneNumber
       therapists {
-        nextToken
-      }
-      bookings {
         nextToken
       }
       therapistIDs
@@ -98,6 +92,7 @@ export const getMessage = /* GraphQL */ `
       body
       therapistID
       clientID
+      participants
       createdAt
       updatedAt
     }
@@ -117,6 +112,42 @@ export const listMessages = /* GraphQL */ `
         body
         therapistID
         clientID
+        participants
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getBooking = /* GraphQL */ `
+  query GetBooking($id: ID!) {
+    getBooking(id: $id) {
+      id
+      bookingID
+      start
+      end
+      state
+      participants
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listBookings = /* GraphQL */ `
+  query ListBookings(
+    $filter: ModelBookingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listBookings(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        bookingID
+        start
+        end
+        state
+        participants
         createdAt
         updatedAt
       }
@@ -148,6 +179,7 @@ export const messagesByChannelId = /* GraphQL */ `
         body
         therapistID
         clientID
+        participants
         createdAt
         updatedAt
       }

@@ -5,6 +5,7 @@ import {mutations, Client, queries, Therapist} from '@theraply/lib';
 import { setClient } from './client.slice'
 import {useAuth} from '../auth/auth.hooks'
 
+
 export const useClient = () => {
   const {client} = useSelector(state => state.client)
   const dispatch = useDispatch()
@@ -22,7 +23,7 @@ export const useClient = () => {
     if (!username) return
     const data = await API.graphql(graphqlOperation(queries.getClient, {id: username})) as Data
     type Data = {data: {getClient: any}}
-    console.log(data)
+
     const client = data.data.getClient
     if (!client) {
       console.log('client doesnt exist in db, creating')

@@ -21,9 +21,6 @@ export const createTherapist = /* GraphQL */ `
       clients {
         nextToken
       }
-      bookings {
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -48,9 +45,6 @@ export const updateTherapist = /* GraphQL */ `
       clients {
         nextToken
       }
-      bookings {
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -73,9 +67,6 @@ export const deleteTherapist = /* GraphQL */ `
         end
       }
       clients {
-        nextToken
-      }
-      bookings {
         nextToken
       }
       createdAt
@@ -199,9 +190,6 @@ export const createClient = /* GraphQL */ `
       therapists {
         nextToken
       }
-      bookings {
-        nextToken
-      }
       therapistIDs
       createdAt
       updatedAt
@@ -221,9 +209,6 @@ export const updateClient = /* GraphQL */ `
       email
       phoneNumber
       therapists {
-        nextToken
-      }
-      bookings {
         nextToken
       }
       therapistIDs
@@ -247,9 +232,6 @@ export const deleteClient = /* GraphQL */ `
       therapists {
         nextToken
       }
-      bookings {
-        nextToken
-      }
       therapistIDs
       createdAt
       updatedAt
@@ -269,6 +251,7 @@ export const createMessage = /* GraphQL */ `
       body
       therapistID
       clientID
+      participants
       createdAt
       updatedAt
     }
@@ -286,6 +269,7 @@ export const updateMessage = /* GraphQL */ `
       body
       therapistID
       clientID
+      participants
       createdAt
       updatedAt
     }
@@ -303,6 +287,7 @@ export const deleteMessage = /* GraphQL */ `
       body
       therapistID
       clientID
+      participants
       createdAt
       updatedAt
     }
@@ -319,28 +304,7 @@ export const createBooking = /* GraphQL */ `
       start
       end
       state
-      therapistID
-      clientID
-      therapist {
-        id
-        firstName
-        lastName
-        email
-        phoneNumber
-        createdAt
-        updatedAt
-      }
-      client {
-        id
-        firstName
-        lastName
-        email
-        phoneNumber
-        therapistIDs
-        createdAt
-        updatedAt
-        owner
-      }
+      participants
       createdAt
       updatedAt
     }
@@ -357,28 +321,7 @@ export const updateBooking = /* GraphQL */ `
       start
       end
       state
-      therapistID
-      clientID
-      therapist {
-        id
-        firstName
-        lastName
-        email
-        phoneNumber
-        createdAt
-        updatedAt
-      }
-      client {
-        id
-        firstName
-        lastName
-        email
-        phoneNumber
-        therapistIDs
-        createdAt
-        updatedAt
-        owner
-      }
+      participants
       createdAt
       updatedAt
     }
@@ -395,28 +338,7 @@ export const deleteBooking = /* GraphQL */ `
       start
       end
       state
-      therapistID
-      clientID
-      therapist {
-        id
-        firstName
-        lastName
-        email
-        phoneNumber
-        createdAt
-        updatedAt
-      }
-      client {
-        id
-        firstName
-        lastName
-        email
-        phoneNumber
-        therapistIDs
-        createdAt
-        updatedAt
-        owner
-      }
+      participants
       createdAt
       updatedAt
     }
