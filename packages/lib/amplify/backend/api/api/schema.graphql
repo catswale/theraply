@@ -64,7 +64,11 @@ type Message
   updatedAt: AWSDateTime
 }
 
-type Booking @model {
+type Booking 
+  @model 
+  @auth(rules: [
+    { allow: owner, ownerField: "participants" }
+  ]){
   id: ID!
   bookingID: ID!
   start: AWSDateTime!

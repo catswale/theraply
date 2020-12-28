@@ -4,17 +4,16 @@ import {
 } from 'react-native'
 import {Therapist, Client, queries} from '@theraply/lib';
 import {Auth, API, graphqlOperation} from 'aws-amplify'
-import {setIsSignedIn} from '../auth/auth.slice'
-import {useDispatch } from 'react-redux';
 import {useClient} from '../client/client.hooks'
 import { useBookings } from '../bookings/bookings.hooks';
 import moment from 'moment-timezone'
+import { useAuth } from '../auth/auth.hooks';
 
 export const Dashboard = ({navigation}) => {
   const [therapists, setTherapists] = useState({} as Therapist[])
-  const dispatch = useDispatch();
   const {client} = useClient()
   const {bookings} = useBookings()
+  const auth = useAuth()
 
   useEffect(() => {
     fetchTherapists()
@@ -41,9 +40,9 @@ export const Dashboard = ({navigation}) => {
       />
       <Text>Bookings</Text>
       {
-        bookings.map(b => <Text>{b.createdAt}</Text>)
+        bookings.map(b => <Text key={b.id}>{b.createdAt}</Text>)
       }
-      <Button title='LOGOUT' onPress={() => signOut(dispatch)}/>
+      <Button title='LOGOUT' onPress={() => auth.signOut()}/>
     </View>
   )
 }
@@ -76,16 +75,6 @@ const ClientTherapistCard = ({therapist, client, navigation}: {therapist: Therap
         }}/>
     </View>
   )
-}
-
-async function signOut(dispatch) {
-  try {
-    console.log('signing out')
-      await Auth.signOut();
-      dispatch(setIsSignedIn(false))
-  } catch (error) {
-      console.log('error signing out: ', error);
-  }
 }
 
 interface Style {

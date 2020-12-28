@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import {Auth} from 'aws-amplify'
 import { useSelector, useDispatch } from 'react-redux';
 import { setIsSignedIn, setLoading, setUser } from './auth.slice'
-import {CognitoUser} from '@aws-amplify/auth'
 
 export const useAuth = () => {
   const {isSignedIn, loading, user} = useSelector(state => state.auth)
@@ -11,7 +10,7 @@ export const useAuth = () => {
   useEffect(() => {
     fetchIsSignedIn()
   }, [])
-
+  
   async function fetchIsSignedIn() {
     try {
       await Auth.currentAuthenticatedUser();
@@ -27,6 +26,17 @@ export const useAuth = () => {
     dispatch(setUser({attributes, username}))
   }
 
+  async function signOut() {
+    try {
+      console.log('signing out')
+      await Auth.signOut();
+      dispatch(setIsSignedIn(false))
+      dispatch(setUser({}))
+    } catch (error) {
+        console.log('error signing out: ', error);
+    }
+  }
+
   return {
     user,
     loading,
@@ -34,5 +44,6 @@ export const useAuth = () => {
     setIsSignedIn: (value: boolean) => dispatch(setIsSignedIn(value)),
     fetchCurrentAuthUser,
     setUser: ({attributes, username}) => dispatch(setUser({attributes, username})),
+    signOut,
   }
 }

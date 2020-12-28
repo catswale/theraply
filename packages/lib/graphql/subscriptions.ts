@@ -258,8 +258,8 @@ export const onDeleteMessage = /* GraphQL */ `
   }
 `;
 export const onCreateBooking = /* GraphQL */ `
-  subscription OnCreateBooking {
-    onCreateBooking {
+  subscription OnCreateBooking($participants: String!) {
+    onCreateBooking(participants: $participants) {
       id
       bookingID
       start
@@ -272,8 +272,8 @@ export const onCreateBooking = /* GraphQL */ `
   }
 `;
 export const onUpdateBooking = /* GraphQL */ `
-  subscription OnUpdateBooking {
-    onUpdateBooking {
+  subscription OnUpdateBooking($participants: String!) {
+    onUpdateBooking(participants: $participants) {
       id
       bookingID
       start
@@ -286,8 +286,8 @@ export const onUpdateBooking = /* GraphQL */ `
   }
 `;
 export const onDeleteBooking = /* GraphQL */ `
-  subscription OnDeleteBooking {
-    onDeleteBooking {
+  subscription OnDeleteBooking($participants: String!) {
+    onDeleteBooking(participants: $participants) {
       id
       bookingID
       start

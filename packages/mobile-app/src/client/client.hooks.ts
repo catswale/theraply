@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import {API, graphqlOperation} from 'aws-amplify'
 import {mutations, Client, queries, Therapist} from '@theraply/lib';
@@ -15,33 +15,31 @@ export const useClient = () => {
   useEffect(() => {
     if (!username) {
       fetchCurrentAuthUser()
+    } else {
+      fetchClient()
     }
-    fetchClient()
-  }, [user])
+  }, [])
 
   async function fetchClient() {
     if (!username) return
     const data = await API.graphql(graphqlOperation(queries.getClient, {id: username})) as Data
     type Data = {data: {getClient: any}}
 
-    const client = data.data.getClient
+    let client = data.data.getClient
     if (!client) {
       console.log('client doesnt exist in db, creating')
-      // todo see if you can set client based on the return value below
-      await API.graphql(graphqlOperation(mutations.createClient, {input: {
+      client = await API.graphql(graphqlOperation(mutations.createClient, {input: {
         id: username,
         firstName: attributes.given_name,
         email: attributes.email,
         therapistIDs: [],
       }}))
-      fetchClient()
-    } else {
-      client.therapists = client?.therapists?.items && client.therapists.items.map(connection => ({
-        ...connection.therapist,
-        channelID: connection.id,
-      }))
-      dispatch(setClient(client))
     }
+    client.therapists = client?.therapists?.items && client.therapists.items.map(connection => ({
+      ...connection.therapist,
+      channelID: connection.id,
+    }))
+    dispatch(setClient(client))
   }
 
   async function createTherapistClientConnection(therapist: Therapist, client: Client) {
