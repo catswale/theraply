@@ -1,0 +1,35 @@
+{
+    "paths": [
+        {
+            "name": "/checkout",
+            "lambdaFunction": "paymentCheckout",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/checkout"
+        }
+    ],
+    "resourceName": "paymentAPI",
+    "apiName": "paymentAPI",
+    "functionArns": [
+        {
+            "lambdaFunction": "paymentCheckout"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-mobileapp-dev-184827-authRole",
+        "unAuthRoleName": "amplify-mobileapp-dev-184827-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "paymentCheckout",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

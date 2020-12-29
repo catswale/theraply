@@ -1,8 +1,8 @@
 {
   "expo": {
     "entryPoint": "./src/App.tsx",
-    "name": "mobile-app",
-    "slug": "mobile-app",
+    "name": "Theraply",
+    "slug": "Theraply",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -27,7 +27,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.theraply.app"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"

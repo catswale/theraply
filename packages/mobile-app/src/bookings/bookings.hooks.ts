@@ -11,7 +11,7 @@ export const useBookings = () => {
     const {client} = useClient()
     const {bookings} = useSelector(state => state.bookings)
     const dispatch = useDispatch()
-    
+
     useEffect(() => {
         fetchBookings()
     }, [])
@@ -25,7 +25,7 @@ export const useBookings = () => {
         bookingID = uuidv4(), 
         state = BookingState.BOOKED ) {
         const data = await API.graphql(graphqlOperation(mutations.createBooking, {input: {
-            start,
+            start, // todo make sure timezone converts correctly
             end,
             state,
             participants: [therapist.id, client.id],
