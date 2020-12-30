@@ -6,8 +6,6 @@ import { Provider } from 'react-redux';
 import store from './store'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Amplify from 'aws-amplify'
-import config from '../aws-exports'
 import { registerRootComponent } from 'expo';
 import {Chat} from './chat/Chat.page';
 import {Dashboard} from './dashboard/Dashboard.page';
@@ -15,13 +13,6 @@ import {SignIn} from './auth/SignIn.page';
 import {SignUp} from './auth/SignUp.page';
 import {SignUpConfirm} from './auth/SignUpConfirm.page';
 import { useAuth } from './auth/auth.hooks';
-
-Amplify.configure({
-  ...config,
-  Analytics: {
-    disabled: true,
-  },
-})
 
 const Stack = createStackNavigator();
 
@@ -59,26 +50,5 @@ const AppWrapper = () => {
     </Provider>
   )
 }
-const HelloWorldApp = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-      <Stack.Screen name="SignIn" component={H} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  )
-}
-const H = () => {
-  return (
-    <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center"
-          }}>
-          <Text>Hello, world!</Text>
-        </View>
-  )
-}
 
-export default registerRootComponent(AppWrapper)
+export default AppWrapper
