@@ -2,7 +2,7 @@
 yarn
 expo start
 
-# Deploy to App Stores
+# Deploy to App Stores through Expo
 ## android 
 expo build:android -t app-bundle
 expo upload:android

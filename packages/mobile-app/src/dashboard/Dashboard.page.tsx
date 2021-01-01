@@ -8,6 +8,7 @@ import {useClient} from '../client/client.hooks'
 import { useBookings } from '../bookings/bookings.hooks';
 import moment from 'moment-timezone'
 import { useAuth } from '../auth/auth.hooks';
+import * as payments from '../payments/payments'
 
 export const Dashboard = ({navigation}) => {
   const [therapists, setTherapists] = useState({} as Therapist[])
@@ -54,7 +55,8 @@ const Card = ({therapist, client}: {therapist: Therapist, client: Client}) => {
     <View style={styles.cardContainer}>
       <Text>{therapist.firstName}</Text>
       <Button title='CONNECT' onPress={() => {
-          createTherapistClientConnection(therapist, client)
+          // createTherapistClientConnection(therapist, client)
+          payments.cardForm()
         }}/>
 
     </View>

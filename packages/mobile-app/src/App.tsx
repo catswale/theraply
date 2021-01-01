@@ -13,11 +13,20 @@ import {SignIn} from './auth/SignIn.page';
 import {SignUp} from './auth/SignUp.page';
 import {SignUpConfirm} from './auth/SignUpConfirm.page';
 import { useAuth } from './auth/auth.hooks';
+import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 
 const Stack = createStackNavigator();
 
 const App = () => {
   const {isSignedIn, loading} = useAuth()
+
+  useEffect(() => {
+    Stripe.setOptionsAsync({
+      publishableKey: 'pk_test_51HyBbcLY5UjkiodXb5bxgUvEC0CqWqEA7OXytdhiE3XaMc2Tf0IiLOCSnwgKeaNJv4jo8D8ydIIyRSHXFj80p9PX00BJ4fuKgV', // Your key
+      androidPayMode: 'test', // [optional] used to set wallet environment (AndroidPay)
+      merchantId: 'theraply', // [optional] used for payments with ApplePay
+    });
+  })
 
   if (loading) return <View><Text>Loading...</Text></View>
   return (
