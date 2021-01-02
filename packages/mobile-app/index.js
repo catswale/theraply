@@ -1,10 +1,10 @@
 import { registerRootComponent } from 'expo';
 import Amplify from 'aws-amplify'
-import config from './aws-exports'
 import App from './src/App';
+import {awsExports} from '@theraply/lib'
 
 Amplify.configure({
-    ...config,
+    ...awsExports,
     Analytics: {
       disabled: true,
     },

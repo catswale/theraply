@@ -6,7 +6,6 @@ import { Provider } from 'react-redux';
 import store from './store'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { registerRootComponent } from 'expo';
 import {Chat} from './chat/Chat.page';
 import {Dashboard} from './dashboard/Dashboard.page';
 import {SignIn} from './auth/SignIn.page';

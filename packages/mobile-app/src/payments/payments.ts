@@ -1,4 +1,5 @@
 import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
+import {API, Auth} from 'aws-amplify'
 
 export async function createToken() {
   try {
@@ -47,3 +48,21 @@ export async function createToken() {
     const token = await Stripe.paymentRequestWithCardFormAsync(options);
     console.log(token)
   }
+
+  export async function postData() { 
+    const apiName = 'paymentAPI';
+    const path = '/checkout';
+    console.log(`Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`)
+    const myInit = { 
+      headers: { 
+        Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
+      },
+    };
+    try {
+      const res =  await API.post(apiName, path, myInit);
+      console.log(res)
+    } catch (err) {
+      console.log(err)
+    }
+}
+

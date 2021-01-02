@@ -46,11 +46,8 @@ app.get('/checkout/*', function(req, res) {
 
 app.post('/checkout', function(req, res) {
   // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
-});
-
-app.post('/checkout/*', function(req, res) {
-  // Add your code here
+  console.log('Checkout called')
+  console.log(req.headers.authorization)
   res.json({success: 'post call succeed!', url: req.url, body: req.body})
 });
 

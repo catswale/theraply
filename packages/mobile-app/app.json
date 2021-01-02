@@ -1,6 +1,6 @@
 {
   "expo": {
-    "entryPoint": "./src/App.tsx",
+    "entryPoint": "./index.js",
     "name": "Theraply",
     "slug": "Theraply",
     "version": "1.0.0",

@@ -56,7 +56,7 @@ const Card = ({therapist, client}: {therapist: Therapist, client: Client}) => {
       <Text>{therapist.firstName}</Text>
       <Button title='CONNECT' onPress={() => {
           // createTherapistClientConnection(therapist, client)
-          payments.cardForm()
+          payments.postData()
         }}/>
 
     </View>

@@ -7,6 +7,8 @@
     "aws-serverless-express": "^3.3.5",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "jsonwebtoken": "^8.5.1",
+    "jwk-to-pem": "^2.0.4",
     "stripe": "^8.129.0"
   },
   "devDependencies": {},

@@ -1,75 +1,56 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
-var _this = this;
 exports.__esModule = true;
-var stripe_1 = require("stripe");
-var stripe = new stripe_1["default"]('sk_test_51HyBbcLY5UjkiodXhwHka09RsUIn8elbXZ7d2cPEK7ISbJh0o2THkIJl38rzrlcKzuz2SB5fcbTxbqSghGTKAtq700DIQYFLfS', {
-    apiVersion: '2020-08-27'
+var jwt = require('jsonwebtoken');
+var jwkToPem = require('jwk-to-pem');
+var jwk = {
+    "keys": [{
+            "kid": "1234example=",
+            "alg": "RS256",
+            "kty": "RSA",
+            "e": "AQAB",
+            "n": "1234567890",
+            "use": "sig"
+        }, {
+            "kid": "5678example=",
+            "alg": "RS256",
+            "kty": "RSA",
+            "e": "AQAB",
+            "n": "987654321",
+            "use": "sig"
+        }]
+};
+var token = 'eyJraWQiOiJBYTcrbldkMStjazJCUkxuSnVpSHVwcGhKOEFkWDNFM05hcllEUUhnc3RnPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiI0MGJlYzQ3OC02NmI3LTQ0ZDItYjMyNy01ZmE2ZmJlNDJkZTQiLCJhdWQiOiIzZDZpa2JsaHV2ZjI3bGw0ZHExZmRlbjljcCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJldmVudF9pZCI6IjE2ZjJiMjE1LTdmOWEtNDUyNC05OGEyLTE2NDMzZDk4ZGY4ZSIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNjA5MzE5OTM5LCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAuYXAtc291dGhlYXN0LTIuYW1hem9uYXdzLmNvbVwvYXAtc291dGhlYXN0LTJfeU1pZU16ejVvIiwiY29nbml0bzp1c2VybmFtZSI6IjQwYmVjNDc4LTY2YjctNDRkMi1iMzI3LTVmYTZmYmU0MmRlNCIsImV4cCI6MTYwOTU5OTA5MywiZ2l2ZW5fbmFtZSI6IkNhdCIsImlhdCI6MTYwOTU5NTQ5NCwiZW1haWwiOiJjYXRzd2FsZUBnbWFpbC5jb20ifQ.ePgozW4-Gz4F1Os8UIlP60-P5IR_5keijRPBi5_5_pMVsqpOaNUd0bfh9f4rxcCVEIxZWnEXE36YYNz83Vye6KfYkS41QtchY0EEgs9LLMXdvpACQVnyiIOt9aTmBiLLbtURCb3Z2IwU_wJoBEx2PMXUk5rOqhFVAPa37ti1K9nF4GNc-RLhdpPsX_6WHmxugwNQ6QJwMCBWzr3xNEAtikZbrrtrZXxweSkAtx11qYW_1FX-eaAqFg2YE3sXbjsnBgnwPTnYfIpaucCSsz1qTupE-T_gfuyS-UTyhTocyO8Zw6pGsVihRYUbM_DMQVuiq2vgb_Q_Hkh8HCTNbX-7Gw';
+var pem = jwkToPem(jwk);
+jwt.verify(token, pem, { algorithms: ['RS256'] }, function (err, decodedToken) {
+    console.log(err);
+    console.log(decodedToken);
 });
-function test() {
-    return __awaiter(this, void 0, void 0, function () {
-        var paymentIntent;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, stripe.paymentIntents.create({
-                        amount: 1000,
-                        currency: 'aud',
-                        payment_method_types: ['card'],
-                        receipt_email: 'jenny.rosen@example.com'
-                    })];
-                case 1:
-                    paymentIntent = _a.sent();
-                    console.log(paymentIntent);
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
-(function () { return __awaiter(_this, void 0, void 0, function () {
-    var customer, card;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                customer = { id: 'cus_IfgEnwlMhmEHQs' };
-                return [4 /*yield*/, stripe.customers.createSource('cus_IfgEnwlMhmEHQs', { source: 'tok_1I4LsvLY5UjkiodXXYMYu6uP' })];
-            case 1:
-                card = _a.sent();
-                console.log(card);
-                return [2 /*return*/];
-        }
-    });
-}); })();
+// const stripe = new Stripe('sk_test_51HyBbcLY5UjkiodXhwHka09RsUIn8elbXZ7d2cPEK7ISbJh0o2THkIJl38rzrlcKzuz2SB5fcbTxbqSghGTKAtq700DIQYFLfS', {
+//   apiVersion: '2020-08-27',
+// });
+// async function test() {
+//   const paymentIntent = await stripe.paymentIntents.create({
+//     amount: 1000,
+//     currency: 'aud',
+//     payment_method_types: ['card'],
+//     receipt_email: 'jenny.rosen@example.com',
+//   });
+//   console.log(paymentIntent)
+// }
+// (async () => {
+//   // const customer = await stripe.customers.create({
+//   //   email: 'customer@example.com',
+//   //   idempotencyKey: '3242'
+//   // });
+//   const customer = {id: 'cus_IfgEnwlMhmEHQs'}
+//   // const intent = await stripe.paymentIntents.create({
+//   //   amount: 1099,
+//   //   currency: 'aud',
+//   //   customer: customer.id,
+//   // });
+//   const card = await stripe.customers.createSource(
+//     'cus_IfgEnwlMhmEHQs',
+//     {source: 'tok_1I4LsvLY5UjkiodXXYMYu6uP'}
+//   );
+//   console.log(card)
+// })();
