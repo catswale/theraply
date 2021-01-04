@@ -7,7 +7,7 @@ import {useAuth} from '../auth/auth.hooks'
 
 
 export const useClient = () => {
-  const {client} = useSelector(state => state.client)
+  const {client}: {client: Client} = useSelector(state => state.client)
   const dispatch = useDispatch()
   const {fetchCurrentAuthUser, user} = useAuth()
   const {username, attributes} = user;

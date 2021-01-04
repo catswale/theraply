@@ -1,12 +1,18 @@
 {
     "paths": [
         {
-            "name": "/checkout",
+            "name": "/payment/register",
             "lambdaFunction": "paymentCheckout",
             "privacy": {
-                "open": true
-            },
-            "policyResourceName": "/checkout"
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            }
         }
     ],
     "resourceName": "paymentAPI",
@@ -17,7 +23,7 @@
         }
     ],
     "privacy": {
-        "auth": 0,
+        "auth": 1,
         "unauth": 0,
         "authRoleName": "amplify-mobileapp-dev-184827-authRole",
         "unAuthRoleName": "amplify-mobileapp-dev-184827-unauthRole"
@@ -31,5 +37,6 @@
                 "Arn"
             ]
         }
-    ]
+    ],
+    "uuid": "b40cc26f"
 }

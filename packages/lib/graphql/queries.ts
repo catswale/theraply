@@ -55,6 +55,7 @@ export const getClient = /* GraphQL */ `
         nextToken
       }
       therapistIDs
+      stripeCustomerID
       createdAt
       updatedAt
       owner
@@ -75,6 +76,7 @@ export const listClients = /* GraphQL */ `
         email
         phoneNumber
         therapistIDs
+        stripeCustomerID
         createdAt
         updatedAt
         owner

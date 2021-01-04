@@ -40,6 +40,7 @@ type Client @model
   therapists: [TherapistClientRelationship]
     @connection(keyName: "byClient", fields: ["id"])
   therapistIDs: [String]
+  stripeCustomerID: String
 }
 
 type Message

@@ -43,6 +43,7 @@ export const Dashboard = ({navigation}) => {
       {
         bookings.map(b => <Text key={b.id}>{b.createdAt}</Text>)
       }
+      <Button title='PAYMENTS' onPress={() => navigation.navigate('Pay')}/>
       <Button title='LOGOUT' onPress={() => auth.signOut()}/>
     </View>
   )
@@ -54,7 +55,7 @@ const Card = ({therapist, client}: {therapist: Therapist, client: Client}) => {
   return (
     <View style={styles.cardContainer}>
       <Text>{therapist.firstName}</Text>
-      <Button title='CONNECT' onPress={() => {
+      <Button title='CONNECT' onPress={async () => {
           // createTherapistClientConnection(therapist, client)
           payments.postData()
         }}/>
@@ -88,7 +89,7 @@ const styles = StyleSheet.create<Style>({
       display: 'flex',
       padding: 8,
       margin: 8,
-      flexDirection: 'column',
+      flexDirection: 'row',
       backgroundColor: 'white',
       borderRadius: 16,
   },

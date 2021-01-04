@@ -11,6 +11,7 @@ import {Dashboard} from './dashboard/Dashboard.page';
 import {SignIn} from './auth/SignIn.page';
 import {SignUp} from './auth/SignUp.page';
 import {SignUpConfirm} from './auth/SignUpConfirm.page';
+import {Pay} from './payments/PayTest.page';
 import { useAuth } from './auth/auth.hooks';
 import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 
@@ -36,6 +37,7 @@ const App = () => {
             <>
             <Stack.Screen name="Dashboard" component={Dashboard} />
             <Stack.Screen name="Chat" component={Chat} />
+            <Stack.Screen name="Pay" component={Pay} />
             </>
           ) : (
             <>
