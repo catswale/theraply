@@ -43,7 +43,7 @@ const AppWrapper = () => {
 
   return (
     <Provider store={store}>
-      <App />
+      <App/>
     </Provider>
   )
 }

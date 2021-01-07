@@ -17,3 +17,17 @@ and configuration easily.
 # Getting Started
 `yarn` // this builds the node_modules for all the projects in /packages
 See each readme for further instructions running each package
+
+# Environments
+## Local Branch
+Create and commit to local branches when you are working on a particular task
+eg git checkout -b feature/sign-up
+
+## Dev
+When you commit code to this branch (dev), the web frontend automatically updates. You need to be amplifies dev environment when committing.
+amplify env checkout dev
+
+## Prod
+When you commit code to this branch (main), the web frontend automatically updates. You need to be amplifies dev environment when committing. You should only merge code from dev to main. No manual commits directly to this branch.
+Test the changes in the dev environment before merging to prod.
+amplify env checkout prod
