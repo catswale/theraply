@@ -1,18 +1,12 @@
 {
   "name": "root",
   "private": true,
-  "scripts": {
-    "bootstrap": "lerna bootstrap",
-    "web": "lerna --scope=therapist-web run start --stream --",
-    "expo": "lerna --scope=mobile-app run start --stream --"
-  },
+  "scripts": {},
   "workspaces": {
     "packages": [
       "packages/*"
     ],
-    "nohoist": [
-      
-    ]
+    "nohoist": []
   },
   "dependencies": {
     "uuid": "8.3.2",

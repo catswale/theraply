@@ -4,14 +4,7 @@
             "name": "/payment/register",
             "lambdaFunction": "paymentCheckout",
             "privacy": {
-                "private": true,
-                "auth": [
-                    "/POST",
-                    "/GET",
-                    "/PUT",
-                    "/PATCH",
-                    "/DELETE"
-                ]
+                "open": true
             }
         }
     ],
@@ -23,7 +16,7 @@
         }
     ],
     "privacy": {
-        "auth": 1,
+        "auth": 0,
         "unauth": 0,
         "authRoleName": "amplify-mobileapp-dev-184827-authRole",
         "unAuthRoleName": "amplify-mobileapp-dev-184827-unauthRole"
@@ -38,5 +31,5 @@
             ]
         }
     ],
-    "uuid": "b40cc26f"
+    "uuid": "db6a2995"
 }

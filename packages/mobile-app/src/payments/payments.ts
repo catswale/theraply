@@ -49,15 +49,4 @@ export async function createToken() {
     console.log(token)
   }
 
-  export async function postData() { 
-    try {
-      const myInit = { 
-        headers: {Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`},
-      };
-      const res =  await API.post('paymentAPI', '/payment/register', myInit);
-      console.log(res)
-    } catch (err) {
-      console.log(err)
-    }
-}
 

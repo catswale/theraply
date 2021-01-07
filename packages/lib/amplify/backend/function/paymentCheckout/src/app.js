@@ -35,28 +35,14 @@ app.use(function(req, res, next) {
   next()
 });
 
-
-/**********************
- * Example get method *
- **********************/
-
-app.get('/checkout', function(req, res) {
-  // Add your code here
-  res.json({success: 'get call succeed!', url: req.url});
-});
-
-app.get('/checkout/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'get call succeed!', url: req.url});
-});
-
 app.post('/payment/register', async function(req, res) {
   try {
     console.log('Checkout called')
+    console.log(req)
     const accessToken = req.headers.authorization.split(" ")[1];
     if (!accessToken) return res.status(500)
     var {sub: username} = jwt_decode(accessToken);
-
+    console.log('got username ' + username)
     let params = {
       TableName: config.clientTableName,
       Key: {
@@ -103,39 +89,8 @@ async function createPaymentIntent(amount) {
   });
 }
 
-/****************************
-* Example put method *
-****************************/
-
-app.put('/checkout', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
-});
-
-app.put('/checkout/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'put call succeed!', url: req.url, body: req.body})
-});
-
-/****************************
-* Example delete method *
-****************************/
-
-app.delete('/checkout', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
-});
-
-app.delete('/checkout/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
-});
-
 app.listen(3000, function() {
     console.log("App started")
 });
 
-// Export the app object. When executing the application local this does nothing. However,
-// to port it to AWS Lambda we will create a wrapper around that will load the app from
-// this file
 module.exports = app

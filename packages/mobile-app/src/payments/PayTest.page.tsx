@@ -13,11 +13,10 @@ export const Pay = () => {
 
   useEffect(() => {
     if (!client.stripeCustomerID) {
-      register()
+      // register()
     }
   }, [])
 
-  console.log(card)
   async function getCardDetails() {
     const options = {
       requiredBillingAddressFields: 'full',
@@ -39,9 +38,14 @@ export const Pay = () => {
   }
 
   async function register() {
+    console.log('register')
     try {
       const myInit = { 
         headers: {Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`},
+        body: {
+          email: client.email,
+          firstName: client.firstName,
+        }
       };
       const res =  await API.post('paymentAPI', '/payment/register', myInit);
       console.log(res)

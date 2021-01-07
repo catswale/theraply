@@ -56,8 +56,7 @@ const Card = ({therapist, client}: {therapist: Therapist, client: Client}) => {
     <View style={styles.cardContainer}>
       <Text>{therapist.firstName}</Text>
       <Button title='CONNECT' onPress={async () => {
-          // createTherapistClientConnection(therapist, client)
-          payments.postData()
+          createTherapistClientConnection(therapist, client)
         }}/>
 
     </View>
