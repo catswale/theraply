@@ -5,5 +5,4 @@ This repo contains shared code and the Amplify backend of Theraply.
 yarn (Builds node_modules for the entire mono repo)
 
 npm install -g @aws-amplify/cli
-amplify env pull
-amplify env checkout dev
+amplify init // choose existing env dev

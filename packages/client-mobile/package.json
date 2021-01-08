@@ -1,5 +1,5 @@
 {
-  "name": "@theraply/mobile-app",
+  "name": "@theraply/client-mobile",
   "version": "1.0.0",
   "scripts": {
     "start": "react-native start",

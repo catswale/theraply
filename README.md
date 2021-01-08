@@ -3,7 +3,7 @@ Therapist: A psychologist who provides mental health support to their clients
 Client: A customer who needs mental health support
 
 # Projects
-## mobile-app
+## client-mobile
 This is the frontend for clients to interact with their therapists. It is a mobile app
 ## therapists-web
 This is the frontend web app for the therapists to interact with their clients
@@ -22,6 +22,7 @@ See each readme for further instructions running each package
 ## Local Branch
 Create and commit to local branches when you are working on a particular task
 eg git checkout -b feature/sign-up
+amplify init // choose existing environment dev
 
 ## Dev
 git checkout dev
