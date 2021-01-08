@@ -25,13 +25,16 @@ eg git checkout -b feature/sign-up
 
 ## Dev
 git checkout dev
-amplify env checkout <env> // dev or prod
+amplify env checkout dev
 
-amplify push
-git merge <>
-
+## Updating Dev
+git merge <branch> // Updates the frontend in aws
+amplify push // Updates the backend in aws
 
 ## Prod
-When you commit code to this branch (main), the web frontend automatically updates. You need to be amplifies dev environment when committing. You should only merge code from dev to main. No manual commits directly to this branch.
-Test the changes in the dev environment before merging to prod.
+git checkout main
 amplify env checkout prod
+
+## Updating Prod
+git merge dev // Updates the frontend in aws
+amplify push // Updates the backend in aws

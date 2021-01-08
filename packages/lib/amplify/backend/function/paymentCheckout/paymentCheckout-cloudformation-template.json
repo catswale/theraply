@@ -68,7 +68,7 @@
         "Layers": [],
         "Timeout": "25",
         "Code": {
-          "S3Bucket": "amplify-mobileapp-dev-184827-deployment",
+          "S3Bucket": "amplify-mobileapp-prod-203908-deployment",
           "S3Key": "amplify-builds/paymentCheckout-5132636e39306a707765-build.zip"
         }
       }
