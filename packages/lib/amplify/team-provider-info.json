@@ -32,6 +32,9 @@
     "categories": {
       "auth": {
         "mobileapp3d64a26e": {}
+      },
+      "function": {
+        "paymentCheckout": {}
       }
     }
   }
