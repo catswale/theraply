@@ -22,7 +22,7 @@ const App = () => {
 
   useEffect(() => {
     Stripe.setOptionsAsync({
-      publishableKey: 'pk_test_51HyBbcLY5UjkiodXb5bxgUvEC0CqWqEA7OXytdhiE3XaMc2Tf0IiLOCSnwgKeaNJv4jo8D8ydIIyRSHXFj80p9PX00BJ4fuKgV', // Your key
+      publishableKey: 'pk_test_51HyBbcLY5UjkiodXb5bxgUvEC0CqWqEA7OXytdhiE3XaMc2Tf0IiLOCSnwgKeaNJv4jo8D8ydIIyRSHXFj80p9PX00BJ4fuKgV',
       androidPayMode: 'test', // [optional] used to set wallet environment (AndroidPay)
       merchantId: 'theraply', // [optional] used for payments with ApplePay
     });

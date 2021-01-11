@@ -3,6 +3,7 @@
 
   "compilerOptions": {
     "baseUrl": ".",
+    "lib": ["dom"],
     "paths": {
       "@theraply/*": ["packages/*/src"]
     },

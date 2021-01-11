@@ -2,14 +2,43 @@
   "name": "@theraply/therapists-web",
   "version": "1.0.0",
   "private": true,
+  "workspaces": {
+    "nohoist": [
+      "**/cross-env",
+      "**/cross-env/**"
+    ]
+  },
+  "scripts": {
+    "build": "cross-env SKIP_PREFLIGHT_CHECK=true react-app-rewired build",
+    "start": "cross-env SKIP_PREFLIGHT_CHECK=true react-app-rewired start",
+    "test": "yarn run build"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
   "dependencies": {
     "@aws-amplify/ui-react": "^0.2.31",
     "@reduxjs/toolkit": "^1.5.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "@theraply/lib": "*",
     "@theraply/client-mobile": "*",
+    "@theraply/lib": "*",
     "@types/jest": "^26.0.15",
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.53",
@@ -27,34 +56,8 @@
   "devDependencies": {
     "@types/react-redux": "^7.1.12",
     "@types/react-router-dom": "5.1.6",
-    "react-app-rewired": "2.1.8",
     "cross-env": "7.0.3",
+    "react-app-rewired": "2.1.8",
     "tsconfig-paths-webpack-plugin": "3.3.0"
-  },
-  "scripts": {
-    "start": "cross-env SKIP_PREFLIGHT_CHECK=true react-app-rewired start",
-    "build": "cross-env SKIP_PREFLIGHT_CHECK=true react-app-rewired build",
-    "test": "yarn run build"
-  },
-  "workspaces": {
-    "nohoist": ["**/cross-env", "**/cross-env/**"]
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   }
 }

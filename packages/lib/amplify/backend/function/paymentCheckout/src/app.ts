@@ -10,8 +10,7 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const jwt_decode = require('jwt-decode')
-const Stripe = require('stripe');
-const stripe = Stripe(process.env.STRIPE_SK);
+const stripe = require('stripe')(process.env.STRIPE_SK);
 const AWS = require('aws-sdk')
 
 AWS.config.update({ region: process.env.TABLE_REGION });
@@ -38,10 +37,10 @@ app.use(function(req, res, next) {
 app.post('/payment/register', async function(req, res) {
   try {
     console.log('Checkout called')
-    console.log(req)
+
     const accessToken = req.headers.authorization.split(" ")[1];
     if (!accessToken) return res.status(500)
-    var {sub: username} = jwt_decode(accessToken);
+    var {sub: username, given_name: firstName, email} = jwt_decode(accessToken);
     console.log('got username ' + username)
     let params = {
       TableName: config.clientTableName,
@@ -53,7 +52,7 @@ app.post('/payment/register', async function(req, res) {
     console.log(data)
     if (!data.stripeCustomerID) {
       console.log('creating stripe customer')
-      const customer = await stripe.customers.create();
+      const customer = await stripe.customers.create({email, name: firstName});
       params = {
         TableName: config.clientTableName,
         Key: {
@@ -69,13 +68,26 @@ app.post('/payment/register', async function(req, res) {
       console.log('updated a client')
       console.log(data)
     }
-    const clientSecret = await createPaymentIntent(1099);
-    return res.json({success: 'success', clientSecret});
+    const paymentIntent = await createPaymentIntent(1099);
+    return res.json({success: 'success', clientSecret: paymentIntent.client_secret});
   } catch (err) {
     console.log(err)
     return res.status(500)
   }
 });
+
+async function charge(source, amount, customer) {
+  return stripe.charges
+    .create({
+      customer,
+      amount,
+      currency: 'aud',
+      source,
+      description: 'Test payment',
+    }).then(res => {
+      console.log(res)
+    });
+}
 
 /**
  * @param {*} amount in cents, eg 1099 is $10.99
@@ -86,7 +98,7 @@ async function createPaymentIntent(amount) {
     currency: 'aud',
     // Verify your integration in this guide by including this parameter
     metadata: {integration_check: 'accept_a_payment'},
-  });
+  })
 }
 
 app.listen(3000, function() {
