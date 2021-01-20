@@ -6,6 +6,20 @@
             "privacy": {
                 "open": true
             }
+        },
+        {
+            "name": "/payment/charge",
+            "lambdaFunction": "paymentCheckout",
+            "privacy": {
+                "open": true
+            }
+        },
+        {
+            "name": "/email",
+            "lambdaFunction": "paymentCheckout",
+            "privacy": {
+                "open": true
+            }
         }
     ],
     "resourceName": "paymentAPI",
@@ -31,5 +45,5 @@
             ]
         }
     ],
-    "uuid": "db6a2995"
+    "uuid": "f8a9e6a2"
 }

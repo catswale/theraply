@@ -11,8 +11,7 @@ This is the frontend web app for the therapists to interact with their clients
 This is the shared library which hosts shared code. It also hosts the backend code (for now)
 
 # How does this monorepo work?
-This monorepo contains all projects relating to Theraply (found in /packages). This is so that these projects can share code
-and configuration easily.
+This monorepo contains all projects relating to Theraply (found in /packages). This is so that these projects can share code and configuration easily.
 
 # Getting Started
 `yarn` // this builds the node_modules for all the projects in /packages

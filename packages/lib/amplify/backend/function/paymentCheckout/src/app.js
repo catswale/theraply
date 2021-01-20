@@ -34,22 +34,23 @@ app.use(function(req, res, next) {
   next()
 });
 
+app.post('/email', async function(req, res) {
+  try {
+    console.log('Email called')
+    return res.json({success: 'success',});
+  } catch (err) {
+    console.log(err)
+    return res.status(500)
+  }
+});
+
 app.post('/payment/register', async function(req, res) {
   try {
     console.log('Checkout called')
-
-    const accessToken = req.headers.authorization.split(" ")[1];
-    if (!accessToken) return res.status(500)
-    var {sub: username, given_name: firstName, email} = jwt_decode(accessToken);
+    const {username, email, firstName} = getTokenData(req)
     console.log('got username ' + username)
-    let params = {
-      TableName: config.clientTableName,
-      Key: {
-        id: username
-      }
-    }
-    const data = await dynamodb.get(params).promise()
-    console.log(data)
+
+    
     if (!data.stripeCustomerID) {
       console.log('creating stripe customer')
       const customer = await stripe.customers.create({email, name: firstName});
@@ -66,7 +67,6 @@ app.post('/payment/register', async function(req, res) {
       };
       const data = await dynamodb.update(params).promise()
       console.log('updated a client')
-      console.log(data)
     }
     const paymentIntent = await createPaymentIntent(1099);
     return res.json({success: 'success', clientSecret: paymentIntent.client_secret});
@@ -75,6 +75,48 @@ app.post('/payment/register', async function(req, res) {
     return res.status(500)
   }
 });
+
+app.post('/payment/charge', async function(req, res) {
+  try {
+    console.log('Charge called')
+    const {username, firstName, email} = getTokenData(req)
+    const {source, amount} = req.body
+    console.log(username)
+    // const customer = await stripe.customers.create({email, name: firstName, source});
+    // console.log('created customer ' + customer.id)
+    const {stripeCustomerID} = await getClientData(username)
+    console.log(stripeCustomerID)
+    // const paymentMethods = await stripe.paymentMethods.list({
+    //   customer: stripeCustomerID,
+    //   type: 'card',
+    // });
+    console.log(paymentMethods)
+    // const result = await charge('card_1I94LyLY5UjkiodXOVCACzTm', amount, stripeCustomerID)
+    console.log(result)
+    return res.json({success: 'success'});
+  } catch (err) {
+    console.log(err)
+    return res.status(500)
+  }
+});
+
+async function getClientData(username) {
+  let params = {
+    TableName: config.clientTableName,
+    Key: {
+      id: username
+    }
+  }
+  const res = await dynamodb.get(params).promise()
+  return res.Item
+}
+
+function getTokenData(req) {
+  const accessToken = req.headers.authorization.split(" ")[1];
+  if (!accessToken) throw new Error('invalid auth header')
+  const data = jwt_decode(accessToken);
+  return {username: data.sub, firstName: data.given_name, email: data.email}
+}
 
 async function charge(source, amount, customer) {
   return stripe.charges
