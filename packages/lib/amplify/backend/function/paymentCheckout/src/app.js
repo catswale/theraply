@@ -37,7 +37,10 @@ app.use(function(req, res, next) {
 app.post('/email', async function(req, res) {
   try {
     console.log('Email called')
-    return res.json({success: 'success',});
+    const {recipient, sender, topic, text} = req.body
+    console.log(`recipient ${recipient}`)
+
+    return res.json({success: 'success'});
   } catch (err) {
     console.log(err)
     return res.status(500)
@@ -50,7 +53,6 @@ app.post('/payment/register', async function(req, res) {
     const {username, email, firstName} = getTokenData(req)
     console.log('got username ' + username)
 
-    
     if (!data.stripeCustomerID) {
       console.log('creating stripe customer')
       const customer = await stripe.customers.create({email, name: firstName});

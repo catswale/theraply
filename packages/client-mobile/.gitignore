@@ -53,7 +53,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
-
+*.hprof
 # Android/IntelliJ
 #
 build/
