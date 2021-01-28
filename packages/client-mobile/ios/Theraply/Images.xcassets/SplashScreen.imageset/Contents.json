@@ -1,14 +1,17 @@
 {
   "images" : [
     {
+      "filename" : "Splash Page.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "Splash Page (1).png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "Splash Page (2).png",
       "idiom" : "universal",
       "scale" : "3x"
     }
