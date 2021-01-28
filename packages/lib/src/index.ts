@@ -8,6 +8,7 @@ const mutations = {...defaultMutations, ...customMutations}
 export {default as awsExports} from '../aws-exports.js'
 
 export * from './types'
+export * from './theme'
 export {
   queries,
   subscriptions,

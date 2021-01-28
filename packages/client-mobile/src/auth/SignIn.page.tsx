@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import {
-  View, Text, StyleSheet, TextInput, Button, ViewStyle, TextStyle,
+  View, Text, StyleSheet, Button, ViewStyle, TextStyle, TextInput, TouchableOpacity,
 } from 'react-native'
 import {Auth} from 'aws-amplify';
 import {useAuth} from './auth.hooks';
+import {colors} from '@theraply/lib'
+// import {TextInput} from '../components/TextInput'
 
 export const SignIn = ({navigation}) => {
   const [email, onChangeEmail] = useState('');
@@ -24,9 +26,10 @@ export const SignIn = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text>Sign In</Text>
+      <Text style={styles.welcomeText}>Welcome Back!</Text>
+      <Text style={styles.headerText}>Please, input your details</Text>
       <Text style={{color: 'red'}}>{error}</Text>
-      <Text>Email</Text>
+      <Text style={styles.h2}>Email Address</Text>
       <TextInput
         autoCapitalize='none'
         autoCompleteType='email'
@@ -34,7 +37,7 @@ export const SignIn = ({navigation}) => {
         onChangeText={text => onChangeEmail(text)}
         value={email}
       />
-      <Text>Password</Text>
+      <Text style={styles.h2}>Password</Text>
       <TextInput
         autoCompleteType='password'
         textContentType='password'
@@ -44,9 +47,14 @@ export const SignIn = ({navigation}) => {
         onChangeText={text => onChangePassword(text)}
         value={password}
       />
-
-      <Button title='SIGN IN' onPress={() => signIn()}/>
-      <Button title='SIGN UP' onPress={() => navigation.navigate('SignUp')}/>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={signIn}
+      >
+        <Text style={styles.buttonText}>Done</Text>
+      </TouchableOpacity>
+      {/* <Button style={styles.button} title='Done' onPress={() => signIn()}/> */}
+      {/* <Button title='SIGN UP' onPress={() => navigation.navigate('SignUp')}/> */}
     </View>
   )
 }
@@ -54,6 +62,11 @@ export const SignIn = ({navigation}) => {
 interface Style {
   container: ViewStyle,
   inputText: ViewStyle,
+  welcomeText: TextStyle,
+  headerText: TextStyle,
+  h2: TextStyle,
+  button: ViewStyle,
+  buttonText: TextStyle,
 }
 
 const styles = StyleSheet.create<Style>({
@@ -65,10 +78,41 @@ const styles = StyleSheet.create<Style>({
       height: '100%',
       backgroundColor: 'white',
       borderRadius: 16,
+      paddingHorizontal: 13,
   },
   inputText: {
-    height: 40, 
-    borderColor: 'gray', 
-    borderWidth: 1
+    height: 50, 
+    borderColor: colors.borderBlue,
+    backgroundColor: colors.backgroundColor, 
+    borderWidth: 1,
+    borderRadius: 31,
+  },
+  welcomeText: {
+    fontSize: 16,
+    color: colors.gray,
+    marginBottom: 10,
+  },
+  headerText: {
+    fontWeight: '700',
+    fontSize: 24,
+    marginBottom: 20,
+  },
+  h2: {
+    fontSize: 15,
+    fontWeight: '500',
+    marginBottom: 15,
+  },
+  button: {
+    backgroundColor: colors.primary.main,
+    height: 56,
+    borderRadius: 30,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  buttonText: {
+    color: colors.primary.contrastText,
+    fontSize: 16,
   }
 });
