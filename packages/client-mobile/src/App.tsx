@@ -26,7 +26,7 @@ const App = () => {
       androidPayMode: 'test', // [optional] used to set wallet environment (AndroidPay)
       merchantId: 'theraply', // [optional] used for payments with ApplePay
     });
-  })
+  }, [])
 
   if (loading) return <View><Text>Loading...</Text></View>
   return (

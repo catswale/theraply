@@ -66,8 +66,14 @@ export const onDeleteTherapist = /* GraphQL */ `
   }
 `;
 export const onCreateTherapistClientRelationship = /* GraphQL */ `
-  subscription OnCreateTherapistClientRelationship {
-    onCreateTherapistClientRelationship {
+  subscription OnCreateTherapistClientRelationship(
+    $clientID: String!
+    $therapistID: String!
+  ) {
+    onCreateTherapistClientRelationship(
+      clientID: $clientID
+      therapistID: $therapistID
+    ) {
       id
       therapistID
       clientID
@@ -98,8 +104,14 @@ export const onCreateTherapistClientRelationship = /* GraphQL */ `
   }
 `;
 export const onUpdateTherapistClientRelationship = /* GraphQL */ `
-  subscription OnUpdateTherapistClientRelationship {
-    onUpdateTherapistClientRelationship {
+  subscription OnUpdateTherapistClientRelationship(
+    $clientID: String!
+    $therapistID: String!
+  ) {
+    onUpdateTherapistClientRelationship(
+      clientID: $clientID
+      therapistID: $therapistID
+    ) {
       id
       therapistID
       clientID
@@ -130,8 +142,14 @@ export const onUpdateTherapistClientRelationship = /* GraphQL */ `
   }
 `;
 export const onDeleteTherapistClientRelationship = /* GraphQL */ `
-  subscription OnDeleteTherapistClientRelationship {
-    onDeleteTherapistClientRelationship {
+  subscription OnDeleteTherapistClientRelationship(
+    $clientID: String!
+    $therapistID: String!
+  ) {
+    onDeleteTherapistClientRelationship(
+      clientID: $clientID
+      therapistID: $therapistID
+    ) {
       id
       therapistID
       clientID

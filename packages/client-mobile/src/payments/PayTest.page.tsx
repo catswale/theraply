@@ -51,8 +51,8 @@ export const Pay = () => {
           firstName: client.firstName,
         }
       };
-      // const res =  await API.post('paymentAPI', '/payment/register', myInit);
-      // console.log(res)
+      const res =  await API.post('paymentAPI', '/payment/register', myInit);
+      console.log(res)
     } catch (err) {
       console.log(err)
     }

@@ -26,7 +26,7 @@ PODS:
     - UMCore
     - UMPermissionsInterface
     - UMTaskManagerInterface
-  - EXPaymentsStripe (8.4.0):
+  - EXPaymentsStripe (9.0.0):
     - Stripe (~> 14.0.1)
     - UMCore
   - EXPermissions (9.3.0):
@@ -606,7 +606,7 @@ SPEC CHECKSUMS:
   EXKeepAwake: 76eed36786534f6a476748e600fa6faf07ac3d09
   EXLinearGradient: c7ca1c2933ac240ffbc805c014a72947e227ac75
   EXLocation: 90232c6f2773b04a3c146bfda9f181035722c10a
-  EXPaymentsStripe: 382f50624f0661ab5b2690daa09150da49c2a4c6
+  EXPaymentsStripe: e09c22d78789dd8e5a5596c227d4fe6634c62e33
   EXPermissions: 30cbe5b72bd209b65c00884180ad058a60bb413d
   EXSplashScreen: 7ea40b8524f27e7444e3892411c8a4782ab6b4ce
   EXSQLite: d0d8677c13e60d5db2812387f059c697be27d3fb
@@ -668,6 +668,6 @@ SPEC CHECKSUMS:
   Yoga: 4bd86afe9883422a7c4028c00e34790f560923d6
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 023232f0534b3cc11dc5a2d15726e3764ff21612
+PODFILE CHECKSUM: a8825ac6d4e916049966068861d00c388fda6bc9
 
 COCOAPODS: 1.10.0
