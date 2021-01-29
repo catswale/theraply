@@ -1,9 +1,13 @@
-# Run 
+# Setup
 yarn
-expo start
+pod install --project-directory=ios
+# Run 
+yarn start
+yarn ios
+or 
+yarn android
 
 # Publish OTA Update
-
 expo publish
 
 # Release to app stores
