@@ -36,5 +36,14 @@
     "packagerOpts": {
       "config": "metro.config.js"
     }
-  }
+  },
+  "plugins": [
+    [
+      "expo-payments-stripe",
+      {
+        "scheme": "your-redirect-uri",
+        "merchantId": "merchant.com.theraply.app"
+      }
+    ]
+  ]
 }
