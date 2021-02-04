@@ -9,6 +9,10 @@ yarn android
 
 # Run on Device
 yarn start
+## Clean
+./gradlew clean // Apple
+gradle clean // Windows
+# Run
 adb devices // Get deviceId
 react-native run-android --deviceId <deviceId>
 adb reverse tcp:8081 tcp:8081
