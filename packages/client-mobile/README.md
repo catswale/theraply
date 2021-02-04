@@ -1,12 +1,17 @@
 # Setup
 yarn
 pod install --project-directory=ios
-# Run 
+# Run on Simulator
 yarn start
 yarn ios
 or 
 yarn android
 
+# Run on Device
+yarn start
+adb devices // Get deviceId
+react-native run-android --deviceId <deviceId>
+adb reverse tcp:8081 tcp:8081
 # Publish OTA Update
 expo publish
 
