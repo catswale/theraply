@@ -1,4 +1,4 @@
-import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
+// import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 import {API, Auth} from 'aws-amplify'
 
 export async function createToken() {
@@ -21,9 +21,9 @@ export async function createToken() {
         addressZip: '55555',
       };
         
-      const token = await Stripe.createTokenWithCardAsync(params);
-      console.log('got token')
-      console.log(token)
+      // const token = await Stripe.createTokenWithCardAsync(params);
+      // console.log('got token')
+      // console.log(token)
   } catch (err) {
     console.log(err)
   }
@@ -45,8 +45,8 @@ export async function createToken() {
       },
     };
     
-    const token = await Stripe.paymentRequestWithCardFormAsync(options);
-    console.log(token)
+    // const token = await Stripe.paymentRequestWithCardFormAsync(options);
+    // console.log(token)
   }
 
 
