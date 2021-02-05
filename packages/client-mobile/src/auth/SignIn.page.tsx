@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
-  View, Text, StyleSheet, Dimensions, ViewStyle, TextStyle, TextInput, TouchableOpacity,
+  View, Text, StyleSheet, Dimensions, ViewStyle, TextStyle, TextInput, TouchableOpacity, KeyboardAvoidingView
 } from 'react-native'
 import {Auth} from 'aws-amplify';
 import {useAuth} from './auth.hooks';
@@ -13,8 +13,10 @@ const {width, height} = Dimensions.get('window');
 export const SignIn = () => {
   const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
+  const [disabled, onChangeDisabled] = useState(true);
   const [error, setError] = useState('')
   const auth = useAuth()
+
   const signIn = async () => {
     try {
       const user = await Auth.signIn(email, password);
@@ -25,10 +27,20 @@ export const SignIn = () => {
         setError(error.message)
     }
   }
+
+  const updateButtonState = (email: string, password: string) => {
+    if (email && password) {
+      onChangeDisabled(false)
+    } else {
+      onChangeDisabled(true)
+    }
+  }
+  console.log(disabled)
   const graphicWidth = width * 0.5
+  const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
   return (
-    <View style={styles.container}>
-      <Text style={styles.welcomeText}>Welcome Back!</Text>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
+      <Text style={theme.subTitle}>Welcome Back!</Text>
       <Text style={theme.title}>Please, input your details</Text>
       <Text style={{color: 'red'}}>{error}</Text>
       <View style={styles.graphicView}>
@@ -36,6 +48,7 @@ export const SignIn = () => {
       </View>
       <Text style={theme.h4}>Email Address</Text>
       <TextInput
+        onSubmitEditing={() => { updateButtonState(email, password) }}
         placeholder='example@gmail.com'
         autoCapitalize='none'
         autoCompleteType='email'
@@ -45,6 +58,7 @@ export const SignIn = () => {
       />
       <Text style={{...theme.h4, ...styles.passwordText}}>Password</Text>
       <TextInput
+        onSubmitEditing={() => { updateButtonState(email, password) }}
         autoCompleteType='password'
         textContentType='password'
         secureTextEntry={true}
@@ -54,19 +68,19 @@ export const SignIn = () => {
         value={password}
       />
       <TouchableOpacity
-        style={styles.button}
+        disabled={disabled}
+        style={{...buttonStyle, marginTop: 24}}
         onPress={signIn}
       >
-        <Text style={styles.buttonText}>Done</Text>
+        <Text style={theme.primaryButtonText}>Done</Text>
       </TouchableOpacity>
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 
 interface Style {
   container: ViewStyle,
   graphicView: ViewStyle,
-  welcomeText: TextStyle,
   button: ViewStyle,
   buttonText: TextStyle,
   passwordText: TextStyle,
@@ -75,12 +89,10 @@ interface Style {
 const styles = StyleSheet.create<Style>({
   container: {
       display: 'flex',
-      paddingTop: 40,
       flexDirection: 'column',
       width: '100%',
       height: '100%',
       backgroundColor: 'white',
-      borderRadius: 16,
       paddingHorizontal: 13,
       justifyContent: 'center'
   },
@@ -88,11 +100,6 @@ const styles = StyleSheet.create<Style>({
     width: '100%',
     alignItems: 'center',
     marginBottom: height * 0.04,
-  },
-  welcomeText: {
-    fontSize: 16,
-    color: palette.gray,
-    marginBottom: 10,
   },
   passwordText: {
     paddingTop: 16,

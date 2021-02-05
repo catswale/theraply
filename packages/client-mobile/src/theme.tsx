@@ -1,6 +1,6 @@
 import {palette} from '@theraply/lib'
 import {
-  StyleSheet, ViewStyle, TextStyle
+  StyleSheet, ViewStyle, TextStyle, View
 } from 'react-native'
 
 interface Style {
@@ -8,6 +8,9 @@ interface Style {
   subTitle: TextStyle
   h4: TextStyle
   inputText: TextStyle
+  primaryButton: ViewStyle
+  primaryButtonDisabled: ViewStyle
+  primaryButtonText: ViewStyle
 }
 
 export const theme = StyleSheet.create<Style>({
@@ -34,4 +37,24 @@ export const theme = StyleSheet.create<Style>({
     borderRadius: 31,
     paddingLeft: 16
   },
+  primaryButton: {
+    backgroundColor: palette.primary.main,
+    height: 56,
+    borderRadius: 30,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  primaryButtonDisabled: {
+    backgroundColor: palette.primary.action.disabledBackground,
+    height: 56,
+    borderRadius: 30,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  primaryButtonText: {
+    color: palette.primary.contrastText,
+    fontSize: 16,
+  }
 });

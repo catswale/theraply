@@ -4,7 +4,10 @@ export const palette = {
   borderBlue: 'rgba(0,74,255,0.1)',
   primary: {
     main: '#004AFF',
-    contrastText: '#fff'
+    contrastText: '#fff',
+    action: {
+      disabledBackground: '#A8C0FA'
+    }
   },
   secondary: {
     main: '',
