@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import {
-  View, Text, StyleSheet, Button, ViewStyle, TextStyle, TextInput, TouchableOpacity,
+  View, Text, StyleSheet, Dimensions, ViewStyle, TextStyle, TextInput, TouchableOpacity,
 } from 'react-native'
 import {Auth} from 'aws-amplify';
 import {useAuth} from './auth.hooks';
 import {colors} from '@theraply/lib'
-// import {TextInput} from '../components/TextInput'
+import Graphic from '../../assets/images/signin.svg';
 
 export const SignIn = ({navigation}) => {
   const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
   const [error, setError] = useState('')
   const auth = useAuth()
-
   const signIn = async () => {
     try {
       const user = await Auth.signIn(email, password);
@@ -23,12 +22,16 @@ export const SignIn = ({navigation}) => {
         setError(error.message)
     }
   }
-
+  const {width} = Dimensions.get('window');
+  const graphicWidth = width * 0.5
   return (
     <View style={styles.container}>
       <Text style={styles.welcomeText}>Welcome Back!</Text>
       <Text style={styles.headerText}>Please, input your details</Text>
       <Text style={{color: 'red'}}>{error}</Text>
+      <View style={styles.graphicView}>
+        <Graphic width={graphicWidth} height={graphicWidth * 0.7} />
+      </View>
       <Text style={styles.h2}>Email Address</Text>
       <TextInput
         autoCapitalize='none'
@@ -37,7 +40,7 @@ export const SignIn = ({navigation}) => {
         onChangeText={text => onChangeEmail(text)}
         value={email}
       />
-      <Text style={styles.h2}>Password</Text>
+      <Text style={{...styles.h2, ...styles.passwordText}}>Password</Text>
       <TextInput
         autoCompleteType='password'
         textContentType='password'
@@ -53,20 +56,20 @@ export const SignIn = ({navigation}) => {
       >
         <Text style={styles.buttonText}>Done</Text>
       </TouchableOpacity>
-      {/* <Button style={styles.button} title='Done' onPress={() => signIn()}/> */}
-      {/* <Button title='SIGN UP' onPress={() => navigation.navigate('SignUp')}/> */}
     </View>
   )
 }
 
 interface Style {
   container: ViewStyle,
+  graphicView: ViewStyle,
   inputText: ViewStyle,
   welcomeText: TextStyle,
   headerText: TextStyle,
   h2: TextStyle,
   button: ViewStyle,
   buttonText: TextStyle,
+  passwordText: TextStyle,
 }
 
 const styles = StyleSheet.create<Style>({
@@ -79,6 +82,12 @@ const styles = StyleSheet.create<Style>({
       backgroundColor: 'white',
       borderRadius: 16,
       paddingHorizontal: 13,
+      justifyContent: 'center'
+  },
+  graphicView: {
+    width: '100%',
+    alignItems: 'center',
+    paddingBottom: 45,
   },
   inputText: {
     height: 50, 
@@ -91,6 +100,9 @@ const styles = StyleSheet.create<Style>({
     fontSize: 16,
     color: colors.gray,
     marginBottom: 10,
+  },
+  passwordText: {
+    paddingTop: 16,
   },
   headerText: {
     fontWeight: '700',
