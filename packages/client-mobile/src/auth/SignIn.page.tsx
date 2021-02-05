@@ -4,10 +4,13 @@ import {
 } from 'react-native'
 import {Auth} from 'aws-amplify';
 import {useAuth} from './auth.hooks';
-import {colors} from '@theraply/lib'
+import {palette} from '@theraply/lib'
+import {theme} from '../theme'
 import Graphic from '../../assets/images/signin.svg';
 
-export const SignIn = ({navigation}) => {
+const {width, height} = Dimensions.get('window');
+
+export const SignIn = () => {
   const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
   const [error, setError] = useState('')
@@ -22,31 +25,31 @@ export const SignIn = ({navigation}) => {
         setError(error.message)
     }
   }
-  const {width} = Dimensions.get('window');
   const graphicWidth = width * 0.5
   return (
     <View style={styles.container}>
       <Text style={styles.welcomeText}>Welcome Back!</Text>
-      <Text style={styles.headerText}>Please, input your details</Text>
+      <Text style={theme.title}>Please, input your details</Text>
       <Text style={{color: 'red'}}>{error}</Text>
       <View style={styles.graphicView}>
         <Graphic width={graphicWidth} height={graphicWidth * 0.7} />
       </View>
-      <Text style={styles.h2}>Email Address</Text>
+      <Text style={theme.h4}>Email Address</Text>
       <TextInput
+        placeholder='example@gmail.com'
         autoCapitalize='none'
         autoCompleteType='email'
-        style={styles.inputText}
+        style={theme.inputText}
         onChangeText={text => onChangeEmail(text)}
         value={email}
       />
-      <Text style={{...styles.h2, ...styles.passwordText}}>Password</Text>
+      <Text style={{...theme.h4, ...styles.passwordText}}>Password</Text>
       <TextInput
         autoCompleteType='password'
         textContentType='password'
         secureTextEntry={true}
         autoCapitalize='none'
-        style={styles.inputText}
+        style={theme.inputText}
         onChangeText={text => onChangePassword(text)}
         value={password}
       />
@@ -63,10 +66,7 @@ export const SignIn = ({navigation}) => {
 interface Style {
   container: ViewStyle,
   graphicView: ViewStyle,
-  inputText: ViewStyle,
   welcomeText: TextStyle,
-  headerText: TextStyle,
-  h2: TextStyle,
   button: ViewStyle,
   buttonText: TextStyle,
   passwordText: TextStyle,
@@ -87,44 +87,27 @@ const styles = StyleSheet.create<Style>({
   graphicView: {
     width: '100%',
     alignItems: 'center',
-    paddingBottom: 45,
-  },
-  inputText: {
-    height: 50, 
-    borderColor: colors.borderBlue,
-    backgroundColor: colors.backgroundColor, 
-    borderWidth: 1,
-    borderRadius: 31,
+    marginBottom: height * 0.04,
   },
   welcomeText: {
     fontSize: 16,
-    color: colors.gray,
+    color: palette.gray,
     marginBottom: 10,
   },
   passwordText: {
     paddingTop: 16,
   },
-  headerText: {
-    fontWeight: '700',
-    fontSize: 24,
-    marginBottom: 20,
-  },
-  h2: {
-    fontSize: 15,
-    fontWeight: '500',
-    marginBottom: 15,
-  },
   button: {
-    backgroundColor: colors.primary.main,
+    backgroundColor: palette.primary.main,
     height: 56,
     borderRadius: 30,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: height * 0.04,
   },
   buttonText: {
-    color: colors.primary.contrastText,
+    color: palette.primary.contrastText,
     fontSize: 16,
   }
 });

@@ -1,4 +1,4 @@
-export const colors = {
+export const palette = {
   gray: '#333333',
   backgroundColor: 'rgba(247,253,255, 0.1)',
   borderBlue: 'rgba(0,74,255,0.1)',
