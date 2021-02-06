@@ -31,29 +31,31 @@ export const SignUp = ({navigation}) => {
       <View style={styles.graphicView}>
         <Graphic width={graphicWidth} height={graphicWidth * 0.7} />
       </View>
-      <Text style={theme.h4}>First Name</Text>
-      <TextInput
-        returnKeyType="next"
-        onSubmitEditing={() => { secondInput?.focus() }}
-        blurOnSubmit={false}
-        style={{...theme.inputText, marginBottom: 24}}
-        onChangeText={text => {
-          updateButtonState(text, lastName)
-          onChangeFirstName(text)
-        }}
-        value={firstName}
-      />
-      <Text style={theme.h4}>Last Name</Text>
-      <TextInput
-        returnKeyType="next"
-        ref={(input) => { onChangeSecondInput(input) }}
-        style={theme.inputText}
-        onChangeText={text => {
-          updateButtonState(firstName, text)
-          onChangeLastName(text)
-        }}
-        value={lastName}
-      />
+      <View>
+        <Text style={theme.h4}>First Name</Text>
+        <TextInput
+          returnKeyType="next"
+          onSubmitEditing={() => { secondInput?.focus() }}
+          blurOnSubmit={false}
+          style={{...theme.inputText, marginBottom: 24}}
+          onChangeText={text => {
+            updateButtonState(text, lastName)
+            onChangeFirstName(text)
+          }}
+          value={firstName}
+        />
+        <Text style={theme.h4}>Last Name</Text>
+        <TextInput
+          returnKeyType="next"
+          ref={(input) => { onChangeSecondInput(input) }}
+          style={theme.inputText}
+          onChangeText={text => {
+            updateButtonState(firstName, text)
+            onChangeLastName(text)
+          }}
+          value={lastName}
+        />
+      </View>
       <TouchableOpacity
         style={{...buttonStyle, marginTop: 24}}
         onPress={() => navigation.navigate('SignUpTwo')}

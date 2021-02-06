@@ -14,6 +14,7 @@ export const SignIn = () => {
   const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
   const [disabled, onChangeDisabled] = useState(true);
+  const [secondInput, onChangeSecondInput] = useState(null as any)
   const [error, setError] = useState('')
   const auth = useAuth()
 
@@ -46,27 +47,38 @@ export const SignIn = () => {
       <View style={styles.graphicView}>
         <Graphic width={graphicWidth} height={graphicWidth * 0.7} />
       </View>
-      <Text style={theme.h4}>Email Address</Text>
-      <TextInput
-        onSubmitEditing={() => { updateButtonState(email, password) }}
-        placeholder='example@gmail.com'
-        autoCapitalize='none'
-        autoCompleteType='email'
-        style={theme.inputText}
-        onChangeText={text => onChangeEmail(text)}
-        value={email}
-      />
-      <Text style={{...theme.h4, ...styles.passwordText}}>Password</Text>
-      <TextInput
-        onSubmitEditing={() => { updateButtonState(email, password) }}
-        autoCompleteType='password'
-        textContentType='password'
-        secureTextEntry={true}
-        autoCapitalize='none'
-        style={theme.inputText}
-        onChangeText={text => onChangePassword(text)}
-        value={password}
-      />
+      <View>
+        <Text style={theme.h4}>Email Address</Text>
+        <TextInput
+          placeholder='example@gmail.com'
+          onSubmitEditing={() => { secondInput?.focus() }}
+          autoCapitalize='none'
+          autoCompleteType='email'
+          returnKeyType={'next'}
+          blurOnSubmit={ false }
+          style={theme.inputText}
+          onChangeText={text => {
+            updateButtonState(text, password)
+            onChangeEmail(text)
+          }}
+          value={email}
+        />
+        <Text style={{...theme.h4, ...styles.passwordText}}>Password</Text>
+        <TextInput
+          ref={(input) => { onChangeSecondInput(input) }}
+          autoCompleteType='password'
+          textContentType='password'
+          secureTextEntry={true}
+          autoCapitalize='none'
+          style={theme.inputText}
+          onChangeText={text => {
+            updateButtonState(email, text)
+            onChangePassword(text)
+          }}
+          value={password}
+        />
+      </View>
+
       <TouchableOpacity
         disabled={disabled}
         style={{...buttonStyle, marginTop: 24}}
