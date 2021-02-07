@@ -18,6 +18,7 @@ export const theme = StyleSheet.create<Style>({
     fontWeight: '700',
     fontSize: 24,
     marginBottom: 20,
+    color: palette.secondary.contrastText
   },
   subTitle: {
     fontSize: 16,

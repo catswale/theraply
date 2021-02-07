@@ -1,5 +1,5 @@
 export const palette = {
-  gray: '#333333',
+  gray: '#F2F2F2',
   backgroundColor: 'rgba(247,253,255, 0.1)',
   borderBlue: 'rgba(0,74,255,0.1)',
   primary: {
@@ -10,7 +10,8 @@ export const palette = {
     }
   },
   secondary: {
-    main: '',
+    main: '#00BBF9',
+    contrastText: '#fff',
     // light: will be calculated from primary.main,
   },
   text: {

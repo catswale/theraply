@@ -6,7 +6,7 @@ import {Auth} from 'aws-amplify';
 import {useAuth} from './auth.hooks';
 import {palette} from '@theraply/lib'
 import {theme} from '../theme'
-import Graphic from '../../assets/images/signin.svg';
+import EnterTextGraphic from '../../assets/images/enter-text-graphic.svg';
 
 const {width, height} = Dimensions.get('window');
 
@@ -36,16 +36,15 @@ export const SignIn = () => {
       onChangeDisabled(true)
     }
   }
-  console.log(disabled)
   const graphicWidth = width * 0.5
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       <Text style={theme.subTitle}>Welcome Back!</Text>
-      <Text style={theme.title}>Please, input your details</Text>
+      <Text style={theme.title}>Sign In</Text>
       <Text style={{color: 'red'}}>{error}</Text>
       <View style={styles.graphicView}>
-        <Graphic width={graphicWidth} height={graphicWidth * 0.7} />
+        <EnterTextGraphic width={graphicWidth} height={graphicWidth * 0.7} />
       </View>
       <View>
         <Text style={theme.h4}>Email Address</Text>

@@ -5,7 +5,7 @@ import {
 import { Auth } from 'aws-amplify';
 import {palette} from '@theraply/lib'
 import {theme} from '../theme'
-import Graphic from '../../assets/images/signin.svg';
+import Graphic from '../../assets/images/enter-text-graphic.svg';
 
 const {width, height} = Dimensions.get('window');
 
