@@ -7,7 +7,7 @@ import { Auth } from 'aws-amplify';
 import {palette} from '@theraply/lib'
 import {theme} from '../theme'
 import Graphic from '../../assets/images/enter-text-graphic.svg';
-import WizardStepOne from '../../assets/images/wizard-step-one.svg';
+import WizardStep from '../../assets/images/wizard-step-one.svg';
 import Corner from '../../assets/images/bottom-left-corner-art.svg'
 
 const {width, height} = Dimensions.get('window');
@@ -36,7 +36,7 @@ export const SignUp = ({navigation}) => {
       <KeyboardAvoidingView style={styles.bodyContainer} behavior="padding">
         <Corner style={{position: 'absolute', bottom: 0}} width={118} height={121}/>
         <View style={styles.graphicView}>
-          <WizardStepOne width={75} height={5}/>
+          <WizardStep width={75} height={5}/>
           <Graphic width={graphicWidth} height={graphicWidth * 0.7} />
         </View>
         <View>

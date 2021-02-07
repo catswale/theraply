@@ -7,7 +7,7 @@ import { Auth } from 'aws-amplify';
 import {palette} from '@theraply/lib'
 import {theme} from '../theme'
 import Graphic from '../../assets/images/boards-graphic.svg';
-import WizardStepOne from '../../assets/images/wizard-step-two.svg';
+import WizardStep from '../../assets/images/wizard-step-two.svg';
 import Corner from '../../assets/images/bottom-left-corner-art.svg'
 
 const {width, height} = Dimensions.get('window');
@@ -19,8 +19,8 @@ export const SignUpTwo = ({navigation}) => {
   const [secondInput, onChangeSecondInput] = useState(null as any)
 
   const graphicWidth = width * 0.5
-  const updateButtonState = (firstName: string, lastName: string) => {
-    if (firstName && lastName) {
+  const updateButtonState = (email: string, password: string) => {
+    if (email && password) {
       onChangeDisabled(false)
     } else {
       onChangeDisabled(true)
@@ -36,7 +36,7 @@ export const SignUpTwo = ({navigation}) => {
       <KeyboardAvoidingView style={styles.bodyContainer} behavior="padding">
         <Corner style={{position: 'absolute', bottom: 0}} width={118} height={121}/>
         <View style={styles.graphicView}>
-          <WizardStepOne width={75} height={5}/>
+          <WizardStep width={75} height={5}/>
           <Graphic width={graphicWidth} height={graphicWidth * 0.7} />
         </View>
         <View>
@@ -68,7 +68,7 @@ export const SignUpTwo = ({navigation}) => {
         </View>
         <TouchableOpacity
           style={{...buttonStyle, marginTop: 24}}
-          onPress={() => navigation.navigate('SignUpTwo')}
+          onPress={() => navigation.navigate('VerifyEmail')}
           disabled={disabled}
         >
           <Text style={theme.primaryButtonText}>Done</Text>
