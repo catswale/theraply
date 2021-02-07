@@ -26,10 +26,9 @@ export const SignUp = ({navigation}) => {
       onChangeDisabled(true)
     }
   }
-  console.log(height)
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
   return (
-    <KeyboardAvoidingView style={styles.container} >
+    <View style={styles.container} >
       <View style={styles.headerTextContainer}>
         <Text style={theme.subTitle}>Welcome!</Text>
         <Text style={theme.title}>Lets have your name.</Text>
@@ -53,8 +52,8 @@ export const SignUp = ({navigation}) => {
             }}
             value={firstName}
           />
-          </View>
-          <View>
+        </View>
+        <View>
           <Text style={theme.h4}>Last Name</Text>
           <TextInput
             returnKeyType="next"
@@ -66,8 +65,7 @@ export const SignUp = ({navigation}) => {
             }}
             value={lastName}
           />
-          </View>
-
+        </View>
         <TouchableOpacity
           style={{...buttonStyle, marginTop: 24}}
           onPress={() => navigation.navigate('SignUpTwo')}
@@ -76,7 +74,7 @@ export const SignUp = ({navigation}) => {
           <Text style={theme.primaryButtonText}>Next</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
-    </KeyboardAvoidingView>
+    </View>
   )
 }
 
@@ -104,7 +102,7 @@ const styles = StyleSheet.create<Style>({
     height: '80%',
     width: '100%',
     backgroundColor: '#fff',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingHorizontal: 13,

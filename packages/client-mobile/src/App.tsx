@@ -42,7 +42,7 @@ const App = () => {
             </>
           ) : (
             <>
-            <Stack.Screen options={{ headerShown: false }} name="SignIn" component={SignUp} />
+            <Stack.Screen options={{ headerShown: false }} name="SignIn" component={SignUpTwo} />
             <Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
             <Stack.Screen options={{ headerShown: false }} name="SignUpTwo" component={SignUpTwo} />
             <Stack.Screen options={{ headerShown: false }} name="SignUpConfirm" component={SignUpConfirm} />
