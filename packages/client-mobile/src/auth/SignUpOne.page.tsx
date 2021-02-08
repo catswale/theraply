@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {
   View, Text, StyleSheet, TextInput, KeyboardAvoidingView, 
-  ViewStyle, TouchableOpacity, Dimensions, ImageBackground,
+  ViewStyle, TouchableOpacity, Dimensions, Platform,
 } from 'react-native'
 import { Auth } from 'aws-amplify';
 import {palette} from '@theraply/lib'
@@ -33,7 +33,7 @@ export const SignUp = ({navigation}) => {
         <Text style={theme.subTitle}>Welcome!</Text>
         <Text style={theme.title}>Lets have your name.</Text>
       </View>
-      <KeyboardAvoidingView style={styles.bodyContainer} behavior="padding">
+      <KeyboardAvoidingView contentContainerStyle={{backgroundColor: 'white', width: '100%', borderTopRightRadius: 30, borderTopLeftRadius: 30}} style={styles.bodyContainer} behavior={Platform.OS === "ios" ? "position" : "height"}>
         <Corner style={{position: 'absolute', bottom: 0}} width={118} height={121}/>
         <View style={styles.graphicView}>
           <WizardStep width={75} height={5}/>
@@ -42,7 +42,9 @@ export const SignUp = ({navigation}) => {
         <View>
           <Text style={theme.h4}>First Name</Text>
           <TextInput
+            textContentType='givenName'
             returnKeyType="next"
+            autoCompleteType='name'
             onSubmitEditing={() => { secondInput?.focus() }}
             blurOnSubmit={false}
             style={{...theme.inputText, marginBottom: 24}}
@@ -56,6 +58,7 @@ export const SignUp = ({navigation}) => {
         <View>
           <Text style={theme.h4}>Last Name</Text>
           <TextInput
+            textContentType='familyName'
             returnKeyType="next"
             ref={(input) => { onChangeSecondInput(input) }}
             style={theme.inputText}

@@ -1,6 +1,5 @@
 export const palette = {
   gray: '#F2F2F2',
-  backgroundColor: 'rgba(247,253,255, 0.1)',
   borderBlue: 'rgba(0,74,255,0.1)',
   primary: {
     main: '#004AFF',
@@ -12,12 +11,22 @@ export const palette = {
   secondary: {
     main: '#00BBF9',
     contrastText: '#fff',
-    // light: will be calculated from primary.main,
+    // light,
   },
+  error: {
+    main: '#FF647C'
+  },
+  warning: {},
   text: {
     //primary
     // secondary
     // disabled
+  },
+  background: {
+    default: 'rgba(247,253,255, 0.1)'
+  },
+  grey: {
+
   },
   action: {
     // active

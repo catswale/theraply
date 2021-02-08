@@ -33,7 +33,7 @@ export const theme = StyleSheet.create<Style>({
   inputText: {
     height: 50, 
     borderColor: palette.borderBlue,
-    backgroundColor: palette.backgroundColor, 
+    backgroundColor: palette.background.default, 
     borderWidth: 1,
     borderRadius: 31,
     paddingLeft: 16

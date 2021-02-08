@@ -37,6 +37,16 @@ export const useAuth = () => {
     }
   }
 
+  async function resendConfirmationCode(username: string) {
+    try {
+        await Auth.resendSignUp(username);
+        console.log('code resent successfully');
+    } catch (err) {
+        console.log('error resending code: ', err);
+        throw err;
+    }
+}
+
   return {
     user,
     loading,
@@ -45,5 +55,6 @@ export const useAuth = () => {
     fetchCurrentAuthUser,
     setUser: ({attributes, username}) => dispatch(setUser({attributes, username})),
     signOut,
+    resendConfirmationCode: (username: string) => resendConfirmationCode(username)
   }
 }

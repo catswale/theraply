@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {
   View, Text, StyleSheet, TextInput, KeyboardAvoidingView, 
-  ViewStyle, TouchableOpacity, Dimensions, ImageBackground,
+  ViewStyle, TouchableOpacity, Dimensions, Platform,
 } from 'react-native'
 import { Auth } from 'aws-amplify';
 import {palette} from '@theraply/lib'
@@ -33,7 +33,7 @@ export const SignUpTwo = ({navigation}) => {
         <Text style={theme.subTitle}>Welcome!</Text>
         <Text style={theme.title}>Set your email and password.</Text>
       </View>
-      <KeyboardAvoidingView style={styles.bodyContainer} behavior="padding">
+      <KeyboardAvoidingView style={styles.bodyContainer} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <Corner style={{position: 'absolute', bottom: 0}} width={118} height={121}/>
         <View style={styles.graphicView}>
           <WizardStep width={75} height={5}/>
@@ -42,6 +42,10 @@ export const SignUpTwo = ({navigation}) => {
         <View>
           <Text style={theme.h4}>Email Address</Text>
           <TextInput
+            autoCapitalize='none'
+            autoCompleteType='email'
+            keyboardType='email-address'
+            textContentType='emailAddress'
             returnKeyType="next"
             onSubmitEditing={() => { secondInput?.focus() }}
             blurOnSubmit={false}
@@ -56,7 +60,10 @@ export const SignUpTwo = ({navigation}) => {
         <View>
           <Text style={theme.h4}>Password</Text>
           <TextInput
+            autoCompleteType='password'
             returnKeyType="next"
+            textContentType='newPassword'
+            secureTextEntry={true}
             ref={(input) => { onChangeSecondInput(input) }}
             style={theme.inputText}
             onChangeText={text => {
@@ -68,7 +75,7 @@ export const SignUpTwo = ({navigation}) => {
         </View>
         <TouchableOpacity
           style={{...buttonStyle, marginTop: 24}}
-          onPress={() => navigation.navigate('VerifyEmail')}
+          onPress={() => navigation.navigate('VerifyEmail', {email})}
           disabled={disabled}
         >
           <Text style={theme.primaryButtonText}>Done</Text>

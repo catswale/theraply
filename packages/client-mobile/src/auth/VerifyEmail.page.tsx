@@ -1,27 +1,56 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import {
-  View, Text, StyleSheet, TextInput, KeyboardAvoidingView, 
-  ViewStyle, TouchableOpacity, Dimensions, ImageBackground, TextStyle,
+  View, Text, StyleSheet, TextInput, Button,
+  ViewStyle, TouchableOpacity, TextStyle, Platform,
 } from 'react-native'
+import CheckBox from '@react-native-community/checkbox';
 import {palette} from '@theraply/lib'
 import {theme} from '../theme'
 import WizardStep from '../../assets/images/wizard-step-three.svg';
 import Corner from '../../assets/images/bottom-left-corner-art.svg'
+import {Auth} from 'aws-amplify';
+import {useAuth} from './auth.hooks';
 
-const {width, height} = Dimensions.get('window');
-
-export const VerifyEmail = ({navigation}) => {
+export const VerifyEmail = ({route, navigation}) => {
+  const email = route?.params?.email;
   const [code, onChangeCode] = useState('');
   const [disabled, onChangeDisabled] = useState(true);
-  const [secondInput, onChangeSecondInput] = useState(null as any)
-
-  const updateButtonState = (code: string) => {
-    if (code) {
+  const [checkBox, setCheckBox] = useState(false)
+  const [error, setError] = useState('')
+  const auth = useAuth()
+  
+  const updateButtonState = (code: string, checkBox: boolean) => {
+    if (code && checkBox) {
       onChangeDisabled(false)
     } else {
       onChangeDisabled(true)
     }
   }
+
+  const onPress = () => {
+    confirmSignUp(email, code)
+    // navigation.navigate('SignUpComplete')
+  }
+
+  async function confirmSignUp(email: string, code: string) {
+    try {
+      const result = await Auth.confirmSignUp(email, code);
+      console.log(result)
+      setError('')
+    } catch (error) {
+        console.log('error confirming sign up', error);
+        setError('There is an error, please try again')
+    }
+  }
+
+  async function resendConfirmationCode() {
+    try {
+      await auth.resendConfirmationCode(email)
+    } catch (err) {
+      setError(err.message)
+    }
+  }
+
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
   return (
     <View style={styles.container} >
@@ -35,20 +64,42 @@ export const VerifyEmail = ({navigation}) => {
           <View style={styles.graphicView}>
             <WizardStep width={75} height={5}/>
           </View>
+          <Text style={error ? styles.errorText : null}>{error}</Text>
           <TextInput
-            style={{...theme.inputText}}
+            style={{...theme.inputText, ...styles.inputText}}
             onChangeText={text => {
-              updateButtonState(text)
+              updateButtonState(text, checkBox)
               onChangeCode(text)
             }}
             value={code}
           />
-          <Text style={styles.resendCodeText}>Resend Code</Text>
+          <Button
+          onPress={resendConfirmationCode}
+          title="Resend Code"
+          color={palette.primary.main}
+          accessibilityLabel="Learn more about this purple button"
+        />
         </View>
         <View style={styles.lowerBodyContainer}>
+          <View style={styles.checkBoxContainer}>
+            <CheckBox
+              disabled={false}
+              value={checkBox}
+              onValueChange={(newValue) => {
+                updateButtonState(code, newValue)
+                setCheckBox(newValue)
+              }}
+              style={Platform.OS === 'ios' && styles.checkBox}
+              boxType={'square'} // ios
+              onCheckColor={palette.primary.main} // ios
+              tintColor={palette.primary.main} // ios
+              tintColors={{true: palette.primary.main, false: palette.primary.main}} // android
+            />
+            <Text style={styles.checkBoxText}>I agree with all Terms and Conditions</Text>
+          </View>
           <TouchableOpacity
             style={{...buttonStyle}}
-            onPress={() => navigation.navigate('VerifyEmail')}
+            onPress={onPress}
             disabled={disabled}
           >
             <Text style={theme.primaryButtonText}>Done</Text>
@@ -66,7 +117,11 @@ interface Style {
   graphicView: ViewStyle,
   upperBodyContainer: ViewStyle,
   lowerBodyContainer: ViewStyle,
-  resendCodeText: TextStyle,
+  checkBoxContainer: ViewStyle,
+  checkBox: ViewStyle,
+  checkBoxText: TextStyle,
+  errorText: TextStyle,
+  inputText: ViewStyle,
 }
 
 const styles = StyleSheet.create<Style>({
@@ -92,8 +147,6 @@ const styles = StyleSheet.create<Style>({
     paddingHorizontal: 13,
   },
   upperBodyContainer: {
-    height: 190,
-    justifyContent: 'space-between',
     paddingTop: 40,
     width: '100%',
   },
@@ -103,11 +156,28 @@ const styles = StyleSheet.create<Style>({
   graphicView: {
     width: '100%',
     alignItems: 'center',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    paddingBottom: 40,
   },
-  resendCodeText: {
-    color: '#004AFF',
-    fontSize: 16,
+  checkBoxContainer: {
+    paddingBottom: 40,
+    flexDirection: 'row', 
+    alignItems: 'center'
+  },
+  checkBox: {
+    width: 20,
+    height: 20,
+  },
+  checkBoxText: {
+    paddingLeft: 15,
+  },
+  errorText: {
+    color: palette.error.main,
+    fontWeight: 'bold',
     textAlign: 'center',
+    marginBottom: 30
+  },
+  inputText: {
+    marginBottom: 30,
   }
 });
