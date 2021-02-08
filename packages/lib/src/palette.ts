@@ -36,5 +36,9 @@ export const palette = {
     // selected
     // disabled
     // disabledBackground
-  }
+  },
+  fadedBlue: {
+    main: '#E0F7FF',
+    contrastText: '#000F33',
+  },
 }

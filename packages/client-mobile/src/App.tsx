@@ -17,6 +17,7 @@ import {SignUpComplete} from './auth/SignUpComplete.page';
 import {SignUpConfirm} from './auth/SignUpConfirm.page';
 import {Pay} from './payments/PayTest.page';
 import { useAuth } from './auth/auth.hooks';
+import { PickTherapist } from './therapist/PickTherapist';
 // import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 
 const Stack = createStackNavigator();
@@ -45,7 +46,7 @@ const App = () => {
             </>
           ) : (
             <>
-            <Stack.Screen options={{ headerShown: false }} name="SignIn" component={SignIn} />
+            <Stack.Screen options={{ headerShown: false }} name="SignIn" component={PickTherapist} />
             <Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
             <Stack.Screen options={{ headerShown: false }} name="SignUpTwo" component={SignUpTwo} />
             <Stack.Screen options={{ headerShown: false }} name="VerifyEmail" component={VerifyEmail} />

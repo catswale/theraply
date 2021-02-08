@@ -11,6 +11,8 @@ interface Style {
   primaryButton: ViewStyle
   primaryButtonDisabled: ViewStyle
   primaryButtonText: ViewStyle
+  boldText: ViewStyle,
+  normalText: ViewStyle,
 }
 
 export const theme = StyleSheet.create<Style>({
@@ -57,5 +59,17 @@ export const theme = StyleSheet.create<Style>({
   primaryButtonText: {
     color: palette.primary.contrastText,
     fontSize: 16,
-  }
+  },
+  boldText: {
+    color: palette.text.primary,
+    fontWeight: 'bold',
+    fontSize: 16,
+    lineHeight: 26
+  },
+  normalText: {
+    color: palette.text.primary,
+    fontWeight: 'normal',
+    fontSize: 16,
+    lineHeight: 26
+  },
 });
