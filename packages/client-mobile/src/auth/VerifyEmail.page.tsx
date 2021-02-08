@@ -27,19 +27,14 @@ export const VerifyEmail = ({route, navigation}) => {
     }
   }
 
-  const onPress = () => {
-    confirmSignUp(email, code)
-    // navigation.navigate('SignUpComplete')
-  }
-
-  async function confirmSignUp(email: string, code: string) {
+  async function confirmSignUp() {
     try {
-      const result = await Auth.confirmSignUp(email, code);
-      console.log(result)
+      await Auth.confirmSignUp(email, code);
       setError('')
+      navigation.navigate('SignUpComplete')
     } catch (error) {
-        console.log('error confirming sign up', error);
-        setError('There is an error, please try again')
+        console.log('error verifying sign up code', error);
+        setError(error.message)
     }
   }
 
@@ -74,11 +69,11 @@ export const VerifyEmail = ({route, navigation}) => {
             value={code}
           />
           <Button
-          onPress={resendConfirmationCode}
-          title="Resend Code"
-          color={palette.primary.main}
-          accessibilityLabel="Learn more about this purple button"
-        />
+            onPress={resendConfirmationCode}
+            title="Resend Code"
+            color={palette.primary.main}
+            accessibilityLabel="Resend Code"
+          />
         </View>
         <View style={styles.lowerBodyContainer}>
           <View style={styles.checkBoxContainer}>
@@ -95,11 +90,14 @@ export const VerifyEmail = ({route, navigation}) => {
               tintColor={palette.primary.main} // ios
               tintColors={{true: palette.primary.main, false: palette.primary.main}} // android
             />
-            <Text style={styles.checkBoxText}>I agree with all Terms and Conditions</Text>
+            <Text style={styles.checkBoxText}>I agree with all</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('TermsAndConditions')}>
+                <Text style={styles.termsAndConditionsText}>{' '}Terms and Conditions</Text>
+              </TouchableOpacity>
           </View>
           <TouchableOpacity
             style={{...buttonStyle}}
-            onPress={onPress}
+            onPress={confirmSignUp}
             disabled={disabled}
           >
             <Text style={theme.primaryButtonText}>Done</Text>
@@ -122,6 +120,7 @@ interface Style {
   checkBoxText: TextStyle,
   errorText: TextStyle,
   inputText: ViewStyle,
+  termsAndConditionsText: ViewStyle,
 }
 
 const styles = StyleSheet.create<Style>({
@@ -179,5 +178,8 @@ const styles = StyleSheet.create<Style>({
   },
   inputText: {
     marginBottom: 30,
+  },
+  termsAndConditionsText: {
+    color: palette.primary.main,
   }
 });
