@@ -5,10 +5,8 @@ import {
 } from 'react-native'
 import {palette} from '@theraply/lib'
 import {theme} from '../theme'
-import {useAuth} from './auth.hooks';
 
 export const TermsAndConditions = ({navigation}) => {
-  const auth = useAuth()
 
   return (
     <View style={styles.container} >
@@ -16,7 +14,6 @@ export const TermsAndConditions = ({navigation}) => {
         <Text style={theme.title}>Terms and conditions.</Text>
       </View>
       <View style={styles.bodyContainer}>
-        
       </View>
     </View>
   )
@@ -35,14 +32,14 @@ const styles = StyleSheet.create<Style>({
   },
   headerTextContainer: {
     justifyContent: 'center',
-    height: '20%',
+    height: '15%',
     paddingLeft: 21,
     paddingTop: 10,
   },
   bodyContainer: {
     display: 'flex',
     flexDirection: 'column',
-    height: '80%',
+    height: '85%',
     width: '100%',
     backgroundColor: '#fff',
     justifyContent: 'space-between',

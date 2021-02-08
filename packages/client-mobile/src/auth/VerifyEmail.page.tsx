@@ -12,7 +12,7 @@ import {Auth} from 'aws-amplify';
 import {useAuth} from './auth.hooks';
 
 export const VerifyEmail = ({route, navigation}) => {
-  const email = route?.params?.email;
+  const {email, firstName} = route?.params;
   const [code, onChangeCode] = useState('');
   const [disabled, onChangeDisabled] = useState(true);
   const [checkBox, setCheckBox] = useState(false)
@@ -31,7 +31,7 @@ export const VerifyEmail = ({route, navigation}) => {
     try {
       await Auth.confirmSignUp(email, code);
       setError('')
-      navigation.navigate('SignUpComplete')
+      navigation.navigate('SignUpComplete', {firstName})
     } catch (error) {
         console.log('error verifying sign up code', error);
         setError(error.message)
@@ -130,14 +130,14 @@ const styles = StyleSheet.create<Style>({
   },
   headerTextContainer: {
     justifyContent: 'center',
-    height: '20%',
+    height: '15%',
     paddingLeft: 21,
     paddingTop: 10,
   },
   bodyContainer: {
     display: 'flex',
     flexDirection: 'column',
-    height: '80%',
+    height: '85%',
     width: '100%',
     backgroundColor: '#fff',
     justifyContent: 'space-between',

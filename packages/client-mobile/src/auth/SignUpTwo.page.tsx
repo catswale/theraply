@@ -9,14 +9,17 @@ import {theme} from '../theme'
 import Graphic from '../../assets/images/boards-graphic.svg';
 import WizardStep from '../../assets/images/wizard-step-two.svg';
 import Corner from '../../assets/images/bottom-left-corner-art.svg'
+import { useAuth } from './auth.hooks';
 
 const {width, height} = Dimensions.get('window');
 
-export const SignUpTwo = ({navigation}) => {
+export const SignUpTwo = ({route, navigation}) => {
+  const firstName = route?.params?.firstName;
   const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
   const [disabled, onChangeDisabled] = useState(true);
   const [secondInput, onChangeSecondInput] = useState(null as any)
+  const auth = useAuth()
 
   const graphicWidth = width * 0.5
   const updateButtonState = (email: string, password: string) => {
@@ -26,6 +29,11 @@ export const SignUpTwo = ({navigation}) => {
       onChangeDisabled(true)
     }
   }
+  async function signUp() {
+    await auth.signUp(firstName, email, password);
+    navigation.navigate('VerifyEmail', {email, firstName})
+  }
+
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
   return (
     <View style={styles.container} >
@@ -75,7 +83,7 @@ export const SignUpTwo = ({navigation}) => {
         </View>
         <TouchableOpacity
           style={{...buttonStyle, marginTop: 24}}
-          onPress={() => navigation.navigate('VerifyEmail', {email})}
+          onPress={signUp}
           disabled={disabled}
         >
           <Text style={theme.primaryButtonText}>Done</Text>
@@ -99,22 +107,20 @@ const styles = StyleSheet.create<Style>({
   },
   headerTextContainer: {
     justifyContent: 'center',
-    height: '20%',
+    height: '15%',
     paddingLeft: 21,
     paddingTop: 10,
   },
   bodyContainer: {
     display: 'flex',
     flexDirection: 'column',
-    height: '80%',
+    height: '85%',
     width: '100%',
     backgroundColor: '#fff',
     justifyContent: 'space-evenly',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingHorizontal: 13,
-    // position: 'absolute',
-    // bottom: 0,
   },
   graphicView: {
     width: '100%',

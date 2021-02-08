@@ -12,6 +12,8 @@ import {SignIn} from './auth/SignIn.page';
 import {SignUp} from './auth/SignUpOne.page';
 import {SignUpTwo} from './auth/SignUpTwo.page';
 import {VerifyEmail} from './auth/VerifyEmail.page';
+import {TermsAndConditions} from './auth/TermsAndConditions.page';
+import {SignUpComplete} from './auth/SignUpComplete.page';
 import {SignUpConfirm} from './auth/SignUpConfirm.page';
 import {Pay} from './payments/PayTest.page';
 import { useAuth } from './auth/auth.hooks';
@@ -43,10 +45,12 @@ const App = () => {
             </>
           ) : (
             <>
-            <Stack.Screen options={{ headerShown: false }} name="SignIn" component={VerifyEmail} />
+            <Stack.Screen options={{ headerShown: false }} name="SignIn" component={SignIn} />
             <Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
             <Stack.Screen options={{ headerShown: false }} name="SignUpTwo" component={SignUpTwo} />
             <Stack.Screen options={{ headerShown: false }} name="VerifyEmail" component={VerifyEmail} />
+            <Stack.Screen options={{ headerShown: false }} name="TermsAndConditions" component={TermsAndConditions} />
+            <Stack.Screen options={{ headerShown: false }} name="SignUpComplete" component={SignUpComplete} />
             <Stack.Screen options={{ headerShown: false }} name="SignUpConfirm" component={SignUpConfirm} />
             </>
           )

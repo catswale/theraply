@@ -3,12 +3,12 @@ import {
   View, Text, StyleSheet, TextInput, KeyboardAvoidingView, 
   ViewStyle, TouchableOpacity, Dimensions, Platform,
 } from 'react-native'
-import { Auth } from 'aws-amplify';
 import {palette} from '@theraply/lib'
 import {theme} from '../theme'
 import Graphic from '../../assets/images/enter-text-graphic.svg';
 import WizardStep from '../../assets/images/wizard-step-one.svg';
 import Corner from '../../assets/images/bottom-left-corner-art.svg'
+import {useClient} from '../client/client.hooks';
 
 const {width, height} = Dimensions.get('window');
 
@@ -33,7 +33,7 @@ export const SignUp = ({navigation}) => {
         <Text style={theme.subTitle}>Welcome!</Text>
         <Text style={theme.title}>Lets have your name.</Text>
       </View>
-      <KeyboardAvoidingView contentContainerStyle={{backgroundColor: 'white', width: '100%', borderTopRightRadius: 30, borderTopLeftRadius: 30}} style={styles.bodyContainer} behavior={Platform.OS === "ios" ? "position" : "height"}>
+      <KeyboardAvoidingView style={styles.bodyContainer} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <Corner style={{position: 'absolute', bottom: 0}} width={118} height={121}/>
         <View style={styles.graphicView}>
           <WizardStep width={75} height={5}/>
@@ -71,7 +71,7 @@ export const SignUp = ({navigation}) => {
         </View>
         <TouchableOpacity
           style={{...buttonStyle, marginTop: 24}}
-          onPress={() => navigation.navigate('SignUpTwo')}
+          onPress={() => navigation.navigate('SignUpTwo', {firstName})}
           disabled={disabled}
         >
           <Text style={theme.primaryButtonText}>Next</Text>
@@ -95,22 +95,20 @@ const styles = StyleSheet.create<Style>({
   },
   headerTextContainer: {
     justifyContent: 'center',
-    height: '20%',
+    height: '15%',
     paddingLeft: 21,
     paddingTop: 10,
   },
   bodyContainer: {
     display: 'flex',
     flexDirection: 'column',
-    height: '80%',
+    height: '85%',
     width: '100%',
     backgroundColor: '#fff',
     justifyContent: 'space-evenly',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingHorizontal: 13,
-    // position: 'absolute',
-    // bottom: 0,
   },
   graphicView: {
     width: '100%',

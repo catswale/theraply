@@ -10,7 +10,7 @@ import EnterTextGraphic from '../../assets/images/enter-text-graphic.svg';
 
 const {width, height} = Dimensions.get('window');
 
-export const SignIn = () => {
+export const SignIn = ({route, navigation}) => {
   const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
   const [disabled, onChangeDisabled] = useState(true);
@@ -53,6 +53,8 @@ export const SignIn = () => {
           onSubmitEditing={() => { secondInput?.focus() }}
           autoCapitalize='none'
           autoCompleteType='email'
+          keyboardType='email-address'
+          textContentType='emailAddress'
           returnKeyType={'next'}
           blurOnSubmit={ false }
           style={theme.inputText}
@@ -84,6 +86,12 @@ export const SignIn = () => {
         onPress={signIn}
       >
         <Text style={theme.primaryButtonText}>Done</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{...theme.primaryButton, marginTop: 24}}
+        onPress={() => navigation.navigate('SignUp')}
+      >
+        <Text style={theme.primaryButtonText}>Sign Up</Text>
       </TouchableOpacity>
     </KeyboardAvoidingView>
   )

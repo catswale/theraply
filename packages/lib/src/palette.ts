@@ -18,6 +18,8 @@ export const palette = {
   },
   warning: {},
   text: {
+    primary: '#000F33',
+    grey2: '#4F4F4F',
     //primary
     // secondary
     // disabled
@@ -26,7 +28,7 @@ export const palette = {
     default: 'rgba(247,253,255, 0.1)'
   },
   grey: {
-
+    2: '#4F4F4F'
   },
   action: {
     // active

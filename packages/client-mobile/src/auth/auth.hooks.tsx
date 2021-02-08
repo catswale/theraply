@@ -10,6 +10,23 @@ export const useAuth = () => {
   useEffect(() => {
     fetchIsSignedIn()
   }, [])
+
+  async function signUp(firstName: string, email: string, password: string) {
+    try {
+        const result = await Auth.signUp({
+            username: email,
+            password,
+            attributes: {
+                given_name: firstName,
+                email,
+            }
+        });
+        console.log(result)
+    } catch (error) {
+        console.log('error signing up:', error);
+        throw error;
+    }
+  }
   
   async function fetchIsSignedIn() {
     try {
@@ -45,7 +62,7 @@ export const useAuth = () => {
         console.log('error resending code: ', err);
         throw err;
     }
-}
+  }
 
   return {
     user,
@@ -54,6 +71,7 @@ export const useAuth = () => {
     setIsSignedIn: (value: boolean) => dispatch(setIsSignedIn(value)),
     fetchCurrentAuthUser,
     setUser: ({attributes, username}) => dispatch(setUser({attributes, username})),
+    signUp,
     signOut,
     resendConfirmationCode: (username: string) => resendConfirmationCode(username)
   }
