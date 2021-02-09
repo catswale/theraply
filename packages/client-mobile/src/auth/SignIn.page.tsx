@@ -50,6 +50,7 @@ export const SignIn = ({route, navigation}) => {
         <Text style={theme.h4}>Email Address</Text>
         <TextInput
           placeholder='example@gmail.com'
+          autoCorrect={false}
           onSubmitEditing={() => { secondInput?.focus() }}
           autoCapitalize='none'
           autoCompleteType='email'
@@ -67,10 +68,11 @@ export const SignIn = ({route, navigation}) => {
         <Text style={{...theme.h4, ...styles.passwordText}}>Password</Text>
         <TextInput
           ref={(input) => { onChangeSecondInput(input) }}
+          autoCorrect={false}
+          autoCapitalize='none'
           autoCompleteType='password'
           textContentType='password'
           secureTextEntry={true}
-          autoCapitalize='none'
           style={theme.inputText}
           onChangeText={text => {
             updateButtonState(email, text)

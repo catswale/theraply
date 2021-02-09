@@ -50,6 +50,7 @@ export const SignUpTwo = ({route, navigation}) => {
         <View>
           <Text style={theme.h4}>Email Address</Text>
           <TextInput
+            autoCorrect={false}
             autoCapitalize='none'
             autoCompleteType='email'
             keyboardType='email-address'
@@ -68,6 +69,8 @@ export const SignUpTwo = ({route, navigation}) => {
         <View>
           <Text style={theme.h4}>Password</Text>
           <TextInput
+            autoCorrect={false}
+            autoCapitalize='none'
             autoCompleteType='password'
             returnKeyType="next"
             textContentType='newPassword'

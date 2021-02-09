@@ -20,14 +20,11 @@ adb reverse tcp:8081 tcp:8081
 gradle clean // Windows
 
 # Publish OTA Update
-expo publish
+expo publish // not working atm
 
 # Release to app stores
 ## Google Play Store
-cd android
-### Apple
-./gradlew assembleRelease 
-### Windows
-gradlew assembleRelease 
+Build build in android studio
+Build -> Generate Signed Bundle
 
 ## Apple Store
