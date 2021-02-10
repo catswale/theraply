@@ -1,5 +1,6 @@
 import React from 'react';
 import Svg, { Rect } from 'react-native-svg';
+import { palette } from '@theraply/lib';
 
 interface WizardStepProps {
   stepNumber: number;
@@ -7,7 +8,7 @@ interface WizardStepProps {
 }
 
 const WizardStep = ({ stepNumber, totalSteps = 3 }: WizardStepProps) => {
-  const getActiveColor = (index: number) => index === stepNumber ? "#004AFF" : "#D1DDFA";
+  const getActiveColor = (index: number) => index === stepNumber ? palette.primary.main : palette.lineColor;
 
   return (
     <Svg width="75" height="5" viewBox="0 0 75 5" fill="none">
