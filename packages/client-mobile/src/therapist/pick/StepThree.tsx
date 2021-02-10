@@ -19,7 +19,6 @@ const StepThree = ({ setCurrentStep }: Props) => {
 
   return (
     <Background
-      header="Pick a Therapist."
       footer={
         <TouchableOpacity>
           <Text style={styles.link}>Schedule Later</Text>

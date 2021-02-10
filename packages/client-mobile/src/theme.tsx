@@ -4,7 +4,6 @@ import {
   View, Text, StyleSheet,
   ViewStyle, TouchableOpacity, TextStyle,
 } from 'react-native';
-import BackArrow from './assets/BackArrow';
 import Corner from '../assets/images/bottom-left-corner-art.svg';
 
 interface Style {
@@ -20,7 +19,6 @@ interface Style {
   tinyGrayText: ViewStyle,
   normalGrayText: ViewStyle,
   container: ViewStyle,
-  headerTextContainer: ViewStyle,
   bodyContainer: ViewStyle,
   upperBodyContainer: ViewStyle,
   lowerBodyContainer: ViewStyle,
@@ -80,6 +78,7 @@ export const theme = StyleSheet.create<Style>({
   normalText: {
     color: palette.text.primary,
     fontWeight: 'normal',
+    fontStyle: 'normal',
     fontSize: 16,
     lineHeight: 26
   },
@@ -99,16 +98,10 @@ export const theme = StyleSheet.create<Style>({
     height: '100%',
     backgroundColor: palette.secondary.main,
   },
-  headerTextContainer: {
-    justifyContent: 'center',
-    height: '15%',
-    paddingLeft: 21,
-    paddingTop: 10,
-  },
   bodyContainer: {
     display: 'flex',
     flexDirection: 'column',
-    height: '85%',
+    height: '100%',
     width: '100%',
     backgroundColor: '#fff',
     justifyContent: 'space-between',
@@ -126,20 +119,13 @@ export const theme = StyleSheet.create<Style>({
 });
 
 interface BackgroundProps {
-  header: string;
   children: JSX.Element;
   footer: JSX.Element;
 }
 
-export const Background = ({ header, children, footer }: BackgroundProps) => {
+export const Background = ({ children, footer }: BackgroundProps) => {
   return (
     <View style={theme.container} >
-      <View style={theme.headerTextContainer}>
-        <TouchableOpacity style={{ position: 'relative', left: 0, top: 20 }}>
-          <BackArrow />
-        </TouchableOpacity>
-        <Text style={{ ...theme.normalText, textAlign: 'center', color: palette.primary.contrastText }}>{header}</Text>
-      </View>
       <View style={theme.bodyContainer}>
         <Corner style={{ position: 'absolute', bottom: 0 }} width={118} height={121} />
         <View style={theme.upperBodyContainer}>

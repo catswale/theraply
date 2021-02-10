@@ -53,7 +53,6 @@ const StepOne = ({ setCurrentStep }: Props) => {
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
   return (
     <Background
-      header="Pick a Therapist."
       footer={
         <TouchableOpacity
           style={{ ...buttonStyle }}
