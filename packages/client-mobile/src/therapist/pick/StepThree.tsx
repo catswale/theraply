@@ -52,18 +52,13 @@ const getGenders = ({ key, gender, currentGender, setGender }: GenderParams) => 
 
 const StepThree = ({ setCurrentStep }: Props) => {
   const [disabled, onChangeDisabled] = useState(false);
-
-  const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
+  
   return (
     <Background
       header="Pick a Therapist."
       footer={
-        <TouchableOpacity
-          style={{ ...buttonStyle }}
-          onPress={() => setCurrentStep(3)}
-          disabled={disabled}
-        >
-          <Text style={theme.primaryButtonText}>Continue</Text>
+        <TouchableOpacity>
+          <Text style={styles.link}>Schedule Later</Text>
         </TouchableOpacity>
       }>
       <View style={styles.wrapper}>
@@ -83,7 +78,10 @@ const StepThree = ({ setCurrentStep }: Props) => {
             <TouchableOpacity style={styles.option}><ChatIcon /></TouchableOpacity>
           </View>
           <Text style={theme.boldText}>Specialisation</Text>
-          <Text style={{ ...theme.normalGrayText, width: '85%', textAlign: 'center'}}>Teens, Prenatal Pregnancy, Depression, Anxiety</Text>
+          <Text style={{ ...theme.normalGrayText, width: '85%', textAlign: 'center', marginBottom: 20 }}>Teens, Prenatal Pregnancy, Depression, Anxiety</Text>
+          <TouchableOpacity>
+            <Text style={styles.link}>View more</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </Background>
@@ -103,6 +101,7 @@ interface Style {
   therapistOptions: ViewStyle,
   option: ViewStyle,
   wrapper: ViewStyle,
+  link: ViewStyle,
 }
 
 const styles = StyleSheet.create<Style>({
@@ -154,5 +153,12 @@ const styles = StyleSheet.create<Style>({
     width: '88%',
     marginLeft: '6%',
     marginRight: '6%',
+  },
+  link: {
+    textDecorationLine: 'underline',
+    color: palette.primary.main,
+    fontSize: 14,
+    lineHeight: 26,
+    textAlign: 'center',
   }
 });
