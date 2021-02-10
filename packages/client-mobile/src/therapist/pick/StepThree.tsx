@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View, Text, StyleSheet,
-  ViewStyle, TouchableOpacity, TextStyle, Platform,
+  ViewStyle, TouchableOpacity, TextStyle,
 } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
 import { palette } from '@theraply/lib';
 import { theme, Background } from '../../theme';
 import WizardStep from '../../assets/WizardStep';
@@ -16,43 +15,8 @@ interface Props {
   setCurrentStep: Function
 }
 
-const genders = [
-  "Female",
-  "Male",
-  "Transgender",
-  "Gender Neutral",
-  "Indigenous Australian",
-  "Other"
-];
-
-interface GenderParams {
-  key: number,
-  gender: string,
-  currentGender: string,
-  setGender: Function
-}
-
-const getGenders = ({ key, gender, currentGender, setGender }: GenderParams) => (
-  <View key={key} style={styles.checkBoxContainer}>
-    <CheckBox
-      disabled={false}
-      value={currentGender === gender}
-      onValueChange={(newValue) => {
-        setGender(newValue ? gender : '');
-      }}
-      style={Platform.OS === 'ios' && styles.checkBox}
-      boxType={'square'} // ios
-      onCheckColor={palette.primary.main} // ios
-      tintColor={palette.primary.main} // ios
-      tintColors={{ true: palette.primary.main, false: palette.primary.main }} // android
-    />
-    <Text style={styles.checkBoxText}>{gender}</Text>
-  </View>
-);
-
 const StepThree = ({ setCurrentStep }: Props) => {
-  const [disabled, onChangeDisabled] = useState(false);
-  
+
   return (
     <Background
       header="Pick a Therapist."

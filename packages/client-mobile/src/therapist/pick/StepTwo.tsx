@@ -12,6 +12,10 @@ interface Props {
   setCurrentStep: Function
 }
 
+interface KeyValuePair {
+  [key: string]: any;
+}
+
 const genders = [
   "Female",
   "Male",
@@ -24,17 +28,17 @@ const genders = [
 interface GenderParams {
   key: number,
   gender: string,
-  currentGender: string,
+  selectedGenders: KeyValuePair,
   setGender: Function
 }
 
-const getGenders = ({ key, gender, currentGender, setGender }: GenderParams) => (
+const getGenders = ({ key, gender, selectedGenders, setGender }: GenderParams) => (
   <View key={key} style={styles.checkBoxContainer}>
     <CheckBox
       disabled={false}
-      value={currentGender === gender}
+      value={selectedGenders[gender]}
       onValueChange={(newValue) => {
-        setGender(newValue ? gender : '');
+        setGender(gender, newValue);
       }}
       style={Platform.OS === 'ios' && styles.checkBox}
       boxType={'square'} // ios
@@ -48,7 +52,18 @@ const getGenders = ({ key, gender, currentGender, setGender }: GenderParams) => 
 
 const StepTwo = ({ setCurrentStep }: Props) => {
   const [disabled, onChangeDisabled] = useState(false);
-  const [gender, setGender] = useState('');
+  const [selectedGenders, setSelectedGenders] = useState({} as KeyValuePair);
+
+  const setGender = (gender: string, shouldAdd: boolean) => {
+    const updatedGender = { ...selectedGenders };
+    if (shouldAdd) {
+      updatedGender[gender] = true;
+    } else {
+      delete updatedGender[gender];
+    }
+
+    setSelectedGenders(updatedGender);
+  };
 
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
   return (
@@ -72,7 +87,7 @@ const StepTwo = ({ setCurrentStep }: Props) => {
           <Text>Gender</Text>
           <View style={styles.checkboxGroup}>
             {
-              genders.map((g, i) => getGenders({ key: i, gender: g, currentGender: gender, setGender }))
+              genders.map((g, i) => getGenders({ key: i, gender: g, selectedGenders, setGender }))
             }
           </View>
         </View>
