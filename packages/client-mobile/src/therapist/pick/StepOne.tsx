@@ -6,6 +6,7 @@ import {
 import { palette } from '@theraply/lib';
 import { theme, Background } from '../../theme';
 import WizardStep from '../../assets/WizardStep';
+import Corner from '../../../assets/images/bottom-left-corner-art.svg';
 
 interface BubbleProps {
   label: string,
@@ -53,6 +54,9 @@ const StepOne = ({ setCurrentStep }: Props) => {
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
   return (
     <Background
+      background={
+        <Corner style={{ position: 'absolute', bottom: 0 }} width={118} height={121} />
+      }
       footer={
         <TouchableOpacity
           style={{ ...buttonStyle }}

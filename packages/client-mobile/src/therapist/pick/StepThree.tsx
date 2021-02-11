@@ -10,6 +10,7 @@ import Therapist from '../../../assets/images/therapist.svg';
 import VideoIcon from '../../../assets/images/camera.svg';
 import MicrophoneIcon from '../../../assets/images/audio.svg';
 import ChatIcon from '../../../assets/images/chat.svg';
+import Corner from '../../../assets/images/bottom-left-corner-art.svg';
 
 interface Props {
   setCurrentStep: Function
@@ -19,6 +20,9 @@ const StepThree = ({ setCurrentStep }: Props) => {
 
   return (
     <Background
+      background={
+        <Corner style={{ position: 'absolute', bottom: 0 }} width={118} height={121} />
+      }
       footer={
         <TouchableOpacity>
           <Text style={styles.link}>Schedule Later</Text>

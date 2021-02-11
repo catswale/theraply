@@ -4,7 +4,6 @@ import {
   View, Text, StyleSheet,
   ViewStyle, TouchableOpacity, TextStyle,
 } from 'react-native';
-import Corner from '../assets/images/bottom-left-corner-art.svg';
 
 interface Style {
   title: TextStyle
@@ -135,13 +134,14 @@ export const theme = StyleSheet.create<Style>({
 interface BackgroundProps {
   children: JSX.Element;
   footer: JSX.Element;
+  background: JSX.Element;
 }
 
-export const Background = ({ children, footer }: BackgroundProps) => {
+export const Background = ({ children, footer, background }: BackgroundProps) => {
   return (
     <View style={theme.container} >
       <View style={theme.bodyContainer}>
-        <Corner style={{ position: 'absolute', bottom: 0 }} width={118} height={121} />
+        {background}
         <View style={theme.upperBodyContainer}>
           {children}
         </View>
