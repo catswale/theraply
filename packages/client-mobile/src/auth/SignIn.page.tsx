@@ -7,6 +7,7 @@ import {useAuth} from './auth.hooks';
 import {palette} from '@theraply/lib'
 import {theme} from '../theme'
 import EnterTextGraphic from '../../assets/images/enter-text-graphic.svg';
+import { useClient } from '../client/client.hooks';
 
 const {width, height} = Dimensions.get('window');
 
@@ -17,12 +18,13 @@ export const SignIn = ({route, navigation}) => {
   const [secondInput, onChangeSecondInput] = useState(null as any)
   const [error, setError] = useState('')
   const auth = useAuth()
+  const {setID} = useClient();
 
   const signIn = async () => {
     try {
       const user = await Auth.signIn(email, password);
       auth.setIsSignedIn(true)
-      auth.setUser(user)
+      setID(user.username)
     } catch (error) {
         console.log('error signing in', error);
         setError(error.message)
@@ -36,6 +38,7 @@ export const SignIn = ({route, navigation}) => {
       onChangeDisabled(true)
     }
   }
+
   const graphicWidth = width * 0.5
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
   return (

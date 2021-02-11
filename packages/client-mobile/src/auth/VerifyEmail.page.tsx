@@ -29,7 +29,7 @@ export const VerifyEmail = ({route, navigation}) => {
 
   async function confirmSignUp() {
     try {
-      await Auth.confirmSignUp(email, code);
+      await Auth.confirmSignUp(email, code); // returns SUCCESS
       setError('')
       navigation.navigate('SignUpComplete', {firstName})
     } catch (error) {

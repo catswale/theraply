@@ -2,34 +2,31 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import {API, graphqlOperation} from 'aws-amplify'
 import {mutations, Client, queries, Therapist} from '@theraply/lib';
-import { setClient } from './client.slice'
+import { setClient, setID } from './client.slice'
 import {useAuth} from '../auth/auth.hooks'
 
 
 export const useClient = () => {
-  const {client}: {client: Client} = useSelector(state => state.client)
+  const {client, id}: {client: Client, id: string} = useSelector(state => state.client)
   const dispatch = useDispatch()
   const {fetchCurrentAuthUser, user} = useAuth()
-  const {username, attributes} = user;
-
+  const {attributes} = user;
   useEffect(() => {
-    if (!username) {
-      fetchCurrentAuthUser()
-    } else {
+    if (id && !client?.id) {
       fetchClient()
     }
-  }, [])
+  }, [id])
 
   async function fetchClient() {
-    if (!username) return
-    const data = await API.graphql(graphqlOperation(queries.getClient, {id: username})) as Data
+    if (!id) return
+    const data = await API.graphql(graphqlOperation(queries.getClient, {id})) as Data
     type Data = {data: {getClient: any}}
 
     let client = data.data.getClient
     if (!client) {
       console.log('client doesnt exist in db, creating')
       client = await API.graphql(graphqlOperation(mutations.createClient, {input: {
-        id: username,
+        id,
         firstName: attributes.given_name,
         email: attributes.email,
         therapistIDs: [],
@@ -67,6 +64,7 @@ export const useClient = () => {
     fetchClient,
     createTherapistClientConnection,
     client,
+    setID: (id: string) => dispatch(setID(id)),
     setClient: (newClient: Client) => dispatch(setClient(newClient))
   }
 }

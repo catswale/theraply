@@ -22,6 +22,7 @@ export const useAuth = () => {
             }
         });
         console.log(result)
+        return result;
     } catch (error) {
         console.log('error signing up:', error);
         throw error;
@@ -70,7 +71,6 @@ export const useAuth = () => {
     isSignedIn,
     setIsSignedIn: (value: boolean) => dispatch(setIsSignedIn(value)),
     fetchCurrentAuthUser,
-    setUser: ({attributes, username}) => dispatch(setUser({attributes, username})),
     signUp,
     signOut,
     resendConfirmationCode: (username: string) => resendConfirmationCode(username)
