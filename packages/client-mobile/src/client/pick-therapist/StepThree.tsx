@@ -36,9 +36,9 @@ const StepThree = ({ setCurrentStep }: Props) => {
           <Text style={{ ...theme.boldText, marginTop: 20 }}>Dr Susan Joe</Text>
           <Text style={theme.tinyGrayText}>Psychologist, Clinical Psychologist</Text>
           <View style={styles.therapistOptions}>
-            <TouchableOpacity style={styles.option}><VideoIcon /></TouchableOpacity>
-            <TouchableOpacity style={styles.option}><MicrophoneIcon /></TouchableOpacity>
-            <TouchableOpacity style={styles.option}><ChatIcon /></TouchableOpacity>
+            <View style={styles.option}><VideoIcon /></View>
+            <View style={styles.option}><MicrophoneIcon /></View>
+            <View style={styles.option}><ChatIcon /></View>
           </View>
           <Text style={theme.boldText}>Specialisation</Text>
           <Text style={{ ...theme.normalGrayText, width: '85%', textAlign: 'center', marginBottom: 20 }}>Teens, Prenatal Pregnancy, Depression, Anxiety</Text>
