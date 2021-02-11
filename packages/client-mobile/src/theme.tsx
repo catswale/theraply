@@ -14,6 +14,8 @@ interface Style {
   primaryButton: ViewStyle
   primaryButtonDisabled: ViewStyle
   primaryButtonText: ViewStyle
+  secondaryButton: ViewStyle
+  secondaryButtonText: TextStyle
   boldText: ViewStyle,
   normalText: ViewStyle,
   tinyGrayText: ViewStyle,
@@ -66,6 +68,18 @@ export const theme = StyleSheet.create<Style>({
     alignItems: 'center',
   },
   primaryButtonText: {
+    color: palette.primary.contrastText,
+    fontSize: 16,
+  },
+  secondaryButton: {
+    backgroundColor: palette.secondary.main,
+    height: 56,
+    borderRadius: 30,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  secondaryButtonText: {
     color: palette.primary.contrastText,
     fontSize: 16,
   },

@@ -58,6 +58,7 @@ const App = () => {
           isSignedIn ? (
             <>
               <Stack.Screen name="Dashboard" component={Dashboard} options={{ title: 'Home'}}/>
+              <Stack.Screen name="PickTherapist" component={PickTherapist}/>
               <Stack.Screen name="Chat" component={Chat} />
               <Stack.Screen name="Pay" component={Pay} />
             </>
