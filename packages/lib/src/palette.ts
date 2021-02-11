@@ -27,9 +27,6 @@ export const palette = {
   background: {
     default: 'rgba(247,253,255, 0.1)'
   },
-  grey: {
-    2: '#4F4F4F'
-  },
   action: {
     // active
     // hover
