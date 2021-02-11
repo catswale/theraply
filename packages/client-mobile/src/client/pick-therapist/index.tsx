@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import StepOne from './pick/StepOne';
-import StepTwo from './pick/StepTwo';
-import StepThree from './pick/StepThree';
+import StepOne from './StepOne';
+import StepTwo from './StepTwo';
+import StepThree from './StepThree';
 
 export const PickTherapist = () => {
   const [currentStep, setCurrentStep] = useState(1);

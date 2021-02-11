@@ -17,7 +17,7 @@ import { SignUpComplete } from './auth/SignUpComplete.page';
 import { SignUpConfirm } from './auth/SignUpConfirm.page';
 import { Pay } from './payments/PayTest.page';
 import { useAuth } from './auth/auth.hooks';
-import { PickTherapist } from './therapist/PickTherapist';
+import { PickTherapist } from './client/pick-therapist';
 import { palette } from '@theraply/lib';
 import { theme } from './theme';
 import BackArrow from './components/BackArrow';
@@ -52,7 +52,7 @@ const App = () => {
         },
         headerBackImage: BackArrow,
         headerTitleAlign: 'center',
-        
+
       }}>
         {
           isSignedIn ? (
