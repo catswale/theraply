@@ -134,7 +134,7 @@ export const theme = StyleSheet.create<Style>({
 interface BackgroundProps {
   children: JSX.Element;
   footer: JSX.Element;
-  background: JSX.Element;
+  background?: JSX.Element;
 }
 
 export const Background = ({ children, footer, background }: BackgroundProps) => {
