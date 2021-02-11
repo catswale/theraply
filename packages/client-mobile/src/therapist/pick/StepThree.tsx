@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { palette } from '@theraply/lib';
 import { theme, Background } from '../../theme';
-import WizardStep from '../../assets/WizardStep';
+import WizardStep from '../../components/WizardStep';
 import Therapist from '../../../assets/images/therapist.svg';
 import VideoIcon from '../../../assets/images/camera.svg';
 import MicrophoneIcon from '../../../assets/images/audio.svg';

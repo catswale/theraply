@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import {
-  View, Text, StyleSheet, TextInput, Button
+  View, Text
 } from 'react-native'
 import { Provider } from 'react-redux';
 import store from './store'
@@ -20,7 +20,7 @@ import { useAuth } from './auth/auth.hooks';
 import { PickTherapist } from './therapist/PickTherapist';
 import { palette } from '@theraply/lib';
 import { theme } from './theme';
-import BackArrow from './assets/BackArrow';
+import BackArrow from './components/BackArrow';
 // import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 
 const Stack = createStackNavigator();

@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { palette } from '@theraply/lib';
 import { theme, Background } from '../../theme';
-import WizardStep from '../../assets/WizardStep';
+import WizardStep from '../../components/WizardStep';
 import CheckBox from '@react-native-community/checkbox';
 
 interface Props {
