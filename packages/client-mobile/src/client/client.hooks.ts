@@ -7,15 +7,16 @@ import {useAuth} from '../auth/auth.hooks'
 
 
 export const useClient = () => {
-  const {client, id}: {client: Client, id: string} = useSelector(state => state.client)
+  const {client}: {client: Client} = useSelector(state => state.client)
   const dispatch = useDispatch()
-  const {fetchCurrentAuthUser, user} = useAuth()
-  const {attributes} = user;
+  const {user} = useAuth()
+  const {id, attributes} = user;
+
   useEffect(() => {
     if (id && !client?.id) {
       fetchClient()
     }
-  }, [id])
+  }, [user])
 
   async function fetchClient() {
     if (!id) return

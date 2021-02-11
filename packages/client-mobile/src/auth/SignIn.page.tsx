@@ -18,13 +18,12 @@ export const SignIn = ({route, navigation}) => {
   const [secondInput, onChangeSecondInput] = useState(null as any)
   const [error, setError] = useState('')
   const auth = useAuth()
-  const {setID} = useClient();
 
   const signIn = async () => {
     try {
       const user = await Auth.signIn(email, password);
+      auth.setUser(user)
       auth.setIsSignedIn(true)
-      setID(user.username)
     } catch (error) {
         console.log('error signing in', error);
         setError(error.message)

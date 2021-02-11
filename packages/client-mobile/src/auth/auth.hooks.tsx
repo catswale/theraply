@@ -71,6 +71,7 @@ export const useAuth = () => {
     isSignedIn,
     setIsSignedIn: (value: boolean) => dispatch(setIsSignedIn(value)),
     fetchCurrentAuthUser,
+    setUser: ({attributes, username}) => dispatch(setUser({attributes, id: username})),
     signUp,
     signOut,
     resendConfirmationCode: (username: string) => resendConfirmationCode(username)
