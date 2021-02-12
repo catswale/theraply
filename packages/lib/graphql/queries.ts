@@ -15,6 +15,11 @@ export const getTherapist = /* GraphQL */ `
         start
         end
       }
+      specializations
+      titles
+      greeting
+      bio
+      active
       clients {
         nextToken
       }
@@ -36,6 +41,11 @@ export const listTherapists = /* GraphQL */ `
         lastName
         email
         phoneNumber
+        specializations
+        titles
+        greeting
+        bio
+        active
         createdAt
         updatedAt
       }
@@ -51,6 +61,7 @@ export const getClient = /* GraphQL */ `
       lastName
       email
       phoneNumber
+      dob
       therapists {
         nextToken
       }
@@ -75,6 +86,7 @@ export const listClients = /* GraphQL */ `
         lastName
         email
         phoneNumber
+        dob
         therapistIDs
         stripeCustomerID
         createdAt

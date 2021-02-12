@@ -6,6 +6,11 @@ type Therapist
   email: AWSEmail!
   phoneNumber: AWSPhone
   availability: [Availability]
+  specializations: [String]
+  titles: [String]
+  greeting: String
+  bio: String
+  active: Boolean
   clients: [TherapistClientRelationship]
     @connection(keyName: "byTherapist", fields: ["id"])
 }
@@ -41,6 +46,7 @@ type Client @model
   lastName: String
   email: AWSEmail!
   phoneNumber: AWSPhone
+  dob: AWSDate
   therapists: [TherapistClientRelationship]
     @connection(keyName: "byClient", fields: ["id"])
   therapistIDs: [String]

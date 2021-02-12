@@ -18,6 +18,11 @@ export const createTherapist = /* GraphQL */ `
         start
         end
       }
+      specializations
+      titles
+      greeting
+      bio
+      active
       clients {
         nextToken
       }
@@ -42,6 +47,11 @@ export const updateTherapist = /* GraphQL */ `
         start
         end
       }
+      specializations
+      titles
+      greeting
+      bio
+      active
       clients {
         nextToken
       }
@@ -66,6 +76,11 @@ export const deleteTherapist = /* GraphQL */ `
         start
         end
       }
+      specializations
+      titles
+      greeting
+      bio
+      active
       clients {
         nextToken
       }
@@ -89,6 +104,11 @@ export const createTherapistClientRelationship = /* GraphQL */ `
         lastName
         email
         phoneNumber
+        specializations
+        titles
+        greeting
+        bio
+        active
         createdAt
         updatedAt
       }
@@ -98,6 +118,7 @@ export const createTherapistClientRelationship = /* GraphQL */ `
         lastName
         email
         phoneNumber
+        dob
         therapistIDs
         stripeCustomerID
         createdAt
@@ -124,6 +145,11 @@ export const updateTherapistClientRelationship = /* GraphQL */ `
         lastName
         email
         phoneNumber
+        specializations
+        titles
+        greeting
+        bio
+        active
         createdAt
         updatedAt
       }
@@ -133,6 +159,7 @@ export const updateTherapistClientRelationship = /* GraphQL */ `
         lastName
         email
         phoneNumber
+        dob
         therapistIDs
         stripeCustomerID
         createdAt
@@ -159,6 +186,11 @@ export const deleteTherapistClientRelationship = /* GraphQL */ `
         lastName
         email
         phoneNumber
+        specializations
+        titles
+        greeting
+        bio
+        active
         createdAt
         updatedAt
       }
@@ -168,6 +200,7 @@ export const deleteTherapistClientRelationship = /* GraphQL */ `
         lastName
         email
         phoneNumber
+        dob
         therapistIDs
         stripeCustomerID
         createdAt
@@ -190,6 +223,7 @@ export const createClient = /* GraphQL */ `
       lastName
       email
       phoneNumber
+      dob
       therapists {
         nextToken
       }
@@ -212,6 +246,7 @@ export const updateClient = /* GraphQL */ `
       lastName
       email
       phoneNumber
+      dob
       therapists {
         nextToken
       }
@@ -234,6 +269,7 @@ export const deleteClient = /* GraphQL */ `
       lastName
       email
       phoneNumber
+      dob
       therapists {
         nextToken
       }
