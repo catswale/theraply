@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import {
-  View, Text, StyleSheet, TextInput, Button
+  View, Text
 } from 'react-native'
 import { Provider } from 'react-redux';
 import store from './store'
@@ -16,12 +16,16 @@ import { TermsAndConditions } from './auth/TermsAndConditions.page';
 import { SignUpComplete } from './auth/SignUpComplete.page';
 import { Pay } from './payments/PayTest.page';
 import { useAuth } from './auth/auth.hooks';
+import { PickTherapist } from './client/pick-therapist';
+import { palette } from '@theraply/lib';
+import { theme } from './theme';
+import BackArrow from './components/BackArrow';
 // import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 
 const Stack = createStackNavigator();
 
 const App = () => {
-  const {isSignedIn, loading} = useAuth()
+  const { isSignedIn, loading } = useAuth()
 
   useEffect(() => {
     // Stripe.setOptionsAsync({
@@ -34,13 +38,28 @@ const App = () => {
   if (loading) return <View><Text>Loading...</Text></View>
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{
+        title: 'Theraply',
+        headerStyle: {
+          backgroundColor: palette.secondary.main,
+          shadowColor: 'transparent',
+          elevation: 0,
+        },
+        headerTitleStyle: {
+          ...theme.normalText,
+          color: palette.primary.contrastText,
+        },
+        headerBackImage: BackArrow,
+        headerTitleAlign: 'center',
+
+      }}>
         {
           isSignedIn ? (
             <>
-            <Stack.Screen name="Dashboard" component={Dashboard} />
-            <Stack.Screen name="Chat" component={Chat} />
-            <Stack.Screen name="Pay" component={Pay} />
+              <Stack.Screen options={{ title: 'Pick a Therapist.' }} name="PickTherapist" component={PickTherapist} />
+              <Stack.Screen name="Dashboard" component={Dashboard} />
+              <Stack.Screen name="Chat" component={Chat} />
+              <Stack.Screen name="Pay" component={Pay} />
             </>
           ) : (
               <>
