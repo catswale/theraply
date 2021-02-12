@@ -47,10 +47,20 @@ type Client @model
   email: AWSEmail!
   phoneNumber: AWSPhone
   dob: AWSDate
+  symptoms: [String]
+  notes: [Note]
   therapists: [TherapistClientRelationship]
     @connection(keyName: "byClient", fields: ["id"])
   therapistIDs: [String]
   stripeCustomerID: String
+}
+
+type Note {
+  id: ID!
+  dateCreated: AWSDateTime
+  title: String
+  authorID: String
+  content: String
 }
 
 type Message
