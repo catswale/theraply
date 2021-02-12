@@ -21,7 +21,9 @@ export const SignIn = ({route, navigation}) => {
 
   const signIn = async () => {
     try {
-      const user = await auth.signIn(email, password);
+      const user = await auth.signIn('email', password);
+      auth.setUser(user);
+      auth.setIsSignedIn(true);
     } catch (error) {
         setError(error.message)
     }
@@ -45,11 +47,11 @@ export const SignIn = ({route, navigation}) => {
       </View>
       <KeyboardAvoidingView style={styles.bodyContainer} behavior="padding">
         <Corner style={{position: 'absolute', bottom: 0}} width={118} height={121}/>
-        <Text style={{color: 'red'}}>{error}</Text>
         <View style={styles.graphicView}>
-          <EnterTextGraphic width={graphicWidth} height={graphicWidth * 0.7} />
+          <EnterTextGraphic />
         </View>
         <View>
+          <Text style={{color: 'red', marginBottom: 10}}>{error}</Text>
           <Text style={styles.h4}>Email Address</Text>
           <TextInput
             placeholder='example@gmail.com'
@@ -139,7 +141,6 @@ const styles = StyleSheet.create<Style>({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'space-around',
-    paddingBottom: 40,
   },
   middleBodyContainer: {
     alignItems: 'center'

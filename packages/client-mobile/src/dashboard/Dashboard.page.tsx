@@ -64,7 +64,7 @@ interface Style {
 
 const styles = StyleSheet.create<Style>({
   greetingText: {
-    ...theme.normalText,
+    ...theme.normalGrayText,
     paddingBottom: 10,
   },
   warningText: {

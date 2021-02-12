@@ -14,11 +14,10 @@ export const useAuth = () => {
   const signIn = async (email: string, password: string) => {
     try {
       const user = await Auth.signIn(email, password);
-      setUser(user);
-      setIsSignedIn(true);
       return user;
     } catch (error) {
         console.log('error signing in', error);
+        throw error
     }
   }
 
