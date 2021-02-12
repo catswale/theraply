@@ -43,6 +43,7 @@ export const SignIn = ({route, navigation}) => {
     }
   }
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
+  if (loading) return <Loading/>
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

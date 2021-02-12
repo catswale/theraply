@@ -30,42 +30,47 @@ export const Loading = () => {
   }, [])
 
   return (
-    <Background
-      footer={
-        <>
-        </>
-      }>
-      <View style={styles.container}>
-        <Animated.View
-          style={[
-            {
-              opacity: fadeAnim
-            }
-          ]}
-        >
+    <View style={styles.container}>
+      <View style={styles.headerContainer}>
+      </View>
+      <View style={styles.bodyContainer}>
+        <Animated.View style={[{opacity: fadeAnim}]}>
           <Icon width={80}/>
         </Animated.View>
         <Text style={styles.text}>Hold on!</Text>
       </View>
-    </Background>
+    </View>
   );
 };
 
 interface Style {
   container: ViewStyle
-  fadingContainer: ViewStyle
+  headerContainer: ViewStyle
+  bodyContainer: ViewStyle
   text: TextStyle
 }
 
 const styles = StyleSheet.create<Style>({
   container: {
+    height: '100%',
+    backgroundColor: palette.secondary.main,
+  },
+  headerContainer: {
+    justifyContent: 'center',
+    height: '10%',
+    paddingLeft: 21,
+    paddingTop: 30,
+    backgroundColor: palette.secondary.main,
+    width: '100%'
+  },
+  bodyContainer: {
+    height: '90%',
+    width: '100%',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '90%',
-  },
-  fadingContainer: {
-    // paddingVertical: 8,
-    // paddingHorizontal: 16,
   },
   text: {
     marginTop: 20,
