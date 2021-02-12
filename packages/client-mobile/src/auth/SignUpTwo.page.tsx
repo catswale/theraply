@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import {
   View, Text, StyleSheet, TextInput, KeyboardAvoidingView, 
-  ViewStyle, TouchableOpacity, Dimensions, Platform,
+  ViewStyle, TouchableOpacity, Dimensions, Platform, TouchableWithoutFeedback,
+  Keyboard, TextStyle
 } from 'react-native'
 import { Auth } from 'aws-amplify';
 import {palette} from '@theraply/lib'
@@ -21,7 +22,6 @@ export const SignUpTwo = ({route, navigation}) => {
   const [secondInput, onChangeSecondInput] = useState(null as any)
   const auth = useAuth()
 
-  const graphicWidth = width * 0.5
   const updateButtonState = (email: string, password: string) => {
     if (email && password) {
       onChangeDisabled(false)
@@ -36,83 +36,91 @@ export const SignUpTwo = ({route, navigation}) => {
 
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
   return (
-    <View style={styles.container} >
-      <View style={styles.headerTextContainer}>
-        <Text style={theme.subTitle}>Welcome!</Text>
-        <Text style={theme.title}>Set your email and password.</Text>
-      </View>
-      <KeyboardAvoidingView style={styles.bodyContainer} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-        <Corner style={{position: 'absolute', bottom: 0}} width={118} height={121}/>
-        <View style={styles.graphicView}>
-          <WizardStep width={75} height={5}/>
-          <Graphic width={graphicWidth} height={graphicWidth * 0.7} />
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.inner}>
+          <View style={styles.headerTextContainer}>
+            <Text style={styles.subTitle}>Welcome!</Text>
+            <Text style={theme.title}>Set your details.</Text>
+          </View>
+          <View style={styles.bodyContainer}>
+          
+            <Corner style={{position: 'absolute', bottom: 0}} width={118} height={121}/>
+            <WizardStep width={75} height={5} style={styles.graphic}/>
+            <Graphic width={width * 0.5} style={styles.graphic}/>
+            <View>
+              <Text style={theme.h4}>Email Address</Text>
+              <TextInput
+                autoCorrect={false}
+                autoCapitalize='none'
+                autoCompleteType='email'
+                keyboardType='email-address'
+                textContentType='emailAddress'
+                returnKeyType="next"
+                onSubmitEditing={() => { secondInput?.focus() }}
+                blurOnSubmit={false}
+                style={{...theme.inputText, marginBottom: 24}}
+                onChangeText={text => {
+                  updateButtonState(text, password)
+                  onChangeEmail(text)
+                }}
+                value={email}
+              />
+              <Text style={theme.h4}>Password</Text>
+              <TextInput
+                autoCorrect={false}
+                autoCapitalize='none'
+                autoCompleteType='password'
+                returnKeyType="next"
+                textContentType='newPassword'
+                secureTextEntry={true}
+                ref={(input) => { onChangeSecondInput(input) }}
+                style={theme.inputText}
+                onChangeText={text => {
+                  updateButtonState(email, text)
+                  onChangePassword(text)
+                }}
+                value={password}
+              />
+            </View>
+            <TouchableOpacity
+              style={{...buttonStyle, marginTop: 24}}
+              onPress={signUp}
+              disabled={disabled}
+            >
+              <Text style={theme.primaryButtonText}>Done</Text>
+            </TouchableOpacity>
+
+          </View>
         </View>
-        <View>
-          <Text style={theme.h4}>Email Address</Text>
-          <TextInput
-            autoCorrect={false}
-            autoCapitalize='none'
-            autoCompleteType='email'
-            keyboardType='email-address'
-            textContentType='emailAddress'
-            returnKeyType="next"
-            onSubmitEditing={() => { secondInput?.focus() }}
-            blurOnSubmit={false}
-            style={{...theme.inputText, marginBottom: 24}}
-            onChangeText={text => {
-              updateButtonState(text, password)
-              onChangeEmail(text)
-            }}
-            value={email}
-          />
-        </View>
-        <View>
-          <Text style={theme.h4}>Password</Text>
-          <TextInput
-            autoCorrect={false}
-            autoCapitalize='none'
-            autoCompleteType='password'
-            returnKeyType="next"
-            textContentType='newPassword'
-            secureTextEntry={true}
-            ref={(input) => { onChangeSecondInput(input) }}
-            style={theme.inputText}
-            onChangeText={text => {
-              updateButtonState(email, text)
-              onChangePassword(text)
-            }}
-            value={password}
-          />
-        </View>
-        <TouchableOpacity
-          style={{...buttonStyle, marginTop: 24}}
-          onPress={signUp}
-          disabled={disabled}
-        >
-          <Text style={theme.primaryButtonText}>Done</Text>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
-    </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   )
 }
 
 interface Style {
   container: ViewStyle,
+  inner: ViewStyle,
   headerTextContainer: ViewStyle,
   bodyContainer: ViewStyle,
-  graphicView: ViewStyle,
+  graphic: ViewStyle,
+  subTitle: TextStyle,
 }
 
 const styles = StyleSheet.create<Style>({
   container: {
-    height: '100%',
+    flex: 1,
     backgroundColor: palette.secondary.main,
+  },
+  inner: {
+    flex: 1,
+    justifyContent: "space-evenly",
+    width: '100%'
   },
   headerTextContainer: {
     justifyContent: 'center',
     height: '15%',
     paddingLeft: 21,
-    paddingTop: 10,
   },
   bodyContainer: {
     display: 'flex',
@@ -124,11 +132,13 @@ const styles = StyleSheet.create<Style>({
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     paddingHorizontal: 13,
+    flex: 1,
   },
-  graphicView: {
-    width: '100%',
-    alignItems: 'center',
-    height: height * 0.3,
-    justifyContent: 'space-around'
+  graphic: {
+    alignSelf: 'center'
   },
+  subTitle: {
+    ...theme.subTitle,
+    marginBottom: 8,
+  }
 });

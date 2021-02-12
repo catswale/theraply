@@ -29,13 +29,11 @@ export const theme = StyleSheet.create<Style>({
   title: {
     fontWeight: '700',
     fontSize: 24,
-    marginBottom: 20,
     color: palette.secondary.contrastText
   },
   subTitle: {
     fontSize: 16,
     color: palette.gray,
-    marginBottom: 10,
   },
   h4: {
     fontSize: 15,

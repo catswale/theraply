@@ -18,7 +18,6 @@ export const SignUp = ({navigation}) => {
   const [disabled, onChangeDisabled] = useState(true);
   const [secondInput, onChangeSecondInput] = useState(null as any)
 
-  const graphicWidth = width * 0.5
   const updateButtonState = (firstName: string, lastName: string) => {
     if (firstName && lastName) {
       onChangeDisabled(false)
@@ -28,7 +27,7 @@ export const SignUp = ({navigation}) => {
   }
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
   return (
-<KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.inner}>
           <View style={styles.headerTextContainer}>
@@ -39,7 +38,7 @@ export const SignUp = ({navigation}) => {
           
             <Corner style={{position: 'absolute', bottom: 0}} width={118} height={121}/>
             <WizardStep width={75} height={5} style={styles.graphic}/>
-            <Graphic width={graphicWidth} height={graphicWidth * 0.6} style={styles.graphic}/>
+            <Graphic width={width * 0.5} style={styles.graphic}/>
             <View>
               <View>
                 <Text style={theme.h4}>First Name</Text>
