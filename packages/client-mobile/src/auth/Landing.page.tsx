@@ -9,40 +9,39 @@ import People from '../../assets/images/group-people.svg';
 import Logo from '../../assets/images/logo.svg';
 import { useAuth } from '../auth/auth.hooks';
 
-const {height} = Dimensions.get('window');
+const {height, width} = Dimensions.get('window');
 
 
 export const Landing = ({navigation}) => {
   const auth = useAuth();
   return (
-    <Background
-      footer={
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-              style={styles.signUpButton}
-              onPress={() => navigation.navigate('SignUp')}
-            >
-              <Text style={theme.primaryButtonText}>Sign Up</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.logInButton }
-              onPress={() => navigation.navigate('SignIn')}
-            >
-              <Text style={styles.logInButtonText}>Log In</Text>
-            </TouchableOpacity>
-        </View>
-      }>
-      <View style={styles.bodyContainer}>
+    <View style={styles.container}>
+      <View style={styles.upperContainer}>
         <Logo/>
         <Text style={styles.normalText}>Get all the help you need</Text>
-        <People/>
       </View>
-    </Background>
+      <People width={width * 0.5}/>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+            style={styles.signUpButton}
+            onPress={() => navigation.navigate('SignUp')}
+          >
+            <Text style={theme.primaryButtonText}>Sign Up</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.logInButton }
+            onPress={() => navigation.navigate('SignIn')}
+          >
+            <Text style={styles.logInButtonText}>Log In</Text>
+          </TouchableOpacity>
+      </View>
+      </View>
   );
 };
 
 interface Style {
-  bodyContainer: ViewStyle,
+  container: ViewStyle,
+  upperContainer: ViewStyle,
   buttonContainer: ViewStyle,
   logInButton: ViewStyle,
   logInButtonText: TextStyle,
@@ -51,10 +50,15 @@ interface Style {
 }
 
 const styles = StyleSheet.create<Style>({
-  bodyContainer: {
-    justifyContent: 'center',
+  container: {
+    justifyContent: 'space-evenly',
     alignItems: 'center',
-    height: '90%'
+    height: '100%',
+    backgroundColor: 'white'
+  },
+  upperContainer: {
+    alignItems: 'center',
+    width: '100%',
   },
   buttonContainer: {
     display: 'flex',
@@ -63,7 +67,7 @@ const styles = StyleSheet.create<Style>({
   },
   logInButton: {
     ...theme.primaryButton,
-    marginRight: 7,
+    marginRight: 20,
     backgroundColor: palette.tertiary.main,
     flex: 1
   },
@@ -75,10 +79,9 @@ const styles = StyleSheet.create<Style>({
     ...theme.primaryButton,
     marginRight: 30,
     flex: 1,
-    marginLeft: 7,
+    marginLeft: 20,
   },
   normalText: {
     ...theme.normalGrayText, 
-    marginBottom: height * 0.09
   }
 });
