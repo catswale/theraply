@@ -68,12 +68,9 @@ export const VerifyEmail = ({route, navigation}) => {
             }}
             value={code}
           />
-          <Button
-            onPress={resendConfirmationCode}
-            title="Resend Code"
-            color={palette.primary.main}
-            accessibilityLabel="Resend Code"
-          />
+          <TouchableOpacity onPress={resendConfirmationCode}>
+            <Text style={styles.resendText}>Resend Code</Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.lowerBodyContainer}>
           <View style={styles.checkBoxContainer}>
@@ -121,6 +118,7 @@ interface Style {
   errorText: TextStyle,
   inputText: ViewStyle,
   termsAndConditionsText: ViewStyle,
+  resendText: TextStyle,
 }
 
 const styles = StyleSheet.create<Style>({
@@ -181,5 +179,9 @@ const styles = StyleSheet.create<Style>({
   },
   termsAndConditionsText: {
     color: palette.primary.main,
+  },
+  resendText: {
+    color: palette.primary.main, 
+    alignSelf: 'center'
   }
 });
