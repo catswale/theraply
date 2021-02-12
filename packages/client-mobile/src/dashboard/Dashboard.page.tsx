@@ -1,95 +1,77 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react';
 import {
-  View, Text, StyleSheet, ViewStyle, Button, FlatList,
-} from 'react-native'
-import {Therapist, Client, queries} from '@theraply/lib';
-import {Auth, API, graphqlOperation} from 'aws-amplify'
-import {useClient} from '../client/client.hooks'
-import { useBookings } from '../bookings/bookings.hooks';
-import moment from 'moment-timezone'
-import { useAuth } from '../auth/auth.hooks';
-import * as payments from '../payments/payments'
+  View, Text, StyleSheet,
+  ViewStyle, TouchableOpacity, TextStyle, GestureResponderEvent,
+} from 'react-native';
+import { palette } from '@theraply/lib';
+import { theme, Background } from '../theme';
+import { useClient } from '../client/client.hooks';
+import ChatIcon from '../../assets/images/chat-thin.svg';
+import CalendarIcon from '../../assets/images/calendar.svg';
+
 
 export const Dashboard = ({navigation}) => {
-  const [therapists, setTherapists] = useState({} as Therapist[])
-  const {client} = useClient()
-  const {bookings} = useBookings()
-  const auth = useAuth()
-
-  useEffect(() => {
-    fetchTherapists()
-  }, [])
-
-  async function fetchTherapists() {
-    const data = await API.graphql(graphqlOperation(queries.listTherapists)) as Data
-    type Data = {data: {listTherapists: {items: any[]}}}
-    const therapists = data.data?.listTherapists?.items || [];
-    setTherapists(therapists)
-  }
+  const {client} = useClient();
   return (
-    <View>
-      <Text>Hello {client?.firstName}</Text>
-      <Text>All Therapists</Text>
-      <FlatList
-        data={therapists}
-        renderItem={({item}) => <Card therapist={item} client={client}/>}
-      />
-      <Text>Your Therapists</Text>
-      <FlatList
-        data={client.therapists}
-        renderItem={({item}) => <ClientTherapistCard therapist={item} client={client} navigation={navigation}/>}
-      />
-      <Text>Bookings</Text>
-      {
-        bookings.map(b => <Text key={b.id}>{b.createdAt}</Text>)
-      }
-      <Button title='PAYMENTS' onPress={() => navigation.navigate('Pay')}/>
-      <Button title='LOGOUT' onPress={() => auth.signOut()}/>
-    </View>
-  )
-}
-
-const Card = ({therapist, client}: {therapist: Therapist, client: Client}) => {
-  const {createTherapistClientConnection} = useClient()
-
-  return (
-    <View style={styles.cardContainer}>
-      <Text>{therapist.firstName}</Text>
-      <Button title='CONNECT' onPress={async () => {
-          createTherapistClientConnection(therapist, client)
-        }}/>
-
-    </View>
-  )
-}
-
-const ClientTherapistCard = ({therapist, client, navigation}: {therapist: Therapist, client: Client}) => {
-  const bookings = useBookings()
-
-  return (
-    <View style={styles.cardContainer}>
-      <Text>{therapist.firstName}</Text>
-      <Button title='CHAT' onPress={() => navigation.navigate('Chat', {therapist, client})}/>
-      <Button title='BOOK' onPress={() => {
-          const start = moment().startOf('hour').add(1, 'day')
-          const end = start.clone().add(1, 'hour')
-          bookings.book(therapist, start, end)
-        }}/>
-    </View>
-  )
-}
+    <Background
+      footer={
+        <Text style={styles.warningText}>
+          If you are in a life threatening situation, don't use this app. Call
+          <Text style={styles.highlightedText}> 13 11 14</Text>
+        </Text>
+      }>
+      <>
+        <Text style={styles.greetingText}>Hello, {client.firstName}!</Text>
+        <Text style={{...theme.boldText, marginBottom: 30}}>Go ahead and book a session</Text>
+        <TouchableOpacity
+          style={{...theme.primaryButton, ...styles.iconButton, marginBottom: 20}}
+          onPress={() => navigation.navigate('PickTherapist')}
+        >
+          <CalendarIcon width={28} style={styles.buttonIcon}/>
+          <Text style={theme.primaryButtonText}>Book a Live Session</Text>
+        </TouchableOpacity>
+        {
+          client?.therapists?.length === 0 &&
+          <TouchableOpacity
+            style={{...theme.secondaryButton, ...styles.iconButton}}
+            onPress={() => navigation.navigate('PickTherapist')}
+          >
+            <ChatIcon width={28} style={styles.buttonIcon}/>
+            <Text style={theme.primaryButtonText}>Chat with a Therapist</Text>
+          </TouchableOpacity>
+        }
+      </>
+    </Background>
+  );
+};
 
 interface Style {
-  cardContainer: ViewStyle,
+  greetingText: ViewStyle,
+  warningText: TextStyle,
+  highlightedText: TextStyle,
+  iconButton: ViewStyle,
+  buttonIcon: ViewStyle,
 }
 
 const styles = StyleSheet.create<Style>({
-  cardContainer: {
-      display: 'flex',
-      padding: 8,
-      margin: 8,
-      flexDirection: 'row',
-      backgroundColor: 'white',
-      borderRadius: 16,
+  greetingText: {
+    ...theme.normalText,
+    paddingBottom: 10,
   },
+  warningText: {
+    ...theme.tinyGrayText,
+    textAlign: 'center',
+  },
+  highlightedText: {
+    color: palette.primary.main,
+  },
+  iconButton: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start'
+  },
+  buttonIcon: {
+    marginLeft: 24,
+    marginRight: 17,
+    color: palette.primary.contrastText,
+  }
 });
