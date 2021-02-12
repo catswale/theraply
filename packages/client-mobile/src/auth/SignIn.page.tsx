@@ -43,12 +43,10 @@ export const SignIn = ({route, navigation}) => {
     }
   }
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
-  const graphicWidth = width * 0.5
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.inner}>
-          
           <View style={styles.headerTextContainer}>
             <Text style={theme.subTitle}>Welcome back!</Text>
             <Text style={theme.title}>Please log in</Text>
@@ -128,7 +126,6 @@ interface Style {
 
 const styles = StyleSheet.create<Style>({
   container: {
-    // height: '100%',
     backgroundColor: palette.secondary.main,
     flex: 1
   },
