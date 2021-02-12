@@ -5,7 +5,7 @@ import {
 import { Provider } from 'react-redux';
 import store from './store'
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
 import { Chat } from './chat/Chat.page';
 import { Dashboard } from './dashboard/Dashboard.page';
 import { SignIn } from './auth/SignIn.page';
@@ -39,21 +39,7 @@ const App = () => {
   if (loading) return <View><Text>Loading...</Text></View>
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{
-        title: 'Theraply',
-        headerStyle: {
-          backgroundColor: palette.secondary.main,
-          shadowColor: 'transparent',
-          elevation: 0,
-        },
-        headerTitleStyle: {
-          ...theme.normalText,
-          color: palette.primary.contrastText,
-        },
-        headerBackImage: BackArrow,
-        headerTitleAlign: 'center',
-
-      }}>
+      <Stack.Navigator screenOptions={screenOptions}>
         {
           isSignedIn ? (
             <>
@@ -77,6 +63,21 @@ const App = () => {
       </Stack.Navigator>
     </NavigationContainer>
   );
+}
+
+const screenOptions: StackNavigationOptions = {
+  title: 'Theraply',
+  headerStyle: {
+    backgroundColor: palette.secondary.main,
+    shadowColor: 'transparent',
+    elevation: 0,
+  },
+  headerTitleStyle: {
+    ...theme.normalText,
+    color: palette.primary.contrastText,
+  },
+  headerBackImage: BackArrow,
+  headerTitleAlign: 'center',
 }
 
 const AppWrapper = () => {

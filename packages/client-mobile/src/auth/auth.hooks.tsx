@@ -11,6 +11,17 @@ export const useAuth = () => {
     fetchIsSignedIn()
   }, [])
 
+  const signIn = async (email: string, password: string) => {
+    try {
+      const user = await Auth.signIn(email, password);
+      setUser(user);
+      setIsSignedIn(true);
+      return user;
+    } catch (error) {
+        console.log('error signing in', error);
+    }
+  }
+
   async function signUp(firstName: string, email: string, password: string) {
     try {
         const result = await Auth.signUp({
@@ -72,6 +83,7 @@ export const useAuth = () => {
     setIsSignedIn: (value: boolean) => dispatch(setIsSignedIn(value)),
     fetchCurrentAuthUser,
     setUser: ({attributes, username}) => dispatch(setUser({attributes, id: username})),
+    signIn,
     signUp,
     signOut,
     resendConfirmationCode: (username: string) => resendConfirmationCode(username)
