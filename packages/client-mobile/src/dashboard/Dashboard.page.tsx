@@ -1,24 +1,33 @@
 import React, { useState } from 'react';
 import {
   View, Text, StyleSheet,
-  ViewStyle, TouchableOpacity, TextStyle, GestureResponderEvent,
+  ViewStyle, TouchableOpacity, TextStyle, Button,
 } from 'react-native';
 import { palette } from '@theraply/lib';
 import { theme, Background } from '../theme';
 import { useClient } from '../client/client.hooks';
 import ChatIcon from '../../assets/images/chat-thin.svg';
 import CalendarIcon from '../../assets/images/calendar.svg';
+import { useAuth } from '../auth/auth.hooks';
 
 
 export const Dashboard = ({navigation}) => {
   const {client} = useClient();
+  const auth = useAuth();
   return (
     <Background
       footer={
-        <Text style={styles.warningText}>
-          If you are in a life threatening situation, don't use this app. Call
-          <Text style={styles.highlightedText}> 13 11 14</Text>
-        </Text>
+        <>
+          <Button
+            onPress={() => auth.signOut()}
+            title="Log Out"
+            color="#841584"
+          />
+          <Text style={styles.warningText}>
+            If you are in a life threatening situation, don't use this app. Call
+            <Text style={styles.highlightedText}> 13 11 14</Text>
+          </Text>
+        </>
       }>
       <>
         <Text style={styles.greetingText}>Hello, {client.firstName}!</Text>

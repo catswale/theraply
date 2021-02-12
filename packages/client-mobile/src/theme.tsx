@@ -103,7 +103,7 @@ export const theme = StyleSheet.create<Style>({
   },
   normalGrayText: {
     color: palette.text.grey2,
-    fontSize: 14,
+    fontSize: 16,
     lineHeight: 20,
     fontWeight: 'normal',
   },

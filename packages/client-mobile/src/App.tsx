@@ -9,6 +9,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Chat } from './chat/Chat.page';
 import { Dashboard } from './dashboard/Dashboard.page';
 import { SignIn } from './auth/SignIn.page';
+import { Landing } from './auth/Landing.page';
 import { SignUp } from './auth/SignUpOne.page';
 import { SignUpTwo } from './auth/SignUpTwo.page';
 import { VerifyEmail } from './auth/VerifyEmail.page';
@@ -63,6 +64,7 @@ const App = () => {
             </>
           ) : (
               <>
+                <Stack.Screen options={{ headerShown: false }} name="Landing" component={Landing} />
                 <Stack.Screen options={{ headerShown: false }} name="SignIn" component={SignIn} />
                 <Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
                 <Stack.Screen options={{ headerShown: false }} name="SignUpTwo" component={SignUpTwo} />

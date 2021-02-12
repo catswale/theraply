@@ -9,8 +9,14 @@ import {useAuth} from '../auth/auth.hooks'
 export const useClient = () => {
   const {client}: {client: Client} = useSelector(state => state.client)
   const dispatch = useDispatch()
-  const {user} = useAuth()
+  const {user, fetchCurrentAuthUser} = useAuth()
   const {id, attributes} = user;
+
+  useEffect(() => {
+    if (!id) { // get auth details after user has already logged in
+      fetchCurrentAuthUser()
+    }
+  }, [])
 
   useEffect(() => {
     if (id && !client?.id) {
@@ -18,6 +24,7 @@ export const useClient = () => {
     }
   }, [user])
 
+  // Fetch user data from the database
   async function fetchClient() {
     if (!id) return
     const data = await API.graphql(graphqlOperation(queries.getClient, {id})) as Data

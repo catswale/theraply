@@ -13,6 +13,10 @@ export const palette = {
     contrastText: '#fff',
     // light,
   },
+  tertiary: {
+    main: '#D1DDFA',
+    contrastText: '#000F33'
+  },
   error: {
     main: '#FF647C'
   },
@@ -25,7 +29,7 @@ export const palette = {
     // disabled
   },
   background: {
-    default: 'rgba(247,253,255, 0.1)'
+    default: 'rgba(247,253,255, 0.1)',
   },
   action: {
     // active

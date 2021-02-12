@@ -41,7 +41,7 @@ export const useAuth = () => {
 
   async function fetchCurrentAuthUser() {
     const {attributes, username} = await Auth.currentAuthenticatedUser();
-    dispatch(setUser({attributes, username}))
+    dispatch(setUser({attributes, id: username}))
   }
 
   async function signOut() {
