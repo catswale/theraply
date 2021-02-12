@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import {
   View, Text, StyleSheet,
-  ViewStyle, TouchableOpacity, TextStyle, Button,
+  ViewStyle, TouchableOpacity, TextStyle, Dimensions,
 } from 'react-native';
 import { palette } from '@theraply/lib';
 import { theme, Background } from '../theme';
 import People from '../../assets/images/group-people.svg';
 import Logo from '../../assets/images/logo.svg';
 import { useAuth } from '../auth/auth.hooks';
+
+const {height} = Dimensions.get('window');
 
 
 export const Landing = ({navigation}) => {
@@ -32,7 +34,7 @@ export const Landing = ({navigation}) => {
       }>
       <View style={styles.bodyContainer}>
         <Logo/>
-        <Text style={theme.normalGrayText}>Get all the help you need</Text>
+        <Text style={styles.normalText}>Get all the help you need</Text>
         <People/>
       </View>
     </Background>
@@ -45,6 +47,7 @@ interface Style {
   logInButton: ViewStyle,
   logInButtonText: TextStyle,
   signUpButton: ViewStyle,
+  normalText: TextStyle,
 }
 
 const styles = StyleSheet.create<Style>({
@@ -73,5 +76,9 @@ const styles = StyleSheet.create<Style>({
     marginRight: 30,
     flex: 1,
     marginLeft: 7,
+  },
+  normalText: {
+    ...theme.normalGrayText, 
+    marginBottom: height * 0.09
   }
 });
