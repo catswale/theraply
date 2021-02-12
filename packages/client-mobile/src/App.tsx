@@ -6,16 +6,15 @@ import { Provider } from 'react-redux';
 import store from './store'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import {Chat} from './chat/Chat.page';
-import {Dashboard} from './dashboard/Dashboard.page';
-import {SignIn} from './auth/SignIn.page';
-import {SignUp} from './auth/SignUpOne.page';
-import {SignUpTwo} from './auth/SignUpTwo.page';
-import {VerifyEmail} from './auth/VerifyEmail.page';
-import {TermsAndConditions} from './auth/TermsAndConditions.page';
-import {SignUpComplete} from './auth/SignUpComplete.page';
-import {SignUpConfirm} from './auth/SignUpConfirm.page';
-import {Pay} from './payments/PayTest.page';
+import { Chat } from './chat/Chat.page';
+import { Dashboard } from './dashboard/Dashboard.page';
+import { SignIn } from './auth/SignIn.page';
+import { SignUp } from './auth/SignUpOne.page';
+import { SignUpTwo } from './auth/SignUpTwo.page';
+import { VerifyEmail } from './auth/VerifyEmail.page';
+import { TermsAndConditions } from './auth/TermsAndConditions.page';
+import { SignUpComplete } from './auth/SignUpComplete.page';
+import { Pay } from './payments/PayTest.page';
 import { useAuth } from './auth/auth.hooks';
 // import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 
@@ -44,16 +43,15 @@ const App = () => {
             <Stack.Screen name="Pay" component={Pay} />
             </>
           ) : (
-            <>
-            <Stack.Screen options={{ headerShown: false }} name="SignIn" component={SignIn} />
-            <Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
-            <Stack.Screen options={{ headerShown: false }} name="SignUpTwo" component={SignUpTwo} />
-            <Stack.Screen options={{ headerShown: false }} name="VerifyEmail" component={VerifyEmail} />
-            <Stack.Screen options={{ headerShown: false }} name="TermsAndConditions" component={TermsAndConditions} />
-            <Stack.Screen options={{ headerShown: false }} name="SignUpComplete" component={SignUpComplete} />
-            <Stack.Screen options={{ headerShown: false }} name="SignUpConfirm" component={SignUpConfirm} />
-            </>
-          )
+              <>
+                <Stack.Screen options={{ headerShown: false }} name="SignIn" component={SignIn} />
+                <Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
+                <Stack.Screen options={{ headerShown: false }} name="SignUpTwo" component={SignUpTwo} />
+                <Stack.Screen options={{ headerShown: false }} name="VerifyEmail" component={VerifyEmail} />
+                <Stack.Screen options={{ headerShown: false }} name="TermsAndConditions" component={TermsAndConditions} />
+                <Stack.Screen options={{ headerShown: false }} name="SignUpComplete" component={SignUpComplete} />
+              </>
+            )
         }
       </Stack.Navigator>
     </NavigationContainer>
