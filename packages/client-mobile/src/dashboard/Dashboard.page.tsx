@@ -34,7 +34,7 @@ export const Dashboard = ({navigation}) => {
         <Text style={{...theme.boldText, marginBottom: 30}}>Go ahead and book a session</Text>
         <TouchableOpacity
           style={{...theme.primaryButton, ...styles.iconButton, marginBottom: 20}}
-          onPress={() => navigation.navigate('PickTherapist')}
+          onPress={() => navigation.navigate('PickTherapist1')}
         >
           <CalendarIcon width={28} style={styles.buttonIcon}/>
           <Text style={theme.primaryButtonText}>Book a Live Session</Text>
@@ -43,7 +43,7 @@ export const Dashboard = ({navigation}) => {
           client?.therapists?.length === 0 &&
           <TouchableOpacity
             style={{...theme.secondaryButton, ...styles.iconButton}}
-            onPress={() => navigation.navigate('PickTherapist')}
+            onPress={() => navigation.navigate('PickTherapist1')}
           >
             <ChatIcon width={28} style={styles.buttonIcon}/>
             <Text style={theme.primaryButtonText}>Chat with a Therapist</Text>

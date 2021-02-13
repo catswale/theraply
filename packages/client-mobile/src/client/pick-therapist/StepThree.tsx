@@ -13,10 +13,12 @@ import ChatIcon from '../../../assets/images/chat.svg';
 import Corner from '../../../assets/images/bottom-left-corner-art.svg';
 
 interface Props {
-  setCurrentStep: Function
+  route: any
+  navigation: any
 }
 
-const StepThree = ({ setCurrentStep }: Props) => {
+const StepThree = ({ route, navigation }: Props) => {
+  console.log('params are ', route.params);
 
   return (
     <Background

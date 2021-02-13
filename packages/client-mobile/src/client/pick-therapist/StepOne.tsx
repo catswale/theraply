@@ -39,15 +39,15 @@ const symptoms = [
 ];
 
 interface Props {
-  setCurrentStep: Function
+  navigation: any
 }
 
-const StepOne = ({ setCurrentStep }: Props) => {
+const StepOne = ({ navigation }: Props) => {
   const [disabled, onChangeDisabled] = useState(false);
 
   const [selected, setSelected] = useState({} as KeyValuePair);
 
-  const handleSelected = (key: Number) => () => {
+  const handleSelected = (key: string) => () => {
     setSelected({ ...selected, [key.toString()]: !selected[key.toString()] })
   };
 
@@ -60,7 +60,9 @@ const StepOne = ({ setCurrentStep }: Props) => {
       footer={
         <TouchableOpacity
           style={{ ...buttonStyle }}
-          onPress={() => setCurrentStep(2)}
+          onPress={() => navigation.navigate('PickTherapist2', {
+            symptoms: Object.keys(selected)
+          })}
           disabled={disabled}
         >
           <Text style={theme.primaryButtonText}>Continue</Text>
@@ -77,8 +79,8 @@ const StepOne = ({ setCurrentStep }: Props) => {
             {
               symptoms.map((symptom, i) => (
                 <Bubble
-                  active={selected[i.toString()]}
-                  handlePress={handleSelected(i)}
+                  active={selected[symptom]}
+                  handlePress={handleSelected(symptom)}
                   key={i}
                   label={symptom} />
               ))

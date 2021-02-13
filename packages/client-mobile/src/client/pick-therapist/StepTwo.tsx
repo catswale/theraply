@@ -10,7 +10,8 @@ import CheckBox from '@react-native-community/checkbox';
 import Corner from '../../../assets/images/bottom-left-corner-art.svg';
 
 interface Props {
-  setCurrentStep: Function
+  navigation: any,
+  route: any
 }
 
 interface KeyValuePair {
@@ -51,7 +52,7 @@ const getGenders = ({ key, gender, selectedGenders, setGender }: GenderParams) =
   </View>
 );
 
-const StepTwo = ({ setCurrentStep }: Props) => {
+const StepTwo = ({ route, navigation }: Props) => {
   const [disabled, onChangeDisabled] = useState(false);
   const [selectedGenders, setSelectedGenders] = useState({} as KeyValuePair);
 
@@ -75,7 +76,10 @@ const StepTwo = ({ setCurrentStep }: Props) => {
       footer={
         <TouchableOpacity
           style={{ ...buttonStyle }}
-          onPress={() => setCurrentStep(3)}
+          onPress={() => navigation.navigate('PickTherapist3', {
+            ...route.params,
+            genders: Object.keys(selectedGenders)
+          })}
           disabled={disabled}
         >
           <Text style={theme.primaryButtonText}>Continue</Text>
