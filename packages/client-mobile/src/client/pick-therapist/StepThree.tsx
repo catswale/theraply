@@ -3,6 +3,8 @@ import {
   View, Text, StyleSheet,
   ViewStyle, TouchableOpacity, TextStyle,
 } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 import { palette } from '@theraply/lib';
 import { theme, Background } from '../../theme';
 import WizardStep from '../../components/WizardStep';
@@ -12,9 +14,16 @@ import MicrophoneIcon from '../../../assets/images/audio.svg';
 import ChatIcon from '../../../assets/images/chat.svg';
 import Corner from '../../../assets/images/bottom-left-corner-art.svg';
 
+type RouteParams = {
+  PickTherapist3: {
+    symptoms: string[];
+    genders: string[];
+  }
+};
+
 interface Props {
-  route: any
-  navigation: any
+  route: RouteProp<RouteParams, 'PickTherapist3'>;
+  navigation: StackNavigationProp<RouteParams, 'PickTherapist3'>;
 }
 
 const StepThree = ({ route, navigation }: Props) => {

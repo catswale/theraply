@@ -3,15 +3,18 @@ import {
   View, Text, StyleSheet,
   ViewStyle, TouchableOpacity, TextStyle, Platform,
 } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 import { palette } from '@theraply/lib';
 import { theme, Background } from '../../theme';
 import WizardStep from '../../components/WizardStep';
 import CheckBox from '@react-native-community/checkbox';
 import Corner from '../../../assets/images/bottom-left-corner-art.svg';
 
+
 interface Props {
-  navigation: any,
-  route: any
+  navigation: StackNavigationProp<any, 'PickTherapist2'>;
+  route: RouteProp<any, 'PickTherapist2'>;
 }
 
 interface KeyValuePair {

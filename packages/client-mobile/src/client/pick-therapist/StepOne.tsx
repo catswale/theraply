@@ -3,6 +3,7 @@ import {
   View, Text, StyleSheet,
   ViewStyle, TouchableOpacity, TextStyle, GestureResponderEvent,
 } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { palette } from '@theraply/lib';
 import { theme, Background } from '../../theme';
 import WizardStep from '../../components/WizardStep';
@@ -39,7 +40,7 @@ const symptoms = [
 ];
 
 interface Props {
-  navigation: any
+  navigation: StackNavigationProp<any, 'PickTherapist1'>;
 }
 
 const StepOne = ({ navigation }: Props) => {
