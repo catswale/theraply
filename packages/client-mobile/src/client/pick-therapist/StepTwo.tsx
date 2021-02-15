@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   View, Text, StyleSheet,
-  ViewStyle, TouchableOpacity, TextStyle, Platform,
+  ViewStyle, TouchableOpacity, TextStyle, Platform, PixelRatio,
 } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
@@ -9,8 +9,8 @@ import { palette } from '@theraply/lib';
 import { theme, Background } from '../../theme';
 import WizardStep from '../../components/WizardStep';
 import CheckBox from '@react-native-community/checkbox';
-import Corner from '../../../assets/images/bottom-left-corner-art.svg';
 
+const dpi = PixelRatio.get();
 
 interface Props {
   navigation: StackNavigationProp<any, 'PickTherapist2'>;
@@ -73,9 +73,7 @@ const StepTwo = ({ route, navigation }: Props) => {
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
   return (
     <Background
-      background={
-        <Corner style={{ position: 'absolute', bottom: 0 }} width={118} height={121} />
-      }
+      background
       footer={
         <TouchableOpacity
           style={{ ...buttonStyle }}
@@ -142,9 +140,10 @@ const styles = StyleSheet.create<Style>({
     color: palette.secondary.contrastText,
   },
   checkboxGroup: {
-    marginTop: 30,
+    paddingTop: 30 / dpi,
   },
   container: {
-    marginTop: 87,
+    paddingTop: 87 / dpi,
+    paddingBottom: 30 / dpi,
   }
 });

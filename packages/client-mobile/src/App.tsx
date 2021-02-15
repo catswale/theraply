@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import {
-  View, Text
+  View, Text, Dimensions
 } from 'react-native'
 import { Provider } from 'react-redux';
 import store from './store'
@@ -24,6 +24,8 @@ import BackArrow from './components/BackArrow';
 // import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 
 const Stack = createStackNavigator();
+
+const { height } = Dimensions.get('window');
 
 const App = () => {
   const { isSignedIn, loading } = useAuth()
@@ -73,6 +75,7 @@ const screenOptions: StackNavigationOptions = {
     backgroundColor: palette.secondary.main,
     shadowColor: 'transparent',
     elevation: 0,
+    height: 0.11 * height,
   },
   headerTitleStyle: {
     ...theme.normalText,
