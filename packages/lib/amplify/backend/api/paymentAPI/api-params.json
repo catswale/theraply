@@ -20,6 +20,13 @@
             "privacy": {
                 "open": true
             }
+        },
+        {
+            "name": "/client/therapist",
+            "lambdaFunction": "paymentCheckout",
+            "privacy": {
+                "open": true
+            }
         }
     ],
     "resourceName": "paymentAPI",
@@ -45,5 +52,5 @@
             ]
         }
     ],
-    "uuid": "f8a9e6a2"
+    "uuid": "1b1e39d0"
 }

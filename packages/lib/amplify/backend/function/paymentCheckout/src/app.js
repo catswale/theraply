@@ -12,6 +12,7 @@ var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware'
 const jwt_decode = require('jwt-decode')
 const stripe = require('stripe')(process.env.STRIPE_SK);
 const AWS = require('aws-sdk')
+import {postTherapist} from './client.routes';
 
 AWS.config.update({ region: process.env.TABLE_REGION });
 const dynamodb = new AWS.DynamoDB.DocumentClient();
@@ -33,6 +34,8 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "*")
   next()
 });
+
+app.post('/client/therapist', postTherapist);
 
 app.post('/email', async function(req, res) {
   try {
