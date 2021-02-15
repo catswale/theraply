@@ -1,4 +1,4 @@
-export function postTherapist() {
+export function postTherapist(req: any, res: any) {
   try {
     console.log('Client post therapist called')
     const {symptoms} = req.body
