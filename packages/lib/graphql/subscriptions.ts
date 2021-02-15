@@ -20,6 +20,8 @@ export const onCreateTherapist = /* GraphQL */ `
       greeting
       bio
       active
+      gender
+      authenticatedUserIDs
       clients {
         nextToken
       }
@@ -46,6 +48,8 @@ export const onUpdateTherapist = /* GraphQL */ `
       greeting
       bio
       active
+      gender
+      authenticatedUserIDs
       clients {
         nextToken
       }
@@ -72,6 +76,8 @@ export const onDeleteTherapist = /* GraphQL */ `
       greeting
       bio
       active
+      gender
+      authenticatedUserIDs
       clients {
         nextToken
       }
@@ -103,6 +109,8 @@ export const onCreateTherapistClientRelationship = /* GraphQL */ `
         greeting
         bio
         active
+        gender
+        authenticatedUserIDs
         createdAt
         updatedAt
       }
@@ -147,6 +155,8 @@ export const onUpdateTherapistClientRelationship = /* GraphQL */ `
         greeting
         bio
         active
+        gender
+        authenticatedUserIDs
         createdAt
         updatedAt
       }
@@ -191,6 +201,8 @@ export const onDeleteTherapistClientRelationship = /* GraphQL */ `
         greeting
         bio
         active
+        gender
+        authenticatedUserIDs
         createdAt
         updatedAt
       }
@@ -221,11 +233,28 @@ export const onCreateClient = /* GraphQL */ `
       email
       phoneNumber
       dob
+      symptoms {
+        id
+        content
+        createdAt
+      }
+      therapistPreferences {
+        id
+        content
+        createdAt
+      }
       therapists {
         nextToken
       }
       therapistIDs
       stripeCustomerID
+      payments {
+        id
+        plan
+        start
+        end
+        createdAt
+      }
       createdAt
       updatedAt
       owner
@@ -241,11 +270,28 @@ export const onUpdateClient = /* GraphQL */ `
       email
       phoneNumber
       dob
+      symptoms {
+        id
+        content
+        createdAt
+      }
+      therapistPreferences {
+        id
+        content
+        createdAt
+      }
       therapists {
         nextToken
       }
       therapistIDs
       stripeCustomerID
+      payments {
+        id
+        plan
+        start
+        end
+        createdAt
+      }
       createdAt
       updatedAt
       owner
@@ -261,11 +307,67 @@ export const onDeleteClient = /* GraphQL */ `
       email
       phoneNumber
       dob
+      symptoms {
+        id
+        content
+        createdAt
+      }
+      therapistPreferences {
+        id
+        content
+        createdAt
+      }
       therapists {
         nextToken
       }
       therapistIDs
       stripeCustomerID
+      payments {
+        id
+        plan
+        start
+        end
+        createdAt
+      }
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onCreateNote = /* GraphQL */ `
+  subscription OnCreateNote($owner: String!) {
+    onCreateNote(owner: $owner) {
+      id
+      title
+      content
+      clientID
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateNote = /* GraphQL */ `
+  subscription OnUpdateNote($owner: String!) {
+    onUpdateNote(owner: $owner) {
+      id
+      title
+      content
+      clientID
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteNote = /* GraphQL */ `
+  subscription OnDeleteNote($owner: String!) {
+    onDeleteNote(owner: $owner) {
+      id
+      title
+      content
+      clientID
       createdAt
       updatedAt
       owner

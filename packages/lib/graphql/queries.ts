@@ -20,6 +20,8 @@ export const getTherapist = /* GraphQL */ `
       greeting
       bio
       active
+      gender
+      authenticatedUserIDs
       clients {
         nextToken
       }
@@ -46,6 +48,8 @@ export const listTherapists = /* GraphQL */ `
         greeting
         bio
         active
+        gender
+        authenticatedUserIDs
         createdAt
         updatedAt
       }
@@ -62,11 +66,28 @@ export const getClient = /* GraphQL */ `
       email
       phoneNumber
       dob
+      symptoms {
+        id
+        content
+        createdAt
+      }
+      therapistPreferences {
+        id
+        content
+        createdAt
+      }
       therapists {
         nextToken
       }
       therapistIDs
       stripeCustomerID
+      payments {
+        id
+        plan
+        start
+        end
+        createdAt
+      }
       createdAt
       updatedAt
       owner
@@ -89,6 +110,39 @@ export const listClients = /* GraphQL */ `
         dob
         therapistIDs
         stripeCustomerID
+        createdAt
+        updatedAt
+        owner
+      }
+      nextToken
+    }
+  }
+`;
+export const getNote = /* GraphQL */ `
+  query GetNote($id: ID!) {
+    getNote(id: $id) {
+      id
+      title
+      content
+      clientID
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listNotes = /* GraphQL */ `
+  query ListNotes(
+    $filter: ModelNoteFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listNotes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        title
+        content
+        clientID
         createdAt
         updatedAt
         owner

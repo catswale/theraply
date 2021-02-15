@@ -11,6 +11,8 @@ type Therapist
   greeting: String
   bio: String
   active: Boolean
+  gender: String
+  authenticatedUserIDs: [String]
   clients: [TherapistClientRelationship]
     @connection(keyName: "byTherapist", fields: ["id"])
 }
@@ -47,20 +49,44 @@ type Client @model
   email: AWSEmail!
   phoneNumber: AWSPhone
   dob: AWSDate
-  symptoms: [String]
-  notes: [Note]
+  symptoms: [Symptoms]
+  therapistPreferences: [TherapistPreferences]
   therapists: [TherapistClientRelationship]
     @connection(keyName: "byClient", fields: ["id"])
   therapistIDs: [String]
   stripeCustomerID: String
+  payments: [Payment]
 }
 
-type Note {
+type TherapistPreferences {
+    id: ID
+  """Array of preferences eg. [Female]"""
+  content: [String] 
+  createdAt: AWSDateTime
+}
+
+type Symptoms {
+  id: ID
+  """Array of symptom strings eg. [Depression, Anxiety]"""
+  content: [String] 
+  createdAt: AWSDateTime
+}
+
+type Payment {
+    id: ID
+    plan: String
+    start: AWSDateTime
+    end: AWSDateTime
+    createdAt: AWSDateTime
+}
+
+"""Created by therapists about their clients"""
+type Note @model 
+  @auth(rules: [{ allow: owner }]) {
   id: ID!
-  dateCreated: AWSDateTime
   title: String
-  authorID: String
   content: String
+  clientID: String
 }
 
 type Message
