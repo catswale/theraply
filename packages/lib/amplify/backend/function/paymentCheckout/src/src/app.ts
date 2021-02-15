@@ -12,8 +12,7 @@ var awsServerlessExpressMiddleware = require('aws-serverless-express/middleware'
 const jwt_decode = require('jwt-decode')
 const stripe = require('stripe')(process.env.STRIPE_SK);
 const AWS = require('aws-sdk')
-// import {postTherapist} from './client.js';
-// const client = require('./client')
+import {postTherapist} from './client';
 
 AWS.config.update({ region: process.env.TABLE_REGION });
 const dynamodb = new AWS.DynamoDB.DocumentClient();
@@ -25,7 +24,7 @@ const configs = {
 const config = configs[process.env.ENV];
 
 // declare a new express app
-var app = express()
+export const app = express()
 app.use(bodyParser.json())
 app.use(awsServerlessExpressMiddleware.eventContext())
 
@@ -36,7 +35,7 @@ app.use(function(req, res, next) {
   next()
 });
 
-// app.post('/client/therapist', postTherapist);
+app.post('/client/therapist', postTherapist);
 
 app.post('/email', async function(req, res) {
   try {

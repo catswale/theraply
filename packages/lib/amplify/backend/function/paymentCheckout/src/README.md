@@ -5,5 +5,5 @@ set +o allexport
 # Setup
 npm i
 npm i -g nodemon
-# run the app
-nodemon ./index.js
+# run the app locally
+nodemon
