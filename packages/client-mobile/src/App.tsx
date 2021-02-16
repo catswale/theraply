@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import {
-  View, Text, Dimensions
-} from 'react-native'
+  View, Text, Dimensions,
+} from 'react-native';
 import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';

@@ -5,10 +5,10 @@ import {
 } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { palette } from '@theraply/lib';
-import { theme, Background } from '../../theme';
-import WizardStep from '../../components/WizardStep';
 import { ScrollView } from 'react-native-gesture-handler';
 import CheckBox from '@react-native-community/checkbox';
+import { theme, Background } from '../../theme';
+import WizardStep from '../../components/WizardStep';
 
 const dpi = PixelRatio.get();
 
@@ -16,14 +16,13 @@ interface BubbleProps {
   label: string,
   active: boolean,
   handlePress: (value: boolean) => void
-};
+}
 
 interface KeyValuePair {
   [key: string]: any;
 }
 
-const Bubble = ({ label, active, handlePress }: BubbleProps) => {
-  return (
+const Bubble = ({ label, active, handlePress }: BubbleProps) => (
     <View style={styles.checkBoxContainer}>
       <CheckBox
         value={active}
@@ -36,8 +35,7 @@ const Bubble = ({ label, active, handlePress }: BubbleProps) => {
       />
       <Text style={styles.checkBoxText}>{label}</Text>
     </View>
-  )
-};
+);
 
 const symptoms = [
   'Depression',
@@ -71,7 +69,7 @@ const StepOne = ({ navigation }: Props) => {
   const [selected, setSelected] = useState({} as KeyValuePair);
 
   const handleSelected = (key: string) => () => {
-    setSelected({ ...selected, [key.toString()]: !selected[key.toString()] })
+    setSelected({ ...selected, [key.toString()]: !selected[key.toString()] });
   };
 
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton;
@@ -82,7 +80,7 @@ const StepOne = ({ navigation }: Props) => {
         <TouchableOpacity
           style={{ ...buttonStyle }}
           onPress={() => navigation.navigate('PickTherapist2', {
-            symptoms: Object.keys(selected)
+            symptoms: Object.keys(selected),
           })}
           disabled={disabled}
         >
@@ -164,5 +162,5 @@ const styles = StyleSheet.create<Style>({
   symptomsContainer: {
     paddingTop: 87 / dpi,
     paddingBottom: 30 / dpi,
-  }
+  },
 });

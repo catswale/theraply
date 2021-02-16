@@ -5,5 +5,5 @@ import StepThree from './StepThree';
 export const PickTherapist = {
   StepOne,
   StepTwo,
-  StepThree
+  StepThree,
 };

@@ -7,9 +7,9 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { palette } from '@theraply/lib';
 import CheckBox from '@react-native-community/checkbox';
+
 import { theme, Background } from '../../theme';
 import WizardStep from '../../components/WizardStep';
-import CheckBox from '@react-native-community/checkbox';
 
 const dpi = PixelRatio.get();
 
@@ -82,7 +82,7 @@ const StepTwo = ({ route, navigation }: Props) => {
           style={{ ...buttonStyle }}
           onPress={() => navigation.navigate('PickTherapist3', {
             ...route.params,
-            genders: Object.keys(selectedGenders)
+            genders: Object.keys(selectedGenders),
           })}
           disabled={disabled}
         >
@@ -150,5 +150,5 @@ const styles = StyleSheet.create<Style>({
   container: {
     paddingTop: 87 / dpi,
     paddingBottom: 30 / dpi,
-  }
+  },
 });

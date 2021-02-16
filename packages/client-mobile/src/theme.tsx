@@ -126,7 +126,7 @@ export const theme = StyleSheet.create<Style>({
   },
   upperBodyContainer: {
     paddingTop: 40,
-    flex: 7
+    flex: 7,
   },
   lowerBodyContainer: {
     paddingBottom: 45,
@@ -150,7 +150,9 @@ export const Background = ({ children, footer, background }: BackgroundProps) =>
         <View style={theme.lowerBodyContainer}>
           {footer}
           {background && (
-            <Corner style={{ position: 'absolute', left: -13, zIndex: -1, bottom: 0 }} width={188} height={191} />
+            <Corner style={{
+              position: 'absolute', left: -13, zIndex: -1, bottom: 0,
+            }} width={188} height={191} />
           )}
         </View>
       </View>
