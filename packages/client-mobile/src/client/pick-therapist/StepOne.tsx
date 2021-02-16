@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import {
   View, Text, StyleSheet,
-  ViewStyle, TouchableOpacity, TextStyle, GestureResponderEvent,
+  ViewStyle, TouchableOpacity, TextStyle, Platform, PixelRatio,
 } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { palette } from '@theraply/lib';
 import { theme, Background } from '../../theme';
 import WizardStep from '../../components/WizardStep';
-import Corner from '../../../assets/images/bottom-left-corner-art.svg';
+import { ScrollView } from 'react-native-gesture-handler';
+import CheckBox from '@react-native-community/checkbox';
+
+const dpi = PixelRatio.get();
 
 interface BubbleProps {
   label: string,
   active: boolean,
-  handlePress: (event: GestureResponderEvent) => void
+  handlePress: (value: boolean) => void
 };
 
 interface KeyValuePair {
@@ -20,9 +24,18 @@ interface KeyValuePair {
 
 const Bubble = ({ label, active, handlePress }: BubbleProps) => {
   return (
-    <TouchableOpacity onPress={handlePress} style={{ ...styles.bubbleWrapper, ...(active ? styles.bubbleActive : {}) }}>
-      <Text style={theme.normalText}>{label}</Text>
-    </TouchableOpacity>
+    <View style={styles.checkBoxContainer}>
+      <CheckBox
+        value={active}
+        onValueChange={handlePress}
+        style={Platform.OS === 'ios' && styles.checkBox}
+        boxType={'square'} // ios
+        onCheckColor={palette.primary.main} // ios
+        tintColor={palette.primary.main} // ios
+        tintColors={{ true: palette.primary.main, false: palette.primary.main }} // android
+      />
+      <Text style={styles.checkBoxText}>{label}</Text>
+    </View>
   )
 };
 
@@ -35,32 +48,42 @@ const symptoms = [
   'Anxiety',
   'Disordered Eating',
   'Other',
-  'Mood Instability'
+  'Mood Instability',
+
+  'Depression',
+  'Grief',
+  'Relationship',
+  'Addiction',
+  'Life Changes',
+  'Anxiety',
+  'Disordered Eating',
+  'Other',
+  'Mood Instability',
 ];
 
 interface Props {
-  setCurrentStep: Function
+  navigation: StackNavigationProp<any, 'PickTherapist1'>;
 }
 
-const StepOne = ({ setCurrentStep }: Props) => {
+const StepOne = ({ navigation }: Props) => {
   const [disabled, onChangeDisabled] = useState(false);
 
   const [selected, setSelected] = useState({} as KeyValuePair);
 
-  const handleSelected = (key: Number) => () => {
+  const handleSelected = (key: string) => () => {
     setSelected({ ...selected, [key.toString()]: !selected[key.toString()] })
   };
 
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
   return (
     <Background
-      background={
-        <Corner style={{ position: 'absolute', bottom: 0 }} width={118} height={121} />
-      }
+      background
       footer={
         <TouchableOpacity
           style={{ ...buttonStyle }}
-          onPress={() => setCurrentStep(2)}
+          onPress={() => navigation.navigate('PickTherapist2', {
+            symptoms: Object.keys(selected)
+          })}
           disabled={disabled}
         >
           <Text style={theme.primaryButtonText}>Continue</Text>
@@ -73,17 +96,17 @@ const StepOne = ({ setCurrentStep }: Props) => {
         <Text style={{ ...theme.boldText, textAlign: 'center' }}>What are you experiencing?</Text>
         <View style={styles.symptomsContainer}>
           <Text>Symptoms</Text>
-          <View style={styles.bubbleContainer}>
+          <ScrollView style={styles.bubbleContainer}>
             {
               symptoms.map((symptom, i) => (
                 <Bubble
-                  active={selected[i.toString()]}
-                  handlePress={handleSelected(i)}
+                  active={selected[symptom]}
+                  handlePress={handleSelected(symptom)}
                   key={i}
                   label={symptom} />
               ))
             }
-          </View>
+          </ScrollView>
         </View>
       </>
     </Background>
@@ -100,10 +123,8 @@ interface Style {
   errorText: TextStyle,
   inputText: ViewStyle,
   termsAndConditionsText: ViewStyle,
-  bubbleWrapper: ViewStyle,
   bubbleContainer: ViewStyle,
   symptomsContainer: ViewStyle,
-  bubbleActive: ViewStyle,
 }
 
 const styles = StyleSheet.create<Style>({
@@ -111,10 +132,10 @@ const styles = StyleSheet.create<Style>({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'space-around',
-    paddingBottom: 40,
+    paddingBottom: 40 / dpi,
   },
   checkBoxContainer: {
-    paddingBottom: 40,
+    paddingBottom: 15 / dpi,
     flexDirection: 'row',
     alignItems: 'center'
   },
@@ -137,35 +158,11 @@ const styles = StyleSheet.create<Style>({
   termsAndConditionsText: {
     color: palette.primary.main,
   },
-  bubbleWrapper: {
-    paddingLeft: 39,
-    paddingRight: 39,
-    paddingTop: 12,
-    paddingBottom: 12,
-    minWidth: 115,
-    maxWidth: 205,
-    color: palette.fadedBlue.contrastText,
-    height: 50,
-    backgroundColor: palette.fadedBlue.main,
-    borderRadius: 31,
-    textAlign: 'center',
-    marginBottom: 20,
-    marginRight: 20,
-  },
-  bubbleActive: {
-    backgroundColor: palette.secondary.main,
-    color: palette.secondary.contrastText,
-  },
   bubbleContainer: {
-    display: 'flex',
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-    marginTop: 30,
+    marginTop: 30 / dpi,
   },
   symptomsContainer: {
-    marginTop: 87,
+    paddingTop: 87 / dpi,
+    paddingBottom: 30 / dpi,
   }
 });
