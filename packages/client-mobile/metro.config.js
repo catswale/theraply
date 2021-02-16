@@ -1,6 +1,6 @@
-const { createMetroConfiguration } = require('expo-yarn-workspaces');
-const { getDefaultConfig } = require('metro-config');
-const blacklist = require('metro-config/src/defaults/blacklist');
+const { createMetroConfiguration } = require('expo-yarn-workspaces'); // eslint-disable-line
+const { getDefaultConfig } = require('metro-config'); // eslint-disable-line
+const blacklist = require('metro-config/src/defaults/blacklist'); // eslint-disable-line
 
 module.exports = (async () => {
   const {

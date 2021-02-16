@@ -1,7 +1,7 @@
 import { registerRootComponent } from 'expo';
 import Amplify from 'aws-amplify';
 import { awsExports } from '@theraply/lib';
-import App from './src/App';
+import App from './src/App.tsx';
 
 Amplify.configure({
   ...awsExports,
