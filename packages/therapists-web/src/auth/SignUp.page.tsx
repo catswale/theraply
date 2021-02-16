@@ -1,10 +1,10 @@
-import React from 'react'
+import React from 'react';
 import { Auth } from 'aws-amplify';
-import './SignUp.css'
-import { useHistory } from "react-router-dom";
+import './SignUp.css';
+import { useHistory } from 'react-router-dom';
 
 export const SignUp = () => {
-  const history = useHistory()
+  const history = useHistory();
 
   function handleSubmit(event: any) {
     event.preventDefault();
@@ -14,8 +14,8 @@ export const SignUp = () => {
     const email = data.get('email') as string;
     const phoneNumber = data.get('phoneNumber') as string;
     const password = data.get('password') as string;
-    signUp(firstName, lastName, email, phoneNumber, password)
-    history.push('signup-confirm')
+    signUp(firstName, lastName, email, phoneNumber, password);
+    history.push('signup-confirm');
   }
 
   return (
@@ -44,23 +44,22 @@ export const SignUp = () => {
 
       <button>SIGN UP</button>
     </form>
-  )
-}
+  );
+};
 
-async function signUp(firstName: string, lastName: string, email: string,  phoneNumber: string, password: string) {
-    try {
-        const {userSub} = await Auth.signUp({
-            username: email,
-            password,
-            attributes: {
-                given_name: firstName,
-                family_name: lastName,
-                email,
-                phone_number: phoneNumber,
-            }
-        });
-    } catch (error) {
-        console.log('error signing up:', error);
-    }
+async function signUp(firstName: string, lastName: string, email: string, phoneNumber: string, password: string) {
+  try {
+    const { userSub } = await Auth.signUp({
+      username: email,
+      password,
+      attributes: {
+        given_name: firstName,
+        family_name: lastName,
+        email,
+        phone_number: phoneNumber,
+      },
+    });
+  } catch (error) {
+    console.log('error signing up:', error);
+  }
 }
-

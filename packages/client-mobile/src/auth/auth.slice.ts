@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {Auth} from 'aws-amplify'
+import { Auth } from 'aws-amplify';
 
 export const authSlice = createSlice({
   name: 'auth',
@@ -23,8 +23,8 @@ export const authSlice = createSlice({
 
 export const { setLoading, setIsSignedIn, setUser } = authSlice.actions;
 
-export const selectIsSignedIn = state => state.auth.isSignedIn;
-export const selectLoading = state => state.auth.loading;
-export const selectUser = state => state.auth.user;
+export const selectIsSignedIn = (state) => state.auth.isSignedIn;
+export const selectLoading = (state) => state.auth.loading;
+export const selectUser = (state) => state.auth.user;
 
 export default authSlice.reducer;

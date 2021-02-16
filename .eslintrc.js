@@ -16,6 +16,8 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
+    'import/prefer-default-export': 'off',
+    'import/extensions': 'off',
   },
   settings: {
     'import/resolver': {

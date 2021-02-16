@@ -14,6 +14,6 @@ export const bookingsSlice = createSlice({
 
 export const { setBookings } = bookingsSlice.actions;
 
-export const selectBookings = state => state.bookings.bookings;
+export const selectBookings = (state) => state.bookings.bookings;
 
 export default bookingsSlice.reducer;

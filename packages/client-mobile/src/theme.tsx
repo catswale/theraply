@@ -29,7 +29,7 @@ export const theme = StyleSheet.create<Style>({
   title: {
     fontWeight: '700',
     fontSize: 24,
-    color: palette.secondary.contrastText
+    color: palette.secondary.contrastText,
   },
   subTitle: {
     fontSize: 16,
@@ -46,7 +46,7 @@ export const theme = StyleSheet.create<Style>({
     backgroundColor: palette.background.default,
     borderWidth: 1,
     borderRadius: 31,
-    paddingLeft: 16
+    paddingLeft: 16,
   },
   primaryButton: {
     backgroundColor: palette.primary.main,
@@ -84,14 +84,14 @@ export const theme = StyleSheet.create<Style>({
     color: palette.text.primary,
     fontWeight: 'bold',
     fontSize: 16,
-    lineHeight: 26
+    lineHeight: 26,
   },
   normalText: {
     color: palette.text.primary,
     fontWeight: 'normal',
     fontStyle: 'normal',
     fontSize: 16,
-    lineHeight: 26
+    lineHeight: 26,
   },
   tinyGrayText: {
     color: palette.text.grey2,
@@ -135,8 +135,7 @@ interface BackgroundProps {
   background?: JSX.Element;
 }
 
-export const Background = ({ children, footer, background }: BackgroundProps) => {
-  return (
+export const Background = ({ children, footer, background }: BackgroundProps) => (
     <View style={theme.container} >
       <View style={theme.bodyContainer}>
         {background}
@@ -148,5 +147,4 @@ export const Background = ({ children, footer, background }: BackgroundProps) =>
         </View>
       </View>
     </View>
-  )
-};
+);

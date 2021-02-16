@@ -1,16 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import {
   View, Text, StyleSheet, TextInput, Button,
   ViewStyle, TouchableOpacity, TextStyle, Platform,
-} from 'react-native'
-import {palette} from '@theraply/lib'
-import {theme} from '../theme'
+} from 'react-native';
+import { palette } from '@theraply/lib';
+import { theme } from '../theme';
 import WizardStep from '../../assets/images/wizard-step-four.svg';
-import Corner from '../../assets/images/bottom-left-corner-art.svg'
-import TickComplete from '../../assets/images/tick-complete.svg'
+import Corner from '../../assets/images/bottom-left-corner-art.svg';
+import TickComplete from '../../assets/images/tick-complete.svg';
 
-
-export const SignUpComplete = ({route, navigation}) => {
+export const SignUpComplete = ({ route, navigation }) => {
   const firstName = route?.params?.firstName;
 
   return (
@@ -19,7 +18,7 @@ export const SignUpComplete = ({route, navigation}) => {
         <Text style={theme.title}>Finito!</Text>
       </View>
       <View style={styles.bodyContainer}>
-        <Corner style={{position: 'absolute', bottom: 0}} width={118} height={121}/>
+        <Corner style={{ position: 'absolute', bottom: 0 }} width={118} height={121}/>
         <View style={styles.upperBodyContainer}>
           <View style={styles.graphicView}>
             <WizardStep width={75} height={5}/>
@@ -28,7 +27,7 @@ export const SignUpComplete = ({route, navigation}) => {
         <View style={styles.middleBodyContainer}>
           <TickComplete style={styles.tickComplete} width={106} height={106}/>
           <Text style={styles.welcomeText}>Welcome {firstName}</Text>
-          <Text style={{...theme.title, ...styles.title}}>Your account has been verified successfully.</Text>
+          <Text style={{ ...theme.title, ...styles.title }}>Your account has been verified successfully.</Text>
         </View>
         <View style={styles.lowerBodyContainer}>
           <TouchableOpacity
@@ -40,8 +39,8 @@ export const SignUpComplete = ({route, navigation}) => {
         </View>
       </View>
     </View>
-  )
-}
+  );
+};
 
 interface Style {
   container: ViewStyle,
@@ -92,7 +91,7 @@ const styles = StyleSheet.create<Style>({
     paddingBottom: 40,
   },
   middleBodyContainer: {
-    alignItems: 'center'
+    alignItems: 'center',
   },
   tickComplete: {
     marginBottom: 60,
@@ -105,5 +104,5 @@ const styles = StyleSheet.create<Style>({
   title: {
     color: palette.text.primary,
     textAlign: 'center',
-  }
+  },
 });

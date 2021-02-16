@@ -1,12 +1,11 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect } from 'react';
 import {
   ActivityIndicator, Text, StyleSheet,
   ViewStyle, View, TextStyle, Animated,
 } from 'react-native';
 import { palette } from '@theraply/lib';
 import { theme, Background } from '../theme';
-import Icon from '../../assets/images/icon.svg'
-
+import Icon from '../../assets/images/icon.svg';
 
 export const Loading = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -16,25 +15,25 @@ export const Loading = () => {
         Animated.timing(fadeAnim, {
           toValue: 1,
           duration: 1000,
-          useNativeDriver: true
+          useNativeDriver: true,
         }),
         Animated.delay(500),
         Animated.timing(fadeAnim, {
           toValue: 0,
           duration: 1000,
-          useNativeDriver: true
+          useNativeDriver: true,
         }),
-        Animated.delay(500)
-      ])
-    ).start()
-  }, [])
+        Animated.delay(500),
+      ]),
+    ).start();
+  }, []);
 
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
       </View>
       <View style={styles.bodyContainer}>
-        <Animated.View style={[{opacity: fadeAnim}]}>
+        <Animated.View style={[{ opacity: fadeAnim }]}>
           <Icon width={80}/>
         </Animated.View>
       </View>
@@ -60,7 +59,7 @@ const styles = StyleSheet.create<Style>({
     paddingLeft: 21,
     paddingTop: 30,
     backgroundColor: palette.secondary.main,
-    width: '100%'
+    width: '100%',
   },
   bodyContainer: {
     height: '90%',
@@ -74,6 +73,6 @@ const styles = StyleSheet.create<Style>({
   text: {
     marginTop: 20,
     color: '#A8C0FA',
-    fontSize: 16
-  }
+    fontSize: 16,
+  },
 });

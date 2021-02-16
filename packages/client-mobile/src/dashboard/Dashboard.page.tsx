@@ -10,9 +10,8 @@ import ChatIcon from '../../assets/images/chat-thin.svg';
 import CalendarIcon from '../../assets/images/calendar.svg';
 import { useAuth } from '../auth/auth.hooks';
 
-
-export const Dashboard = ({navigation}) => {
-  const {client} = useClient();
+export const Dashboard = ({ navigation }) => {
+  const { client } = useClient();
   const auth = useAuth();
   return (
     <Background
@@ -31,18 +30,18 @@ export const Dashboard = ({navigation}) => {
       }>
       <>
         <Text style={styles.greetingText}>Hello, {client.firstName}!</Text>
-        <Text style={{...theme.boldText, marginBottom: 30}}>Go ahead and book a session</Text>
+        <Text style={{ ...theme.boldText, marginBottom: 30 }}>Go ahead and book a session</Text>
         <TouchableOpacity
-          style={{...theme.primaryButton, ...styles.iconButton, marginBottom: 20}}
+          style={{ ...theme.primaryButton, ...styles.iconButton, marginBottom: 20 }}
           onPress={() => navigation.navigate('PickTherapist')}
         >
           <CalendarIcon width={28} style={styles.buttonIcon}/>
           <Text style={theme.primaryButtonText}>Book a Live Session</Text>
         </TouchableOpacity>
         {
-          client?.therapists?.length === 0 &&
-          <TouchableOpacity
-            style={{...theme.secondaryButton, ...styles.iconButton}}
+          client?.therapists?.length === 0
+          && <TouchableOpacity
+            style={{ ...theme.secondaryButton, ...styles.iconButton }}
             onPress={() => navigation.navigate('PickTherapist')}
           >
             <ChatIcon width={28} style={styles.buttonIcon}/>
@@ -76,11 +75,11 @@ const styles = StyleSheet.create<Style>({
   },
   iconButton: {
     flexDirection: 'row',
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
   },
   buttonIcon: {
     marginLeft: 24,
     marginRight: 17,
     color: palette.primary.contrastText,
-  }
+  },
 });

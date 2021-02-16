@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import {
   View, Text, StyleSheet, TextInput, Button, ViewStyle, TextStyle,
-} from 'react-native'
-import {mutations, subscriptions, queries, Message} from '@theraply/lib';
-import Amplify, { API, graphqlOperation, Auth } from 'aws-amplify'
-import {useChat} from './chat.hooks'
+} from 'react-native';
+import {
+  mutations, subscriptions, queries, Message,
+} from '@theraply/lib';
+import Amplify, { API, graphqlOperation, Auth } from 'aws-amplify';
+import { useChat } from './chat.hooks';
 
 interface Event {
   provider: object;
@@ -15,27 +17,27 @@ interface Event {
   }
 }
 
-export const Chat = ({route, navigation}) => {
+export const Chat = ({ route, navigation }) => {
   const [messages, setMessages] = useState([] as Message[]);
   const [messageBody, setMessageBody] = React.useState('');
   const { therapist, client } = route.params;
-  const chat = useChat()
+  const chat = useChat();
   useEffect(() => {
-    fetchMessages()
+    fetchMessages();
   }, []);
 
   async function fetchMessages() {
-    const messages = await chat.fetchMessages(therapist.channelID)
-    setMessages(messages)
+    const messages = await chat.fetchMessages(therapist.channelID);
+    setMessages(messages);
   }
 
   useEffect(() => {
     const subscription = API
-      .graphql(graphqlOperation(subscriptions.onCreateMessage, {owner: client.id, clientID: client.id, therapistID: therapist.id})) // @ts-ignore
+      .graphql(graphqlOperation(subscriptions.onCreateMessage, { owner: client.id, clientID: client.id, therapistID: therapist.id })) // @ts-ignore
       .subscribe({
-        next: (event: Event) => { 
+        next: (event: Event) => {
           setMessages([...messages, event.value.data.onCreateMessage]);
-        }
+        },
       });
     return () => {
       subscription.unsubscribe();
@@ -50,11 +52,11 @@ export const Chat = ({route, navigation}) => {
       clientID: client.id,
       therapistID: therapist.id,
     };
-  
+
     try {
       setMessageBody('');
       // @ts-ignore
-      await API.graphql(graphqlOperation(mutations.createMessage, { input }))
+      await API.graphql(graphqlOperation(mutations.createMessage, { input }));
     } catch (error) {
       console.warn(error);
     }
@@ -69,10 +71,10 @@ export const Chat = ({route, navigation}) => {
           style={message.authorID === client.id ? styles.messageMe : styles.message}>
             <Text style={styles.text}>{message.body}</Text>
           </View>
-        ))}
+      ))}
       </View>
       <View style={styles.chatBar}>
-        <TextInput 
+        <TextInput
         style={styles.chatBarInput}
         defaultValue="Type your message here"
         value={messageBody}
@@ -81,8 +83,8 @@ export const Chat = ({route, navigation}) => {
         <Button title='Submit' onPress={handleSubmit}/>
       </View>
     </View>
-  )
-}
+  );
+};
 
 interface Style {
   container: ViewStyle;
@@ -102,27 +104,27 @@ const message: ViewStyle = {
   maxWidth: 240,
   backgroundColor: '#f1f0f0',
   borderRadius: 16,
-}
+};
 const styles = StyleSheet.create<Style>({
   container: {
-      display: 'flex',
-      paddingTop: 40,
-      flexDirection: 'column',
-      width: '100%',
-      height: '100%',
-      backgroundColor: 'white',
-      borderRadius: 16,
+    display: 'flex',
+    paddingTop: 40,
+    flexDirection: 'column',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'white',
+    borderRadius: 16,
   },
   messages: {
-     flex: 1,
-     position: 'relative',
+    flex: 1,
+    position: 'relative',
   },
   message,
   messageMe: {
     ...message,
     alignSelf: 'flex-end',
     backgroundColor: '#f19e38',
-    color: 'white'
+    color: 'white',
   },
   text: {
     fontSize: 16,
@@ -141,5 +143,5 @@ const styles = StyleSheet.create<Style>({
     borderWidth: 1,
     borderColor: '#ddd',
     borderRadius: 16,
-  }
+  },
 });

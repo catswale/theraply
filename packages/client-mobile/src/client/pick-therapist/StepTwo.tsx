@@ -4,9 +4,9 @@ import {
   ViewStyle, TouchableOpacity, TextStyle, Platform,
 } from 'react-native';
 import { palette } from '@theraply/lib';
+import CheckBox from '@react-native-community/checkbox';
 import { theme, Background } from '../../theme';
 import WizardStep from '../../components/WizardStep';
-import CheckBox from '@react-native-community/checkbox';
 import Corner from '../../../assets/images/bottom-left-corner-art.svg';
 
 interface Props {
@@ -18,12 +18,12 @@ interface KeyValuePair {
 }
 
 const genders = [
-  "Female",
-  "Male",
-  "Transgender",
-  "Gender Neutral",
-  "Indigenous Australian",
-  "Other"
+  'Female',
+  'Male',
+  'Transgender',
+  'Gender Neutral',
+  'Indigenous Australian',
+  'Other',
 ];
 
 interface GenderParams {
@@ -33,7 +33,9 @@ interface GenderParams {
   setGender: Function
 }
 
-const getGenders = ({ key, gender, selectedGenders, setGender }: GenderParams) => (
+const getGenders = ({
+  key, gender, selectedGenders, setGender,
+}: GenderParams) => (
   <View key={key} style={styles.checkBoxContainer}>
     <CheckBox
       disabled={false}
@@ -66,7 +68,7 @@ const StepTwo = ({ setCurrentStep }: Props) => {
     setSelectedGenders(updatedGender);
   };
 
-  const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
+  const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton;
   return (
     <Background
       background={
@@ -90,7 +92,9 @@ const StepTwo = ({ setCurrentStep }: Props) => {
           <Text>Gender</Text>
           <View style={styles.checkboxGroup}>
             {
-              genders.map((g, i) => getGenders({ key: i, gender: g, selectedGenders, setGender }))
+              genders.map((g, i) => getGenders({
+                key: i, gender: g, selectedGenders, setGender,
+              }))
             }
           </View>
         </View>
@@ -121,7 +125,7 @@ const styles = StyleSheet.create<Style>({
   checkBoxContainer: {
     paddingBottom: 15,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   checkBox: {
     width: 20,
@@ -139,5 +143,5 @@ const styles = StyleSheet.create<Style>({
   },
   container: {
     marginTop: 87,
-  }
+  },
 });

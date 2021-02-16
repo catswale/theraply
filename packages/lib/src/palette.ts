@@ -5,8 +5,8 @@ export const palette = {
     main: '#004AFF',
     contrastText: '#fff',
     action: {
-      disabledBackground: '#A8C0FA'
-    }
+      disabledBackground: '#A8C0FA',
+    },
   },
   secondary: {
     main: '#00BBF9',
@@ -15,16 +15,16 @@ export const palette = {
   },
   tertiary: {
     main: '#D1DDFA',
-    contrastText: '#000F33'
+    contrastText: '#000F33',
   },
   error: {
-    main: '#FF647C'
+    main: '#FF647C',
   },
   warning: {},
   text: {
     primary: '#000F33',
     grey2: '#4F4F4F',
-    //primary
+    // primary
     // secondary
     // disabled
   },
@@ -42,5 +42,5 @@ export const palette = {
     main: '#E0F7FF',
     contrastText: '#000F33',
   },
-  lineColor: '#D1DDFA'
-}
+  lineColor: '#D1DDFA',
+};

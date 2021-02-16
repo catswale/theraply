@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {Auth} from 'aws-amplify'
-import {Client} from '@theraply/lib';
+import { Auth } from 'aws-amplify';
+import { Client } from '@theraply/lib';
 
 export const clientSlice = createSlice({
   name: 'client',
@@ -16,7 +16,7 @@ export const clientSlice = createSlice({
 
 export const { setClient } = clientSlice.actions;
 
-export const selectClient = state => state.client.client;
+export const selectClient = (state) => state.client.client;
 // export const selectLoading = state => state.auth.loading;
 
 export default clientSlice.reducer;

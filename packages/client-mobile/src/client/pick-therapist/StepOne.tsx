@@ -12,19 +12,17 @@ interface BubbleProps {
   label: string,
   active: boolean,
   handlePress: (event: GestureResponderEvent) => void
-};
+}
 
 interface KeyValuePair {
   [key: string]: any;
 }
 
-const Bubble = ({ label, active, handlePress }: BubbleProps) => {
-  return (
+const Bubble = ({ label, active, handlePress }: BubbleProps) => (
     <TouchableOpacity onPress={handlePress} style={{ ...styles.bubbleWrapper, ...(active ? styles.bubbleActive : {}) }}>
       <Text style={theme.normalText}>{label}</Text>
     </TouchableOpacity>
-  )
-};
+);
 
 const symptoms = [
   'Depression',
@@ -35,7 +33,7 @@ const symptoms = [
   'Anxiety',
   'Disordered Eating',
   'Other',
-  'Mood Instability'
+  'Mood Instability',
 ];
 
 interface Props {
@@ -48,10 +46,10 @@ const StepOne = ({ setCurrentStep }: Props) => {
   const [selected, setSelected] = useState({} as KeyValuePair);
 
   const handleSelected = (key: Number) => () => {
-    setSelected({ ...selected, [key.toString()]: !selected[key.toString()] })
+    setSelected({ ...selected, [key.toString()]: !selected[key.toString()] });
   };
 
-  const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
+  const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton;
   return (
     <Background
       background={
@@ -116,7 +114,7 @@ const styles = StyleSheet.create<Style>({
   checkBoxContainer: {
     paddingBottom: 40,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   checkBox: {
     width: 20,
@@ -129,7 +127,7 @@ const styles = StyleSheet.create<Style>({
     color: palette.error.main,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 30
+    marginBottom: 30,
   },
   inputText: {
     marginBottom: 30,
@@ -167,5 +165,5 @@ const styles = StyleSheet.create<Style>({
   },
   symptomsContainer: {
     marginTop: 87,
-  }
+  },
 });

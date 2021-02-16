@@ -7,12 +7,11 @@ import { palette } from '@theraply/lib';
 import { theme, Background } from '../theme';
 import People from '../../assets/images/group-people.svg';
 import Logo from '../../assets/images/logo.svg';
-import { useAuth } from '../auth/auth.hooks';
+import { useAuth } from './auth.hooks';
 
-const {height, width} = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 
-
-export const Landing = ({navigation}) => {
+export const Landing = ({ navigation }) => {
   const auth = useAuth();
   return (
     <View style={styles.container}>
@@ -54,7 +53,7 @@ const styles = StyleSheet.create<Style>({
     justifyContent: 'space-evenly',
     alignItems: 'center',
     height: '100%',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   upperContainer: {
     alignItems: 'center',
@@ -69,7 +68,7 @@ const styles = StyleSheet.create<Style>({
     ...theme.primaryButton,
     marginRight: 20,
     backgroundColor: palette.tertiary.main,
-    flex: 1
+    flex: 1,
   },
   logInButtonText: {
     ...theme.primaryButtonText,
@@ -82,6 +81,6 @@ const styles = StyleSheet.create<Style>({
     marginLeft: 20,
   },
   normalText: {
-    ...theme.normalGrayText, 
-  }
+    ...theme.normalGrayText,
+  },
 });

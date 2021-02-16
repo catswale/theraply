@@ -16,9 +16,7 @@ interface Props {
   setCurrentStep: Function
 }
 
-const StepThree = ({ setCurrentStep }: Props) => {
-
-  return (
+const StepThree = ({ setCurrentStep }: Props) => (
     <Background
       background={
         <Corner style={{ position: 'absolute', bottom: 0 }} width={118} height={121} />
@@ -45,15 +43,16 @@ const StepThree = ({ setCurrentStep }: Props) => {
             <View style={styles.option}><ChatIcon /></View>
           </View>
           <Text style={theme.boldText}>Specialisation</Text>
-          <Text style={{ ...theme.normalGrayText, width: '85%', textAlign: 'center', marginBottom: 20 }}>Teens, Prenatal Pregnancy, Depression, Anxiety</Text>
+          <Text style={{
+            ...theme.normalGrayText, width: '85%', textAlign: 'center', marginBottom: 20,
+          }}>Teens, Prenatal Pregnancy, Depression, Anxiety</Text>
           <TouchableOpacity>
             <Text style={styles.link}>View more</Text>
           </TouchableOpacity>
         </View>
       </View>
     </Background>
-  );
-};
+);
 
 export default StepThree;
 
@@ -81,7 +80,7 @@ const styles = StyleSheet.create<Style>({
   checkBoxContainer: {
     paddingBottom: 15,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   checkBox: {
     width: 20,
@@ -99,7 +98,7 @@ const styles = StyleSheet.create<Style>({
   },
   container: {
     marginTop: 40,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   therapistOptions: {
     marginTop: 20,
@@ -127,5 +126,5 @@ const styles = StyleSheet.create<Style>({
     fontSize: 14,
     lineHeight: 26,
     textAlign: 'center',
-  }
+  },
 });

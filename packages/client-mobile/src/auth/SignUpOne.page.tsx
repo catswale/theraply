@@ -1,33 +1,33 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import {
-  View, Text, StyleSheet, TextInput, KeyboardAvoidingView, 
+  View, Text, StyleSheet, TextInput, KeyboardAvoidingView,
   ViewStyle, TouchableOpacity, Dimensions, Platform, TouchableWithoutFeedback,
   Keyboard,
-} from 'react-native'
-import {palette} from '@theraply/lib'
-import {theme} from '../theme'
+} from 'react-native';
+import { palette } from '@theraply/lib';
+import { theme } from '../theme';
 import Graphic from '../../assets/images/enter-text-graphic.svg';
 import WizardStep from '../../assets/images/wizard-step-one.svg';
-import Corner from '../../assets/images/bottom-left-corner-art.svg'
+import Corner from '../../assets/images/bottom-left-corner-art.svg';
 
-const {width, height} = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
-export const SignUp = ({navigation}) => {
+export const SignUp = ({ navigation }) => {
   const [firstName, onChangeFirstName] = useState('');
   const [lastName, onChangeLastName] = useState('');
   const [disabled, onChangeDisabled] = useState(true);
-  const [secondInput, onChangeSecondInput] = useState(null as any)
+  const [secondInput, onChangeSecondInput] = useState(null as any);
 
   const updateButtonState = (firstName: string, lastName: string) => {
     if (firstName && lastName) {
-      onChangeDisabled(false)
+      onChangeDisabled(false);
     } else {
-      onChangeDisabled(true)
+      onChangeDisabled(true);
     }
-  }
-  const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
+  };
+  const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton;
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.inner}>
           <View style={styles.headerTextContainer}>
@@ -35,8 +35,8 @@ export const SignUp = ({navigation}) => {
             <Text style={theme.title}>Lets have your name.</Text>
           </View>
           <View style={styles.bodyContainer}>
-          
-            <Corner style={{position: 'absolute', bottom: 0}} width={118} height={121}/>
+
+            <Corner style={{ position: 'absolute', bottom: 0 }} width={118} height={121}/>
             <WizardStep width={75} height={5} style={styles.graphic}/>
             <Graphic width={width * 0.5} style={styles.graphic}/>
             <View>
@@ -46,12 +46,12 @@ export const SignUp = ({navigation}) => {
                   textContentType='givenName'
                   returnKeyType="next"
                   autoCompleteType='name'
-                  onSubmitEditing={() => { secondInput?.focus() }}
+                  onSubmitEditing={() => { secondInput?.focus(); }}
                   blurOnSubmit={false}
-                  style={{...theme.inputText, marginBottom: 24}}
-                  onChangeText={text => {
-                    updateButtonState(text, lastName)
-                    onChangeFirstName(text)
+                  style={{ ...theme.inputText, marginBottom: 24 }}
+                  onChangeText={(text) => {
+                    updateButtonState(text, lastName);
+                    onChangeFirstName(text);
                   }}
                   value={firstName}
                 />
@@ -61,20 +61,20 @@ export const SignUp = ({navigation}) => {
                 <TextInput
                   textContentType='familyName'
                   returnKeyType="next"
-                  ref={(input) => { onChangeSecondInput(input) }}
+                  ref={(input) => { onChangeSecondInput(input); }}
                   style={theme.inputText}
-                  onChangeText={text => {
-                    updateButtonState(firstName, text)
-                    onChangeLastName(text)
+                  onChangeText={(text) => {
+                    updateButtonState(firstName, text);
+                    onChangeLastName(text);
                   }}
                   value={lastName}
                 />
               </View>
             </View>
-            
+
             <TouchableOpacity
-              style={{...buttonStyle, marginTop: 24}}
-              onPress={() => navigation.navigate('SignUpTwo', {firstName, lastName})}
+              style={{ ...buttonStyle, marginTop: 24 }}
+              onPress={() => navigation.navigate('SignUpTwo', { firstName, lastName })}
               disabled={disabled}
             >
               <Text style={theme.primaryButtonText}>Next</Text>
@@ -84,8 +84,8 @@ export const SignUp = ({navigation}) => {
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
-  )
-}
+  );
+};
 
 interface Style {
   container: ViewStyle,
@@ -98,12 +98,12 @@ interface Style {
 const styles = StyleSheet.create<Style>({
   container: {
     backgroundColor: palette.secondary.main,
-    flex: 1
+    flex: 1,
   },
   inner: {
     flex: 1,
-    justifyContent: "space-evenly",
-    width: '100%'
+    justifyContent: 'space-evenly',
+    width: '100%',
   },
   headerTextContainer: {
     justifyContent: 'center',
@@ -124,6 +124,6 @@ const styles = StyleSheet.create<Style>({
     flex: 1,
   },
   graphic: {
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
 });

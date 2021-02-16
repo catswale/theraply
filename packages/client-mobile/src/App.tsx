@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import {
-  View, Text
-} from 'react-native'
+  View, Text,
+} from 'react-native';
 import { Provider } from 'react-redux';
-import store from './store'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
+import { palette } from '@theraply/lib';
+import store from './store';
 import { Chat } from './chat/Chat.page';
 import { Dashboard } from './dashboard/Dashboard.page';
 import { SignIn } from './auth/SignIn.page';
@@ -18,7 +19,6 @@ import { SignUpComplete } from './auth/SignUpComplete.page';
 import { Pay } from './payments/PayTest.page';
 import { useAuth } from './auth/auth.hooks';
 import { PickTherapist } from './client/pick-therapist';
-import { palette } from '@theraply/lib';
 import { theme } from './theme';
 import BackArrow from './components/BackArrow';
 import { Loading } from './components/Loading.page';
@@ -27,7 +27,7 @@ import { Loading } from './components/Loading.page';
 const Stack = createStackNavigator();
 
 const App = () => {
-  const { isSignedIn, loading } = useAuth()
+  const { isSignedIn, loading } = useAuth();
 
   useEffect(() => {
     // Stripe.setOptionsAsync({
@@ -35,16 +35,16 @@ const App = () => {
     //   androidPayMode: 'test', // [optional] used to set wallet environment (AndroidPay)
     //   merchantId: 'theraply', // [optional] used for payments with ApplePay
     // });
-  }, [])
+  }, []);
 
-  if (loading) return <Loading/>
+  if (loading) return <Loading/>;
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={screenOptions}>
         {
           isSignedIn ? (
             <>
-              <Stack.Screen name="Dashboard" component={Dashboard} options={{ title: 'Home'}}/>
+              <Stack.Screen name="Dashboard" component={Dashboard} options={{ title: 'Home' }}/>
               <Stack.Screen name="PickTherapist" component={PickTherapist}/>
               <Stack.Screen name="Chat" component={Chat} />
               <Stack.Screen name="Pay" component={Pay} />
@@ -59,12 +59,12 @@ const App = () => {
                 <Stack.Screen options={{ headerShown: false }} name="TermsAndConditions" component={TermsAndConditions} />
                 <Stack.Screen options={{ headerShown: false }} name="SignUpComplete" component={SignUpComplete} />
               </>
-            )
+          )
         }
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
 
 const screenOptions: StackNavigationOptions = {
   title: 'Theraply',
@@ -79,15 +79,12 @@ const screenOptions: StackNavigationOptions = {
   },
   headerBackImage: BackArrow,
   headerTitleAlign: 'center',
-}
+};
 
-const AppWrapper = () => {
-
-  return (
+const AppWrapper = () => (
     <Provider store={store}>
       <App />
     </Provider>
-  )
-}
+);
 
-export default AppWrapper
+export default AppWrapper;

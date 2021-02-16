@@ -1,42 +1,41 @@
-import React, {useEffect, useState} from 'react'
-import {Auth} from 'aws-amplify'
-import {Route, Redirect} from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Auth } from 'aws-amplify';
+import { Route, Redirect } from 'react-router-dom';
 
 export const ProtectedRoute = (props: any) => {
   const [loading, setLoading] = useState(true);
-  const [isSignedIn, setIsSignedIn] = useState(false)
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
   const { component: Component, ...rest } = props;
 
   useEffect(() => {
-    fetchIsSignedIn()
-  }, [])
+    fetchIsSignedIn();
+  }, []);
   async function fetchIsSignedIn() {
     try {
       await Auth.currentAuthenticatedUser();
-      setIsSignedIn(true)
+      setIsSignedIn(true);
     } catch (err) {
-      setIsSignedIn(false)
+      setIsSignedIn(false);
     }
-    setLoading(false)
+    setLoading(false);
   }
   return (
     <Route
         {...rest}
-        render={() =>
-            isSignedIn ? (
+        render={() => (isSignedIn ? (
                 <Component {...props} />
-            ) : loading ? (
+        ) : loading ? (
                 <div>LOADING...</div>
-            ) : (
+        ) : (
                 <Redirect
                     to={{
-                        pathname: "/login",
-                        state: { from: props.location },
+                      pathname: '/login',
+                      state: { from: props.location },
                     }}
                 />
-            )
+        ))
         }
     />
   );
-}
+};

@@ -7,7 +7,9 @@
     ],
     "nohoist": []
   },
-  "scripts": {},
+  "scripts": {
+    "lint": "eslint . --quiet --ext .ts,.tsx,.js,.jsx"
+  },
   "dependencies": {
     "moment": "2.29.1",
     "moment-timezone": "0.5.32",

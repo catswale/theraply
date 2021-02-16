@@ -1,4 +1,4 @@
-import {Moment} from 'moment'
+import { Moment } from 'moment';
 
 export type Message = {
   id: string;
@@ -50,9 +50,8 @@ export interface Booking {
 }
 
 export const BookingState = {
-  BOOKED: "BOOKED",
-  CANCELLED: "CANCELLED",
-  COMPLETED: "COMPLETED"
+  BOOKED: 'BOOKED',
+  CANCELLED: 'CANCELLED',
+  COMPLETED: 'COMPLETED',
 } as const;
 export type BookingState = typeof BookingState[keyof typeof BookingState];
-

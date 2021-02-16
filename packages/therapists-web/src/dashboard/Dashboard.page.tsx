@@ -1,55 +1,57 @@
-import React, { useEffect, useState } from 'react'
-import { API, graphqlOperation, Auth } from 'aws-amplify'
-import {queries, mutations, Therapist} from '@theraply/lib';
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { API, graphqlOperation, Auth } from 'aws-amplify';
+import { queries, mutations, Therapist } from '@theraply/lib';
+import { useHistory } from 'react-router-dom';
 import { ClientCard } from './Client.card';
 
 export const Dashboard = () => {
   const [therapist, setTherapist] = useState({} as Therapist);
-  const history = useHistory()
+  const history = useHistory();
   useEffect(() => {
-    fetchUserInfo()
-    fetchUser()
+    fetchUserInfo();
+    fetchUser();
   }, []);
 
   const signOut = async () => {
     try {
-      console.log('signing out')
-        await Auth.signOut();
-        history.push('login')
+      console.log('signing out');
+      await Auth.signOut();
+      history.push('login');
     } catch (error) {
-        console.log('error signing out: ', error);
+      console.log('error signing out: ', error);
     }
-  }
+  };
 
   const fetchUserInfo = async () => {
-    const authUser = await Auth.currentAuthenticatedUser()
-    fetchTherapist(authUser)
-  }
-  async function fetchTherapist({username, attributes}: any) {
+    const authUser = await Auth.currentAuthenticatedUser();
+    fetchTherapist(authUser);
+  };
+  async function fetchTherapist({ username, attributes }: any) {
     try {
-      const data = await API.graphql(graphqlOperation(queries.getTherapist, {id: username})) as TherapistData
+      const data = await API.graphql(graphqlOperation(queries.getTherapist, { id: username })) as TherapistData;
       type TherapistData = {data: {getTherapist: any}}
       const therapist = data.data.getTherapist;
-      console.log(therapist)
+      console.log(therapist);
       if (!therapist) {
-        console.log('therapist doesnt exist in db, creating.')
-        await API.graphql(graphqlOperation(mutations.createTherapist, {input: {
-          id: username, firstName: attributes.given_name, lastName: attributes.family_name, email: attributes.email
-        }}))
+        console.log('therapist doesnt exist in db, creating.');
+        await API.graphql(graphqlOperation(mutations.createTherapist, {
+          input: {
+            id: username, firstName: attributes.given_name, lastName: attributes.family_name, email: attributes.email,
+          },
+        }));
 
-        fetchTherapist({username, attributes})
+        fetchTherapist({ username, attributes });
       } else {
-        console.log(therapist)
+        console.log(therapist);
         therapist.clients = therapist.clients.items.map((connection: any) => ({
           ...connection.client,
           channelID: connection.id,
-        }))
-        setTherapist(therapist)
+        }));
+        setTherapist(therapist);
       }
     } catch (err) {
-      console.log('error getting (user) therapist')
-      console.log(err)
+      console.log('error getting (user) therapist');
+      console.log(err);
     }
   }
 
@@ -59,18 +61,16 @@ export const Dashboard = () => {
   }
 
   return (
-    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <h1>Dashboard</h1>
       <h2>Hello {therapist.firstName}</h2>
       <h3>Your Clients</h3>
       {
-        therapist?.clients?.map(client => (
+        therapist?.clients?.map((client) => (
           <ClientCard key={client.channelID} client={client} therapist={therapist}/>
         ))
       }
       <button onClick={signOut}>SIGN OUT</button>
     </div>
-  )
-}
-
-
+  );
+};

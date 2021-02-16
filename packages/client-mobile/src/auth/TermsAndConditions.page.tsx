@@ -1,14 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import {
   View, Text, StyleSheet, TextInput, Button,
   ViewStyle, TouchableOpacity, TextStyle, Platform,
-} from 'react-native'
-import {palette} from '@theraply/lib'
-import {theme} from '../theme'
+} from 'react-native';
+import { palette } from '@theraply/lib';
+import { theme } from '../theme';
 
-export const TermsAndConditions = ({navigation}) => {
-
-  return (
+export const TermsAndConditions = ({ navigation }) => (
     <View style={styles.container} >
       <View style={styles.headerTextContainer}>
         <Text style={theme.title}>Terms and conditions.</Text>
@@ -16,8 +14,7 @@ export const TermsAndConditions = ({navigation}) => {
       <View style={styles.bodyContainer}>
       </View>
     </View>
-  )
-}
+);
 
 interface Style {
   container: ViewStyle,

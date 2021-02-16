@@ -1,57 +1,57 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import {
   View, Text, StyleSheet, TextInput, Button,
   ViewStyle, TouchableOpacity, TextStyle, Platform,
-} from 'react-native'
+} from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
-import {palette} from '@theraply/lib'
-import {theme} from '../theme'
+import { palette } from '@theraply/lib';
+import { Auth } from 'aws-amplify';
+import { theme } from '../theme';
 import WizardStep from '../../assets/images/wizard-step-three.svg';
-import Corner from '../../assets/images/bottom-left-corner-art.svg'
-import {Auth} from 'aws-amplify';
-import {useAuth} from './auth.hooks';
+import Corner from '../../assets/images/bottom-left-corner-art.svg';
+import { useAuth } from './auth.hooks';
 import { Loading } from '../components/Loading.page';
 
-export const VerifyEmail = ({route, navigation}) => {
-  const {email, firstName} = route?.params;
+export const VerifyEmail = ({ route, navigation }) => {
+  const { email, firstName } = route?.params;
   const [code, onChangeCode] = useState('');
   const [disabled, onChangeDisabled] = useState(true);
-  const [checkBox, setCheckBox] = useState(false)
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-  const auth = useAuth()
-  
+  const [checkBox, setCheckBox] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const auth = useAuth();
+
   const updateButtonState = (code: string, checkBox: boolean) => {
     if (code && checkBox) {
-      onChangeDisabled(false)
+      onChangeDisabled(false);
     } else {
-      onChangeDisabled(true)
+      onChangeDisabled(true);
     }
-  }
+  };
 
   async function confirmSignUp() {
     try {
-      setLoading(true)
+      setLoading(true);
       await Auth.confirmSignUp(email, code); // returns SUCCESS
-      navigation.navigate('SignUpComplete', {firstName})
+      navigation.navigate('SignUpComplete', { firstName });
     } catch (error) {
-        console.log('error verifying sign up code', error);
-        setError(error.message)
+      console.log('error verifying sign up code', error);
+      setError(error.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   async function resendConfirmationCode() {
     try {
-      await auth.resendConfirmationCode(email)
+      await auth.resendConfirmationCode(email);
     } catch (err) {
-      setError(err.message)
+      setError(err.message);
     }
   }
 
-  const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
-  if (loading) return <Loading/>
+  const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton;
+  if (loading) return <Loading/>;
   return (
     <View style={styles.container} >
       <View style={styles.headerTextContainer}>
@@ -59,17 +59,17 @@ export const VerifyEmail = ({route, navigation}) => {
         <Text style={theme.title}>Please verify your email.</Text>
       </View>
       <View style={styles.bodyContainer}>
-        <Corner style={{position: 'absolute', bottom: 0}} width={118} height={121}/>
+        <Corner style={{ position: 'absolute', bottom: 0 }} width={118} height={121}/>
         <View style={styles.upperBodyContainer}>
           <View style={styles.graphicView}>
             <WizardStep width={75} height={5}/>
           </View>
           <Text style={error ? styles.errorText : null}>{error}</Text>
           <TextInput
-            style={{...theme.inputText, ...styles.inputText}}
-            onChangeText={text => {
-              updateButtonState(text, checkBox)
-              onChangeCode(text)
+            style={{ ...theme.inputText, ...styles.inputText }}
+            onChangeText={(text) => {
+              updateButtonState(text, checkBox);
+              onChangeCode(text);
             }}
             value={code}
           />
@@ -83,14 +83,14 @@ export const VerifyEmail = ({route, navigation}) => {
               disabled={false}
               value={checkBox}
               onValueChange={(newValue) => {
-                updateButtonState(code, newValue)
-                setCheckBox(newValue)
+                updateButtonState(code, newValue);
+                setCheckBox(newValue);
               }}
               style={Platform.OS === 'ios' && styles.checkBox}
               boxType={'square'} // ios
               onCheckColor={palette.primary.main} // ios
               tintColor={palette.primary.main} // ios
-              tintColors={{true: palette.primary.main, false: palette.primary.main}} // android
+              tintColors={{ true: palette.primary.main, false: palette.primary.main }} // android
             />
             <Text style={styles.checkBoxText}>I agree with all</Text>
               <TouchableOpacity onPress={() => navigation.navigate('TermsAndConditions')}>
@@ -98,7 +98,7 @@ export const VerifyEmail = ({route, navigation}) => {
               </TouchableOpacity>
           </View>
           <TouchableOpacity
-            style={{...buttonStyle}}
+            style={{ ...buttonStyle }}
             onPress={confirmSignUp}
             disabled={disabled}
           >
@@ -107,8 +107,8 @@ export const VerifyEmail = ({route, navigation}) => {
         </View>
       </View>
     </View>
-  )
-}
+  );
+};
 
 interface Style {
   container: ViewStyle,
@@ -163,8 +163,8 @@ const styles = StyleSheet.create<Style>({
   },
   checkBoxContainer: {
     paddingBottom: 40,
-    flexDirection: 'row', 
-    alignItems: 'center'
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   checkBox: {
     width: 20,
@@ -177,7 +177,7 @@ const styles = StyleSheet.create<Style>({
     color: palette.error.main,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 30
+    marginBottom: 30,
   },
   inputText: {
     marginBottom: 30,
@@ -186,7 +186,7 @@ const styles = StyleSheet.create<Style>({
     color: palette.primary.main,
   },
   resendText: {
-    color: palette.primary.main, 
-    alignSelf: 'center'
-  }
+    color: palette.primary.main,
+    alignSelf: 'center',
+  },
 });
