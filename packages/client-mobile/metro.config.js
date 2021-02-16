@@ -13,8 +13,8 @@ module.exports = (async () => {
     },
     resolver: {
       blacklistRE: blacklist([/lib\/amplify\/.*/]),
-      assetExts: assetExts.filter(ext => ext !== 'svg'),
-      sourceExts: [...sourceExts, 'svg']
+      assetExts: assetExts.filter((ext) => ext !== 'svg'),
+      sourceExts: [...sourceExts, 'svg'],
     },
   };
 })();
