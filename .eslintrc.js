@@ -3,6 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
     node: true,
+    "jest/globals": true
   },
   extends: [
     'airbnb-base',
@@ -14,10 +15,12 @@ module.exports = {
   },
   plugins: [
     '@typescript-eslint',
+    'jest',
   ],
   rules: {
     'import/prefer-default-export': 'off',
     'import/extensions': 'off',
+    'no-use-before-define': 'off',
   },
   settings: {
     'import/resolver': {
