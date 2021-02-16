@@ -25,12 +25,6 @@
       "last 1 safari version"
     ]
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "dependencies": {
     "@aws-amplify/ui-react": "^0.2.31",
     "@reduxjs/toolkit": "^1.5.0",
