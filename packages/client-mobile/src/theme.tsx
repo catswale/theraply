@@ -1,9 +1,10 @@
 import React from 'react';
 import { palette } from '@theraply/lib';
 import {
-  View, Text, StyleSheet,
-  ViewStyle, TouchableOpacity, TextStyle,
+  View, StyleSheet,
+  ViewStyle, TextStyle, Dimensions,
 } from 'react-native';
+import Corner from '../assets/images/bottom-left-corner-art.svg';
 
 interface Style {
   title: TextStyle
@@ -24,6 +25,8 @@ interface Style {
   upperBodyContainer: ViewStyle,
   lowerBodyContainer: ViewStyle,
 }
+
+const { height } = Dimensions.get('window');
 
 export const theme = StyleSheet.create<Style>({
   title: {
@@ -106,15 +109,16 @@ export const theme = StyleSheet.create<Style>({
     fontWeight: 'normal',
   },
   container: {
-    height: '100%',
     backgroundColor: palette.secondary.main,
+    height,
   },
   bodyContainer: {
     display: 'flex',
+    height: 0.89 * height,
     flexDirection: 'column',
-    height: '100%',
     width: '100%',
     backgroundColor: '#fff',
+    flex: 1,
     justifyContent: 'space-between',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
@@ -122,28 +126,32 @@ export const theme = StyleSheet.create<Style>({
   },
   upperBodyContainer: {
     paddingTop: 40,
-    width: '100%',
+    flex: 7
   },
   lowerBodyContainer: {
     paddingBottom: 45,
+    flex: 3,
+    justifyContent: 'center',
   },
 });
 
 interface BackgroundProps {
   children: JSX.Element;
   footer: JSX.Element;
-  background?: JSX.Element;
+  background?: boolean;
 }
 
 export const Background = ({ children, footer, background }: BackgroundProps) => (
     <View style={theme.container} >
       <View style={theme.bodyContainer}>
-        {background}
         <View style={theme.upperBodyContainer}>
           {children}
         </View>
         <View style={theme.lowerBodyContainer}>
           {footer}
+          {background && (
+            <Corner style={{ position: 'absolute', left: -13, zIndex: -1, bottom: 0 }} width={188} height={191} />
+          )}
         </View>
       </View>
     </View>

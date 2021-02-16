@@ -3,6 +3,8 @@ import {
   View, Text, StyleSheet,
   ViewStyle, TouchableOpacity, TextStyle,
 } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 import { palette } from '@theraply/lib';
 import { theme, Background } from '../../theme';
 import WizardStep from '../../components/WizardStep';
@@ -10,17 +12,25 @@ import Therapist from '../../../assets/images/therapist.svg';
 import VideoIcon from '../../../assets/images/camera.svg';
 import MicrophoneIcon from '../../../assets/images/audio.svg';
 import ChatIcon from '../../../assets/images/chat.svg';
-import Corner from '../../../assets/images/bottom-left-corner-art.svg';
+
+type RouteParams = {
+  PickTherapist3: {
+    symptoms: string[];
+    genders: string[];
+  }
+};
 
 interface Props {
-  setCurrentStep: Function
+  route: RouteProp<RouteParams, 'PickTherapist3'>;
+  navigation: StackNavigationProp<RouteParams, 'PickTherapist3'>;
 }
 
-const StepThree = ({ setCurrentStep }: Props) => (
+const StepThree = ({ route, navigation }: Props) => {
+  console.log('params are ', route.params);
+
+  return (
     <Background
-      background={
-        <Corner style={{ position: 'absolute', bottom: 0 }} width={118} height={121} />
-      }
+      background
       footer={
         <TouchableOpacity>
           <Text style={styles.link}>Schedule Later</Text>

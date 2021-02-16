@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import {
-  View, Text,
-} from 'react-native';
+  View, Text, Dimensions
+} from 'react-native'
 import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
@@ -26,6 +26,8 @@ import { Loading } from './components/Loading.page';
 
 const Stack = createStackNavigator();
 
+const { height } = Dimensions.get('window');
+
 const App = () => {
   const { isSignedIn, loading } = useAuth();
 
@@ -44,8 +46,10 @@ const App = () => {
         {
           isSignedIn ? (
             <>
-              <Stack.Screen name="Dashboard" component={Dashboard} options={{ title: 'Home' }}/>
-              <Stack.Screen name="PickTherapist" component={PickTherapist}/>
+              <Stack.Screen name="Dashboard" component={Dashboard} options={{ title: 'Home' }} />
+              <Stack.Screen name="PickTherapist1" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepOne} />
+              <Stack.Screen name="PickTherapist2" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepTwo} />
+              <Stack.Screen name="PickTherapist3" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepThree} />
               <Stack.Screen name="Chat" component={Chat} />
               <Stack.Screen name="Pay" component={Pay} />
             </>
@@ -72,6 +76,7 @@ const screenOptions: StackNavigationOptions = {
     backgroundColor: palette.secondary.main,
     shadowColor: 'transparent',
     elevation: 0,
+    height: 0.11 * height,
   },
   headerTitleStyle: {
     ...theme.normalText,
