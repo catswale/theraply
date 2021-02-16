@@ -37,7 +37,6 @@ export const Loading = () => {
         <Animated.View style={[{opacity: fadeAnim}]}>
           <Icon width={80}/>
         </Animated.View>
-        <Text style={styles.text}>Hold on!</Text>
       </View>
     </View>
   );

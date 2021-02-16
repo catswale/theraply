@@ -21,6 +21,7 @@ import { PickTherapist } from './client/pick-therapist';
 import { palette } from '@theraply/lib';
 import { theme } from './theme';
 import BackArrow from './components/BackArrow';
+import { Loading } from './components/Loading.page';
 // import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 
 const Stack = createStackNavigator();
@@ -36,7 +37,7 @@ const App = () => {
     // });
   }, [])
 
-  if (loading) return <View><Text>Loading...</Text></View>
+  if (loading) return <Loading/>
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={screenOptions}>

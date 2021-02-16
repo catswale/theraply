@@ -10,6 +10,7 @@ import WizardStep from '../../assets/images/wizard-step-three.svg';
 import Corner from '../../assets/images/bottom-left-corner-art.svg'
 import {Auth} from 'aws-amplify';
 import {useAuth} from './auth.hooks';
+import { Loading } from '../components/Loading.page';
 
 export const VerifyEmail = ({route, navigation}) => {
   const {email, firstName} = route?.params;
@@ -17,6 +18,7 @@ export const VerifyEmail = ({route, navigation}) => {
   const [disabled, onChangeDisabled] = useState(true);
   const [checkBox, setCheckBox] = useState(false)
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const auth = useAuth()
   
   const updateButtonState = (code: string, checkBox: boolean) => {
@@ -29,12 +31,14 @@ export const VerifyEmail = ({route, navigation}) => {
 
   async function confirmSignUp() {
     try {
+      setLoading(true)
       await Auth.confirmSignUp(email, code); // returns SUCCESS
-      setError('')
       navigation.navigate('SignUpComplete', {firstName})
     } catch (error) {
         console.log('error verifying sign up code', error);
         setError(error.message)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -47,6 +51,7 @@ export const VerifyEmail = ({route, navigation}) => {
   }
 
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
+  if (loading) return <Loading/>
   return (
     <View style={styles.container} >
       <View style={styles.headerTextContainer}>

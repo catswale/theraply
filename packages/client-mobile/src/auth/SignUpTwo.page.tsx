@@ -11,6 +11,7 @@ import Graphic from '../../assets/images/boards-graphic.svg';
 import WizardStep from '../../assets/images/wizard-step-two.svg';
 import Corner from '../../assets/images/bottom-left-corner-art.svg'
 import { useAuth } from './auth.hooks';
+import { Loading } from '../components/Loading.page';
 
 const {width, height} = Dimensions.get('window');
 
@@ -20,6 +21,8 @@ export const SignUpTwo = ({route, navigation}) => {
   const [password, onChangePassword] = useState('');
   const [disabled, onChangeDisabled] = useState(true);
   const [secondInput, onChangeSecondInput] = useState(null as any)
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const auth = useAuth()
 
   const updateButtonState = (email: string, password: string) => {
@@ -30,11 +33,19 @@ export const SignUpTwo = ({route, navigation}) => {
     }
   }
   async function signUp() {
-    await auth.signUp(firstName, email, password);
-    navigation.navigate('VerifyEmail', {email, firstName})
+    try {
+      setLoading(true)
+      await auth.signUp(firstName, email, password);
+      navigation.navigate('VerifyEmail', {email, firstName})
+    } catch(err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton
+  if (loading) return <Loading/>
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -49,6 +60,9 @@ export const SignUpTwo = ({route, navigation}) => {
             <WizardStep width={75} height={5} style={styles.graphic}/>
             <Graphic width={width * 0.5} style={styles.graphic}/>
             <View>
+              {
+                Boolean(error) && <Text style={styles.errorText}>{error}</Text>
+              }
               <Text style={theme.h4}>Email Address</Text>
               <TextInput
                 autoCorrect={false}
@@ -105,6 +119,7 @@ interface Style {
   bodyContainer: ViewStyle,
   graphic: ViewStyle,
   subTitle: TextStyle,
+  errorText: TextStyle,
 }
 
 const styles = StyleSheet.create<Style>({
@@ -140,5 +155,9 @@ const styles = StyleSheet.create<Style>({
   subTitle: {
     ...theme.subTitle,
     marginBottom: 8,
-  }
+  },
+  errorText: {
+    color: 'red', 
+    paddingBottom: 8,
+  },
 });

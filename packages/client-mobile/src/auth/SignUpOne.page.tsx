@@ -74,7 +74,7 @@ export const SignUp = ({navigation}) => {
             
             <TouchableOpacity
               style={{...buttonStyle, marginTop: 24}}
-              onPress={() => navigation.navigate('SignUpTwo', {firstName})}
+              onPress={() => navigation.navigate('SignUpTwo', {firstName, lastName})}
               disabled={disabled}
             >
               <Text style={theme.primaryButtonText}>Next</Text>
