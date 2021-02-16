@@ -62,7 +62,8 @@ const StepThree = ({ route, navigation }: Props) => {
         </View>
       </View>
     </Background>
-);
+  );
+}
 
 export default StepThree;
 
