@@ -42,5 +42,4 @@ export const palette = {
     main: '#E0F7FF',
     contrastText: '#000F33',
   },
-  lineColor: '#D1DDFA',
 };

@@ -31,10 +31,10 @@ export const useClient = () => {
     const data = await API.graphql(graphqlOperation(queries.getClient, { id })) as Data;
     type Data = {data: {getClient: any}}
 
-    let client = data.data.getClient;
-    if (!client) {
+    let newClient = data.data.getClient;
+    if (!newClient) {
       console.log('client doesnt exist in db, creating');
-      client = await API.graphql(graphqlOperation(mutations.createClient, {
+      newClient = await API.graphql(graphqlOperation(mutations.createClient, {
         input: {
           id,
           firstName: attributes.given_name,
@@ -43,11 +43,12 @@ export const useClient = () => {
         },
       }));
     }
-    client.therapists = client?.therapists?.items && client.therapists.items.map((connection) => ({
+    newClient.therapists = newClient?.therapists?.items && newClient.therapists.items.map((connection) => ({
       ...connection.therapist,
       channelID: connection.id,
     }));
-    dispatch(setClient(client));
+    console.log(newClient)
+    dispatch(setClient(newClient));
   }
 
   async function createTherapistClientConnection(therapist: Therapist, client: Client) {

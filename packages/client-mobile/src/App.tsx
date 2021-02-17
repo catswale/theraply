@@ -22,6 +22,7 @@ import { PickTherapist } from './client/pick-therapist';
 import { theme } from './theme';
 import BackArrow from './components/BackArrow';
 import { Loading } from './components/Loading.page';
+import {ChoosePackage} from './payments/ChoosePackage.page';
 // import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 
 const Stack = createStackNavigator();
@@ -46,6 +47,7 @@ const App = () => {
         {
           isSignedIn ? (
             <>
+              <Stack.Screen name="ChoosePackage" component={ChoosePackage} options={{ title: 'Payment' }} />
               <Stack.Screen name="Dashboard" component={Dashboard} options={{ title: 'Home' }} />
               <Stack.Screen name="PickTherapist1" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepOne} />
               <Stack.Screen name="PickTherapist2" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepTwo} />
