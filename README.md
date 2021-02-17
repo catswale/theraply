@@ -1,6 +1,7 @@
 # Theraply Monorepo
 Therapist: A psychologist who provides mental health support to their clients
 Client: A customer who needs mental health support
+Package: A payment package that clients select to be able to use our service. It can offer a week of texting, a live session etc.
 
 # Projects
 ## client-mobile
