@@ -19,7 +19,10 @@ AWS.config.update({ region: process.env.TABLE_REGION });
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 const configs = {
-  dev: { clientTableName: 'Client-p54d5mes25bmth6vaw6op53j6e-dev' },
+  dev: {
+    clientTableName: 'Client-p54d5mes25bmth6vaw6op53j6e-dev',
+    therapistTableName: 'Therapist-p54d5mes25bmth6vaw6op53j6e-dev',
+  },
   prod: { clientTableName: 'Client-5yhmoyxy3rhddfjlj3kqhjij5i-prod' },
 };
 const config = configs[process.env.ENV];
@@ -36,7 +39,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post('/client/therapist', postTherapist);
+app.post('/client/therapist', postTherapist({ db: dynamodb, config }));
 
 app.post('/email', async (req, res) => {
   try {
