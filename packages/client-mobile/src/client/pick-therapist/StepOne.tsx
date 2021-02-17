@@ -47,16 +47,6 @@ const symptoms = [
   'Disordered Eating',
   'Other',
   'Mood Instability',
-
-  'Depression',
-  'Grief',
-  'Relationship',
-  'Addiction',
-  'Life Changes',
-  'Anxiety',
-  'Disordered Eating',
-  'Other',
-  'Mood Instability',
 ];
 
 interface Props {
