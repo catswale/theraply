@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  View, Text, Dimensions,
-} from 'react-native';
+import { Dimensions } from 'react-native';
 import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
@@ -22,7 +20,7 @@ import { PickTherapist } from './client/pick-therapist';
 import { theme } from './theme';
 import BackArrow from './components/BackArrow';
 import { Loading } from './components/Loading.page';
-import {ChoosePackage} from './payments/ChoosePackage.page';
+import { ChoosePackage } from './payments/ChoosePackage.page';
 // import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 
 export type RootStackParamList = {
@@ -32,6 +30,7 @@ export type RootStackParamList = {
   PickTherapist2: undefined;
   PickTherapist3: undefined;
   Chat: undefined;
+  Pay: undefined;
   Landing: undefined;
   SignIn: undefined;
   SignUp: undefined;
@@ -44,8 +43,6 @@ export type RootStackParamList = {
 const Stack = createStackNavigator<RootStackParamList>();
 
 const { height } = Dimensions.get('window');
-
-
 
 const App = () => {
   const { isSignedIn, loading } = useAuth();

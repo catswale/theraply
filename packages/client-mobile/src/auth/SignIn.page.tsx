@@ -28,8 +28,8 @@ export const SignIn = ({ route, navigation }) => {
       const user = await auth.signIn(email, password);
       auth.setUser(user);
       auth.setIsSignedIn(true);
-    } catch (error) {
-      setError(error.message);
+    } catch (err) {
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -54,7 +54,7 @@ export const SignIn = ({ route, navigation }) => {
           </View>
           <View style={styles.bodyContainer}>
           <Corner style={{ position: 'absolute', bottom: 0 }} width={118} height={121}/>
-            <Text style={{ color: 'red' }}>{error}</Text>
+            <Text style={{ color: palette.error.main }}>{error}</Text>
             <View style={styles.graphicView}>
                 <EnterTextGraphic width={width * 0.6}/>
               </View>

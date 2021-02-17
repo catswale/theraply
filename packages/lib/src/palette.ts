@@ -1,3 +1,5 @@
+// based on https://material-ui.com/customization/default-theme/
+
 export const palette = {
   gray: '#F2F2F2',
   borderBlue: 'rgba(0,74,255,0.1)',
@@ -24,7 +26,6 @@ export const palette = {
   text: {
     primary: '#000F33',
     grey2: '#4F4F4F',
-    // primary
     // secondary
     // disabled
   },
