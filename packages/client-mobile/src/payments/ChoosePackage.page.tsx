@@ -3,19 +3,34 @@ import {
   View, Text, StyleSheet, PixelRatio,
   ViewStyle, TouchableOpacity, TextStyle, Dimensions,
 } from 'react-native';
-import { palette } from '@theraply/lib';
+import { palette, PackageItem } from '@theraply/lib';
 import { theme, Background } from '../theme';
 import Graphic from '../../assets/images/credit-cards.svg';
 import ChatIcon from '../../assets/images/chat.svg';
 import AudioIcon from '../../assets/images/audio.svg';
 import CameraIcon from '../../assets/images/camera.svg';
+import {RootStackParamList} from '../App';
+import { StackNavigationProp } from '@react-navigation/stack';
 
+type ProfileScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'ChoosePackage'
+>;
+type Props = {
+  navigation: ProfileScreenNavigationProp;
+};
 const { width, height } = Dimensions.get('window');
 
-export const ChoosePackage = () => {
-  const [disabled, onChangeDisabled] = useState(false);
+export const ChoosePackage = ({navigation}: Props) => {
+  const [disabled, setDisabled] = useState(true);
+  const [selectedPackageItems, setSelectedPackageItems] = useState([] as PackageItem[]);
+  const [firstPackageSelected, setFirstPackageSelected] = useState(false);
+  const [secondPackageSelected, setSecondPackageSelected] = useState(false);
 
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton;
+  const firstPackageStyle = firstPackageSelected ? styles.packageContainerSelected : styles.packageContainer;
+  const secondPackageStyle = secondPackageSelected ? styles.packageContainerSelected : styles.packageContainer;
+
   return (
     <Background
       footer={
@@ -32,8 +47,13 @@ export const ChoosePackage = () => {
         <Graphic style={styles.graphic} width={width * 0.5}/>
         <View style={styles.packagesContainer}>
           <TouchableOpacity
-            style={styles.packageContainer}
-            onPress={() => {}}
+            style={firstPackageStyle}
+            onPress={() => {
+              setSecondPackageSelected(false)
+              setFirstPackageSelected(true)
+              setSelectedPackageItems([PackageItem.Texting])
+              if (disabled) setDisabled(false)
+            }}
           >
             <Text style={styles.priceText}>$70</Text>
             <Text style={styles.packageText}>1 Week of Text Support</Text>
@@ -42,8 +62,13 @@ export const ChoosePackage = () => {
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.packageContainer}
-            onPress={() => {}}
+            style={secondPackageStyle}
+            onPress={() => {
+              setFirstPackageSelected(false)
+              setSecondPackageSelected(true)
+              setSelectedPackageItems([PackageItem.Texting, PackageItem.LiveSession])
+              if (disabled) setDisabled(false)
+            }}
           >
             <Text style={styles.priceText}>$100</Text>
             <Text style={styles.packageText}>1 Week of Text and Call Support (1x30 min)</Text>
@@ -62,6 +87,7 @@ export const ChoosePackage = () => {
 interface Style {
   container: ViewStyle,
   packagesContainer: ViewStyle,
+  packageContainerSelected: ViewStyle,
   packageContainer: ViewStyle,
   priceText: TextStyle,
   packageText: TextStyle,
@@ -84,6 +110,15 @@ const styles = StyleSheet.create<Style>({
     width: '45%',
     borderRadius: 30,
     borderColor: palette.tertiary.main,
+    borderWidth: 2,
+    alignItems: 'center',
+    padding: 20,
+    justifyContent: 'space-between',
+  },
+  packageContainerSelected: {
+    width: '45%',
+    borderRadius: 30,
+    borderColor: palette.primary.main,
     borderWidth: 2,
     alignItems: 'center',
     padding: 20,

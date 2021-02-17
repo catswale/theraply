@@ -25,9 +25,17 @@ import { Loading } from './components/Loading.page';
 import {ChoosePackage} from './payments/ChoosePackage.page';
 // import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 
-const Stack = createStackNavigator();
+export type RootStackParamList = {
+  Dashboard: undefined;
+  ChoosePackage: undefined;
+  
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
 
 const { height } = Dimensions.get('window');
+
+
 
 const App = () => {
   const { isSignedIn, loading } = useAuth();

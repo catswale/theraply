@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+import {BookingState} from './constants';
 
 export type Message = {
   id: string;
@@ -48,10 +49,3 @@ export interface Booking {
   createdAt: Date,
   updatedAt: Date,
 }
-
-export const BookingState = {
-  BOOKED: 'BOOKED',
-  CANCELLED: 'CANCELLED',
-  COMPLETED: 'COMPLETED',
-} as const;
-export type BookingState = typeof BookingState[keyof typeof BookingState];
