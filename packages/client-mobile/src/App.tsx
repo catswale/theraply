@@ -28,7 +28,17 @@ import {ChoosePackage} from './payments/ChoosePackage.page';
 export type RootStackParamList = {
   Dashboard: undefined;
   ChoosePackage: undefined;
-  
+  PickTherapist1: undefined;
+  PickTherapist2: undefined;
+  PickTherapist3: undefined;
+  Chat: undefined;
+  Landing: undefined;
+  SignIn: undefined;
+  SignUp: undefined;
+  SignUpTwo: undefined;
+  VerifyEmail: undefined;
+  TermsAndConditions: undefined;
+  SignUpComplete: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -55,11 +65,11 @@ const App = () => {
         {
           isSignedIn ? (
             <>
-              <Stack.Screen name="ChoosePackage" component={ChoosePackage} options={{ title: 'Payment' }} />
               <Stack.Screen name="Dashboard" component={Dashboard} options={{ title: 'Home' }} />
               <Stack.Screen name="PickTherapist1" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepOne} />
               <Stack.Screen name="PickTherapist2" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepTwo} />
               <Stack.Screen name="PickTherapist3" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepThree} />
+              <Stack.Screen name="ChoosePackage" component={ChoosePackage} options={{ title: 'Payment' }} />
               <Stack.Screen name="Chat" component={Chat} />
               <Stack.Screen name="Pay" component={Pay} />
             </>
