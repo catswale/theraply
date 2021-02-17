@@ -16,7 +16,10 @@
         "mobileapp3d64a26e": {}
       },
       "function": {
-        "paymentCheckout": {}
+        "paymentCheckout": {
+          "deploymentBucketName": "amplify-mobileapp-dev-184827-deployment",
+          "s3Key": "amplify-builds/paymentCheckout-41513258324e51386a43-build.zip"
+        }
       }
     }
   },
