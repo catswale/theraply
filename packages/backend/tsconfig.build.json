@@ -5,7 +5,8 @@
     "noImplicitAny": false,
     "preserveConstEnums": true,
     "outDir": "./built",
-    "sourceMap": true
+    "sourceMap": true,
+    "types": []
   },
   "include": ["./src/**/*", "app.js"],
 }
