@@ -8,7 +8,7 @@ interface WizardStepProps {
 }
 
 const WizardStep = ({ stepNumber, totalSteps = 3 }: WizardStepProps) => {
-  const getActiveColor = (index: number) => (index === stepNumber ? palette.primary.main : palette.lineColor);
+  const getActiveColor = (index: number) => (index === stepNumber ? palette.primary.main : palette.tertiary.main);
 
   const rectWidth = 15;
   const width = (totalSteps * rectWidth) + ((totalSteps - 1) * 5);

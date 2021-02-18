@@ -5,7 +5,6 @@ import { postTherapist } from './client';
 import { sendEmail } from './email';
 import { paymentRegister } from './payment';
 
-// declare a new express app
 export const app = express();
 app.use(bodyParser.json());
 app.use(awsServerlessExpressMiddleware.eventContext());

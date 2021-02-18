@@ -157,7 +157,7 @@ const styles = StyleSheet.create<Style>({
     marginBottom: 8,
   },
   errorText: {
-    color: 'red',
+    color: palette.error.main,
     paddingBottom: 8,
   },
 });

@@ -37,5 +37,14 @@
       "config": "metro.config.js",
       "sourceExts": ["js", "jsx", "ts", "tsx", "svg"]
     }
-  }
+  },
+  "plugins": [
+    [
+      "expo-payments-stripe",
+      {
+        "scheme": "your-redirect-uri",
+        "merchantId": "merchant.com.theraply.app"
+      }
+    ]
+  ]
 }

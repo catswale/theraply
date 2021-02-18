@@ -26,7 +26,6 @@ interface Props {
 }
 
 const StepThree = ({ route, navigation }: Props) => {
-  console.log('params are ', route.params);
 
   return (
     <Background
@@ -62,7 +61,8 @@ const StepThree = ({ route, navigation }: Props) => {
         </View>
       </View>
     </Background>
-);
+  );
+};
 
 export default StepThree;
 

@@ -36,6 +36,7 @@ type TherapistClientRelationship
   clientID: ID!
   therapist: Therapist! @connection(fields: ["therapistID"])
   client: Client! @connection(fields: ["clientID"])
+  active: Boolean
 }
 
 type Client @model 

@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
-import {
-  View, Text, Dimensions,
-} from 'react-native';
+import { Dimensions } from 'react-native';
 import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
 import { palette } from '@theraply/lib';
-import store from './store';
+import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 import { Chat } from './chat/Chat.page';
 import { Dashboard } from './dashboard/Dashboard.page';
 import { SignIn } from './auth/SignIn.page';
@@ -22,9 +20,27 @@ import { PickTherapist } from './client/pick-therapist';
 import { theme } from './theme';
 import BackArrow from './components/BackArrow';
 import { Loading } from './components/Loading.page';
-// import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
+import { ChoosePackage } from './payments/ChoosePackage.page';
+import store from './store';
 
-const Stack = createStackNavigator();
+export type RootStackParamList = {
+  Dashboard: undefined;
+  ChoosePackage: undefined;
+  PickTherapist1: undefined;
+  PickTherapist2: undefined;
+  PickTherapist3: undefined;
+  Chat: undefined;
+  Pay: undefined;
+  Landing: undefined;
+  SignIn: undefined;
+  SignUp: undefined;
+  SignUpTwo: undefined;
+  VerifyEmail: undefined;
+  TermsAndConditions: undefined;
+  SignUpComplete: undefined;
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
 
 const { height } = Dimensions.get('window');
 
@@ -32,11 +48,11 @@ const App = () => {
   const { isSignedIn, loading } = useAuth();
 
   useEffect(() => {
-    // Stripe.setOptionsAsync({
-    //   publishableKey: 'pk_test_51HyBbcLY5UjkiodXb5bxgUvEC0CqWqEA7OXytdhiE3XaMc2Tf0IiLOCSnwgKeaNJv4jo8D8ydIIyRSHXFj80p9PX00BJ4fuKgV',
-    //   androidPayMode: 'test', // [optional] used to set wallet environment (AndroidPay)
-    //   merchantId: 'theraply', // [optional] used for payments with ApplePay
-    // });
+    Stripe.setOptionsAsync({
+      publishableKey: 'pk_test_51HyBbcLY5UjkiodXb5bxgUvEC0CqWqEA7OXytdhiE3XaMc2Tf0IiLOCSnwgKeaNJv4jo8D8ydIIyRSHXFj80p9PX00BJ4fuKgV',
+      androidPayMode: 'test', // [optional] used to set wallet environment (AndroidPay)
+      merchantId: 'merchant.com.theraply.app', // [optional] used for payments with ApplePay
+    });
   }, []);
 
   if (loading) return <Loading/>;
@@ -50,6 +66,7 @@ const App = () => {
               <Stack.Screen name="PickTherapist1" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepOne} />
               <Stack.Screen name="PickTherapist2" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepTwo} />
               <Stack.Screen name="PickTherapist3" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepThree} />
+              <Stack.Screen name="ChoosePackage" component={ChoosePackage} options={{ title: 'Payment' }} />
               <Stack.Screen name="Chat" component={Chat} />
               <Stack.Screen name="Pay" component={Pay} />
             </>
@@ -84,6 +101,7 @@ const screenOptions: StackNavigationOptions = {
   },
   headerBackImage: BackArrow,
   headerTitleAlign: 'center',
+  headerBackTitleVisible: false,
 };
 
 const AppWrapper = () => (
