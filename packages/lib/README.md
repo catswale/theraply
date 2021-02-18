@@ -5,7 +5,7 @@ This repo contains shared code and the Amplify backend of Theraply.
 `yarn` (Builds node_modules for the entire mono repo)
 
 # Push changes to the dev environment
-`aws configure` // configure with the aws account sent to you from 
+`aws configure` // configure with the aws account sent to you from. Only needs to be done once
 (Set the default region name as ap-southeast-2)
 
 `npm install -g @aws-amplify/cli`
