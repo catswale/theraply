@@ -101,6 +101,7 @@ const screenOptions: StackNavigationOptions = {
   },
   headerBackImage: BackArrow,
   headerTitleAlign: 'center',
+  headerBackTitleVisible: false,
 };
 
 const AppWrapper = () => (
