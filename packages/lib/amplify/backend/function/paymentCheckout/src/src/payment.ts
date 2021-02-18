@@ -1,6 +1,6 @@
-export function postTherapist(req: any, res: any) {
+export function paymentRegister(req: any, res: any) {
   try {
-    console.log('Client post therapist called');
+    console.log('Registering payment');
     const { symptoms } = req.body;
     console.log(`recipient ${symptoms}`);
 
