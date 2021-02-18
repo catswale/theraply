@@ -9,10 +9,23 @@ import { useClient } from '../client/client.hooks';
 import ChatIcon from '../../assets/images/chat-thin.svg';
 import CalendarIcon from '../../assets/images/calendar.svg';
 import { useAuth } from '../auth/auth.hooks';
+import { Auth, API } from 'aws-amplify';
 
 export const Dashboard = ({ navigation }) => {
   const { client } = useClient();
   const auth = useAuth();
+
+  Auth.currentSession().then((session) => {
+    console.log(session.getIdToken().getJwtToken());
+
+    API.post('paymentAPI', '/client/therapist', {
+      headers: { Authorization: `Bearer ${session.getIdToken().getJwtToken()}` },
+      body: {
+        genders: ["Male"]
+      },
+    }).then(console.log);
+  });
+
   return (
     <Background
       footer={
@@ -35,7 +48,7 @@ export const Dashboard = ({ navigation }) => {
           style={{ ...theme.primaryButton, ...styles.iconButton, marginBottom: 20 }}
           onPress={() => navigation.navigate('PickTherapist1')}
         >
-          <CalendarIcon width={28} style={styles.buttonIcon}/>
+          <CalendarIcon width={28} style={styles.buttonIcon} />
           <Text style={theme.primaryButtonText}>Book a Live Session</Text>
         </TouchableOpacity>
         {
@@ -44,7 +57,7 @@ export const Dashboard = ({ navigation }) => {
             style={{ ...theme.secondaryButton, ...styles.iconButton }}
             onPress={() => navigation.navigate('PickTherapist1')}
           >
-            <ChatIcon width={28} style={styles.buttonIcon}/>
+            <ChatIcon width={28} style={styles.buttonIcon} />
             <Text style={theme.primaryButtonText}>Chat with a Therapist</Text>
           </TouchableOpacity>
         }
