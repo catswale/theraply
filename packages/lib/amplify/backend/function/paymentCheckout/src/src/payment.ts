@@ -13,38 +13,39 @@ export async function paymentRegister(req: any, res: any) {
   try {
     console.log('Checkout called');
 
-    const accessToken = req.headers.authorization.split(' ')[1];
-    if (!accessToken) return res.status(500);
-    const { sub: username, given_name: firstName, email } = jwtDecode(accessToken);
-    console.log(`got username ${username}`);
-    const params = {
-      TableName: config.CLIENT_TABLE_NAME,
-      Key: {
-        id: username,
-      },
-    };
-    const data = await dynamodb.get(params).promise();
-    console.log(data);
-    if (!data.stripeCustomerID) {
-      console.log('creating stripe customer');
-      const customer = await stripe.customers.create({ email, name: firstName });
-      const params = {
-        TableName: config.CLIENT_TABLE_NAME,
-        Key: {
-          id: username,
-        },
-        UpdateExpression: 'set stripeCustomerID = :s',
-        ExpressionAttributeValues: {
-          ':s': customer.id,
-        },
-        ReturnValues: 'UPDATED_NEW',
-      };
-      const data = await dynamodb.update(params).promise();
-      console.log('updated a client');
-      console.log(data);
-    }
-    const paymentIntent = await createPaymentIntent(1099);
-    return res.json({ success: 'success', clientSecret: paymentIntent.client_secret });
+    // const accessToken = req.headers.authorization.split(' ')[1];
+    // if (!accessToken) return res.status(500);
+    // const { sub: username, given_name: firstName, email } = jwtDecode(accessToken);
+    // console.log(`got username ${username}`);
+    // const params = {
+    //   TableName: config.CLIENT_TABLE_NAME,
+    //   Key: {
+    //     id: username,
+    //   },
+    // };
+    // const data = await dynamodb.get(params).promise();
+    // console.log(data);
+    // if (!data.stripeCustomerID) {
+    //   console.log('creating stripe customer');
+    //   const customer = await stripe.customers.create({ email, name: firstName });
+    //   const params = {
+    //     TableName: config.CLIENT_TABLE_NAME,
+    //     Key: {
+    //       id: username,
+    //     },
+    //     UpdateExpression: 'set stripeCustomerID = :s',
+    //     ExpressionAttributeValues: {
+    //       ':s': customer.id,
+    //     },
+    //     ReturnValues: 'UPDATED_NEW',
+    //   };
+    //   const data = await dynamodb.update(params).promise();
+    //   console.log('updated a client');
+    //   console.log(data);
+    // }
+    // const paymentIntent = await createPaymentIntent(1099);
+    // return res.json({ success: 'success', clientSecret: paymentIntent.client_secret });
+    return res.json({ success: 'success' });
   } catch (err) {
     console.log(err);
     return res.status(500);
