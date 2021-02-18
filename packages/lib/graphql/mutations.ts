@@ -133,6 +133,7 @@ export const createTherapistClientRelationship = /* GraphQL */ `
         updatedAt
         owner
       }
+      active
       createdAt
       updatedAt
     }
@@ -176,6 +177,7 @@ export const updateTherapistClientRelationship = /* GraphQL */ `
         updatedAt
         owner
       }
+      active
       createdAt
       updatedAt
     }
@@ -219,6 +221,7 @@ export const deleteTherapistClientRelationship = /* GraphQL */ `
         updatedAt
         owner
       }
+      active
       createdAt
       updatedAt
     }

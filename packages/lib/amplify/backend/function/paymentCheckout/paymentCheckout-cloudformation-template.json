@@ -69,7 +69,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-mobileapp-dev-184827-deployment",
-          "S3Key": "amplify-builds/paymentCheckout-416934584c7436725176-build.zip"
+          "S3Key": "amplify-builds/paymentCheckout-4e514a316a4f584f4477-build.zip"
         }
       }
     },
