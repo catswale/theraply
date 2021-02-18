@@ -23,7 +23,7 @@
   "scripts": {
     "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "tsc"
+    "build": "tsc"
   },
   "author": "",
   "license": "ISC"

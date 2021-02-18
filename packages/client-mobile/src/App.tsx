@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
 import { palette } from '@theraply/lib';
+import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 import { Chat } from './chat/Chat.page';
 import { Dashboard } from './dashboard/Dashboard.page';
 import { SignIn } from './auth/SignIn.page';
@@ -20,7 +21,6 @@ import { theme } from './theme';
 import BackArrow from './components/BackArrow';
 import { Loading } from './components/Loading.page';
 import { ChoosePackage } from './payments/ChoosePackage.page';
-import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 import store from './store';
 
 export type RootStackParamList = {
@@ -62,13 +62,13 @@ const App = () => {
         {
           isSignedIn ? (
             <>
-              <Stack.Screen name="Pay" component={Pay} />
               <Stack.Screen name="Dashboard" component={Dashboard} options={{ title: 'Home' }} />
               <Stack.Screen name="PickTherapist1" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepOne} />
               <Stack.Screen name="PickTherapist2" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepTwo} />
               <Stack.Screen name="PickTherapist3" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepThree} />
               <Stack.Screen name="ChoosePackage" component={ChoosePackage} options={{ title: 'Payment' }} />
               <Stack.Screen name="Chat" component={Chat} />
+              <Stack.Screen name="Pay" component={Pay} />
             </>
           ) : (
               <>
