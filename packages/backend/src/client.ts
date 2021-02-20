@@ -1,85 +1,60 @@
-import jwtDecode from 'jwt-decode';
-import { v4 as uuidv4 } from 'uuid';
-import { API, graphqlOperation } from 'aws-amplify';
-import {
-  mutations, Therapist,
-} from '@theraply/lib';
-import config from './config';
 
-export const postTherapist = ({ db }: any) => async (req: any, res: any) => {
+import {
+  mutations, queries
+} from '@theraply/lib';
+import { getHeaderData, callGraphQL } from './utils';
+
+export const postTherapist = async (req: any, res: any) => {
   try {
-    const accessToken = req.headers.authorization.split(' ')[1];
-    const { sub: username } = jwtDecode(accessToken) as { sub: any };
+    const graphql = callGraphQL(req);
+
+    const { username } = getHeaderData(req, res);
 
     const { genders, symptoms } = req.body;
 
-    const params = {
-      TableName: config.THERAPIST_TABLE_NAME,
-      FilterExpression: "",
-      ExpressionAttributeValues: {
-        ':isActive': true
-      },
-      Limit: 1,
+    const therapistFilter = {
+      and: [
+        {
+          active: { eq: true }
+        },
+        {
+          or: genders.map((gender) => ({ gender: { eq: gender } }))
+        }
+      ]
     };
 
-    genders.forEach((gender, i) => {
-      params.FilterExpression += `${i !== 0 ? ' OR ' : '('}gender = :gender${i}`;
-      params.ExpressionAttributeValues[`:gender${i}`] = gender;
+    const { data: { listTherapists: { items: [therapist] } } } = await graphql({
+      query: queries.listTherapists,
+      variables: {
+        filter: therapistFilter,
+        limit: 1
+      },
     });
-
-    params.FilterExpression += ') AND active = :isActive';
-
-    const { Items: [therapist] } = await db.scan(params).promise() as { Items: [Therapist] };
 
     if (!therapist) throw new Error("Therapist not found.");
 
-    console.log(therapist);
-
-    const therapistClientId = uuidv4();
-
-    await db.put({
-      TableName: config.THERAPIST_CLIENT_TABLE_NAME,
-      Item: {
-        __typename: 'TherapistClientRelationship',
-        id: therapistClientId,
-        therapistID: therapist.id,
-        clientID: username,
-        active: true,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      }
-    }).promise();
-
-    const { Item: therapistClientRecord } = await db.get({
-      TableName: config.THERAPIST_CLIENT_TABLE_NAME,
-      Key: {
-        id: therapistClientId
-      }
-    }).promise();
-
-    // const data = await API.graphql(graphqlOperation(mutations.createTherapistClientRelationship, {
-    //   input: {
-    //     therapistID: therapist.id,
-    //     clientID: username,
-    //     active: true
-    //   },
-    // }));
-
-    const data = await db.update({
-      TableName: config.CLIENT_TABLE_NAME,
-      Key: {
-        id: username,
+    const { data: { createTherapistClientRelationship: therapistClientRecord } } = await graphql({
+      query: mutations.createTherapistClientRelationship,
+      variables: {
+        input: {
+          therapistID: therapist.id,
+          clientID: username,
+          active: true,
+        }
       },
-      UpdateExpression: 'set symptoms = :s, therapistPreferences = :preferences, therapists = :therapist',
-      ExpressionAttributeValues: {
-        ':s': [{ content: symptoms }],
-        ':preferences': [{ content: genders }],
-        ':therapist': [therapistClientRecord]
+    });
+
+    await graphql({
+      query: mutations.updateClient,
+      variables: {
+        input: {
+          id: username,
+          symptoms: [{ content: symptoms }],
+          therapistPreferences: [{ content: genders }],
+          therapistIDs: [therapistClientRecord.id],
+        }
       },
-      ReturnValues: 'UPDATED_NEW',
-    }).promise();
-    console.log('updated a client');
-    console.log(data);
+    });
 
     return res.json({ success: 'success', therapist });
   } catch (err) {
