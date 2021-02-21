@@ -9,22 +9,10 @@ import { useClient } from '../client/client.hooks';
 import ChatIcon from '../../assets/images/chat-thin.svg';
 import CalendarIcon from '../../assets/images/calendar.svg';
 import { useAuth } from '../auth/auth.hooks';
-import { Auth, API } from 'aws-amplify';
 
 export const Dashboard = ({ navigation }) => {
   const { client } = useClient();
   const auth = useAuth();
-
-  Auth.currentSession().then((session) => {
-    console.log(session.getIdToken().getJwtToken());
-
-    API.post('paymentAPI', '/client/therapist', {
-      headers: { Authorization: `Bearer ${session.getIdToken().getJwtToken()}` },
-      body: {
-        genders: ["Male"]
-      },
-    }).then(console.log);
-  });
 
   return (
     <Background
