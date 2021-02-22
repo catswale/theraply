@@ -1,10 +1,11 @@
-import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 import { API, Auth } from 'aws-amplify';
+import { useAuth } from '../auth/auth.hooks';
 import { useClient } from '../client/client.hooks';
 
 export const usePayments = () => {
   const { client } = useClient();
-  
+  const {getBearerToken} = useAuth();
+
   async function register() {
     console.log('registering with stripe');
     try {
@@ -22,7 +23,25 @@ export const usePayments = () => {
       console.log(err);
     }
   }
+
+  async function addCard() {
+    console.log('adding card');
+    try {
+      const myInit = {
+        headers: { Authorization: getBearerToken() },
+        body: {
+          email: client.email,
+          firstName: client.firstName,
+        },
+      };
+      const res = await API.post('paymentAPI', '/payment/card', myInit);
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  }
   return {
     register,
+    addCard,
   };
 };

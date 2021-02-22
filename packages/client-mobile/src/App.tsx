@@ -20,7 +20,7 @@ import { PickTherapist } from './client/pick-therapist';
 import { theme } from './theme';
 import BackArrow from './components/BackArrow';
 import { Loading } from './components/Loading.page';
-import { ChoosePackage } from './payments/ChoosePackage.page';
+import { ChoosePackage, CardEntry } from './payments';
 import store from './store';
 
 export type RootStackParamList = {

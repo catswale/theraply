@@ -1,10 +1,14 @@
 import React, { useEffect } from 'react';
 import { Auth } from 'aws-amplify';
 import { useSelector, useDispatch } from 'react-redux';
-import { setIsSignedIn, setLoading, setUser } from './auth.slice';
+import moment from 'moment';
+import { CognitoIdToken } from 'amazon-cognito-identity-js';
+import {
+  setIsSignedIn, setLoading, setUser, setIDToken,
+} from './auth.slice';
 
 export const useAuth = () => {
-  const { isSignedIn, loading, user } = useSelector((state) => state.auth);
+  const selector = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -43,10 +47,29 @@ export const useAuth = () => {
     try {
       await Auth.currentAuthenticatedUser();
       dispatch(setIsSignedIn(true));
+      getBearerToken();
     } catch (err) {
       dispatch(setIsSignedIn(false));
     }
     dispatch(setLoading(false));
+  }
+  async function getBearerToken() {
+    let { idToken } = selector;
+    if (!idToken) { // init
+      idToken = await createIDToken();
+    }
+    if (moment(idToken.expiry).isAfter(moment())) {
+      console.log('token is expired, getting a new one')
+      idToken = await createIDToken()
+    }
+    return `Bearer ${idToken.jwtToken}`;
+  }
+  
+  async function createIDToken() {
+    let idToken = (await Auth.currentSession()).getIdToken();
+    const result = {jwtToken: idToken.getJwtToken(), expiry: idToken.getExpiration()};
+    dispatch(setIDToken(result));
+    return result;
   }
 
   async function fetchCurrentAuthUser() {
@@ -76,9 +99,9 @@ export const useAuth = () => {
   }
 
   return {
-    user,
-    loading,
-    isSignedIn,
+    user: selector.user,
+    loading: selector.loading,
+    isSignedIn: selector.isSignedIn,
     setIsSignedIn: (value: boolean) => dispatch(setIsSignedIn(value)),
     fetchCurrentAuthUser,
     setUser: ({ attributes, username }) => dispatch(setUser({ attributes, id: username })),
@@ -86,5 +109,7 @@ export const useAuth = () => {
     signUp,
     signOut,
     resendConfirmationCode: (username: string) => resendConfirmationCode(username),
+    getBearerToken,
+    createIDToken,
   };
 };

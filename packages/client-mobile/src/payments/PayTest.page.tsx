@@ -12,18 +12,17 @@ export const Pay = () => {
   const [card, setCard] = useState({} as AppleToken | AndroidToken);
   const [clientSecret, setClientSecret] = useState('pi_1I7CoKLY5UjkiodXddLc3OU4_secret_005NKboRCFXKx1wy1qDf0CUPN');
   const { client } = useClient();
-  const { register } = usePayments();
+  const { register, addCard } = usePayments();
   useEffect(() => {
-    if (!client.stripeCustomerID) {
-      register();
-    }
+    // if (!client.stripeCustomerID) {
+    //   register();
+    // }
   }, []);
-
   async function getCardDetails() {
     const res = await PaymentsStripe.createTokenWithCardAsync({
-      number: '4242 4242 4242 4242',
-      expMonth: 10,
-      expYear: 2022,
+      number: '4000056655665556',
+      expMonth: 11,
+      expYear: 2023,
       cvc: '424',
       addressCountry: 'Australia',
     });
@@ -48,7 +47,7 @@ export const Pay = () => {
 
   return (
     <View>
-      <Button title='SUBMIT CARD DETAILS' onPress={() => getCardDetails()}/>
+      <Button title='SUBMIT CARD DETAILS' onPress={() => addCard()}/>
       {/* <Button title='CREATE PAYMENT INTENT' onPress={() => register()}/>
       <Button title='MAKE PAYMENT' onPress={() => {
 
