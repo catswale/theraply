@@ -18,6 +18,7 @@ app.use((req, res, next) => {
 
 app.post('/client/therapist', postTherapist);
 app.post('/payment/register', paymentRegister);
+app.post('/payment/charge', paymentRegister);
 app.post('/email', sendEmail);
 
 app.listen(3000, () => {
