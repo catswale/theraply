@@ -91,7 +91,7 @@ const StepTwo = ({ route, navigation }: Props) => {
         },
       });
 
-      if (response.success) {
+      if (!response.success) {
         throw new Error(response.message);
       }
 
