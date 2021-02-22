@@ -3,10 +3,11 @@ import {
   View, Text, StyleSheet,
   ViewStyle, TouchableOpacity, TextStyle, Platform, PixelRatio,
 } from 'react-native';
+import { API, Auth } from 'aws-amplify';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { palette } from '@theraply/lib';
 import CheckBox from '@react-native-community/checkbox';
+import { palette } from '@theraply/lib';
 
 import { theme, Background } from '../../theme';
 import WizardStep from '../../components/WizardStep';
@@ -39,7 +40,10 @@ interface GenderParams {
 }
 
 const getGenders = ({
-  key, gender, selectedGenders, setGender,
+  key,
+  gender,
+  selectedGenders,
+  setGender,
 }: GenderParams) => (
   <View key={key} style={styles.checkBoxContainer}>
     <CheckBox
@@ -73,6 +77,36 @@ const StepTwo = ({ route, navigation }: Props) => {
     setSelectedGenders(updatedGender);
   };
 
+  const handleSubmit = async () => {
+    onChangeDisabled(true);
+    try {
+      const session = await Auth.currentSession();
+      const response = await API.post('paymentAPI', '/client/therapist', {
+        headers: {
+          Authorization: `Bearer ${session.getIdToken().getJwtToken()}`,
+        },
+        body: {
+          ...route.params,
+          genders: Object.keys(selectedGenders),
+        },
+      });
+
+      if (response.success) {
+        throw new Error(response.message);
+      }
+
+      navigation.navigate('PickTherapist3', {
+        ...route.params,
+        genders: Object.keys(selectedGenders),
+        therapist: response.therapist,
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      onChangeDisabled(false);
+    }
+  };
+
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton;
   return (
     <Background
@@ -80,10 +114,7 @@ const StepTwo = ({ route, navigation }: Props) => {
       footer={
         <TouchableOpacity
           style={{ ...buttonStyle }}
-          onPress={() => navigation.navigate('PickTherapist3', {
-            ...route.params,
-            genders: Object.keys(selectedGenders),
-          })}
+          onPress={handleSubmit}
           disabled={disabled}
         >
           <Text style={theme.primaryButtonText}>Continue</Text>
