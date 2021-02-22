@@ -18,29 +18,8 @@
       "function": {
         "paymentCheckout": {
           "deploymentBucketName": "amplify-mobileapp-dev-184827-deployment",
-          "s3Key": "amplify-builds/paymentCheckout-41513258324e51386a43-build.zip"
+          "s3Key": "amplify-builds/paymentCheckout-6d3751785a4778694f79-build.zip"
         }
-      }
-    }
-  },
-  "prod": {
-    "awscloudformation": {
-      "AuthRoleName": "amplify-mobileapp-prod-203908-authRole",
-      "UnauthRoleArn": "arn:aws:iam::397169578167:role/amplify-mobileapp-prod-203908-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::397169578167:role/amplify-mobileapp-prod-203908-authRole",
-      "Region": "ap-southeast-2",
-      "DeploymentBucketName": "amplify-mobileapp-prod-203908-deployment",
-      "UnauthRoleName": "amplify-mobileapp-prod-203908-unauthRole",
-      "StackName": "amplify-mobileapp-prod-203908",
-      "StackId": "arn:aws:cloudformation:ap-southeast-2:397169578167:stack/amplify-mobileapp-prod-203908/dafeb050-451b-11eb-94eb-0639bb07b2a8",
-      "AmplifyAppId": "d2tcw5aycaiqjd"
-    },
-    "categories": {
-      "auth": {
-        "mobileapp3d64a26e": {}
-      },
-      "function": {
-        "paymentCheckout": {}
       }
     }
   }
