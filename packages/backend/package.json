@@ -16,11 +16,13 @@
     "aws-serverless-express": "^3.3.5",
     "axios": "^0.21.1",
     "body-parser": "^1.17.1",
+    "dotenv": "^8.2.0",
     "express": "4.17.1",
     "graphql": "^15.5.0",
     "graphql-tag": "^2.11.0",
     "jwt-decode": "^3.1.2",
-    "stripe": "^8.129.0"
+    "stripe": "^8.129.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/aws-lambda": "8.10.70",
@@ -38,6 +40,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "tsc -p tsconfig.build.json",
     "clean": "rm -rf built && rm -f archive.zip",
+    "deploy:dev": "yarn build && aws lambda update-function-code --function-name paymentCheckout-dev --zip-file fileb://archive.zip",
     "deploy": "yarn build && "
   },
   "author": "",

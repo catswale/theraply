@@ -13,6 +13,7 @@ import { useAuth } from '../auth/auth.hooks';
 export const Dashboard = ({ navigation }) => {
   const { client } = useClient();
   const auth = useAuth();
+
   return (
     <Background
       footer={
@@ -35,7 +36,7 @@ export const Dashboard = ({ navigation }) => {
           style={{ ...theme.primaryButton, ...styles.iconButton, marginBottom: 20 }}
           onPress={() => navigation.navigate('PickTherapist1')}
         >
-          <CalendarIcon width={28} style={styles.buttonIcon}/>
+          <CalendarIcon width={28} style={styles.buttonIcon} />
           <Text style={theme.primaryButtonText}>Book a Live Session</Text>
         </TouchableOpacity>
         {
@@ -44,7 +45,7 @@ export const Dashboard = ({ navigation }) => {
             style={{ ...theme.secondaryButton, ...styles.iconButton }}
             onPress={() => navigation.navigate('PickTherapist1')}
           >
-            <ChatIcon width={28} style={styles.buttonIcon}/>
+            <ChatIcon width={28} style={styles.buttonIcon} />
             <Text style={theme.primaryButtonText}>Chat with a Therapist</Text>
           </TouchableOpacity>
         }
