@@ -14,7 +14,6 @@ import { SignUpTwo } from './auth/SignUpTwo.page';
 import { VerifyEmail } from './auth/VerifyEmail.page';
 import { TermsAndConditions } from './auth/TermsAndConditions.page';
 import { SignUpComplete } from './auth/SignUpComplete.page';
-import { Pay } from './payments/PayTest.page';
 import { useAuth } from './auth/auth.hooks';
 import { PickTherapist } from './client/pick-therapist';
 import { theme } from './theme';
@@ -38,6 +37,7 @@ export type RootStackParamList = {
   VerifyEmail: undefined;
   TermsAndConditions: undefined;
   SignUpComplete: undefined;
+  CardEntry: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -67,8 +67,8 @@ const App = () => {
               <Stack.Screen name="PickTherapist2" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepTwo} />
               <Stack.Screen name="PickTherapist3" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepThree} />
               <Stack.Screen name="ChoosePackage" component={ChoosePackage} options={{ title: 'Payment' }} />
+              <Stack.Screen name="CardEntry" component={CardEntry} options={{ title: 'Payment' }} />
               <Stack.Screen name="Chat" component={Chat} />
-              <Stack.Screen name="Pay" component={Pay} />
             </>
           ) : (
               <>
