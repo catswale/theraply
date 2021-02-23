@@ -3,7 +3,7 @@ import * as bodyParser from 'body-parser';
 import * as awsServerlessExpressMiddleware from 'aws-serverless-express/middleware';
 import { postTherapist } from './client';
 import { sendEmail } from './email';
-import { paymentRegister } from './payment';
+import { paymentRegister, paymentCharge, paymentCard } from './payment';
 
 export const app = express();
 app.use(bodyParser.json());
@@ -18,6 +18,8 @@ app.use((req, res, next) => {
 
 app.post('/client/therapist', postTherapist);
 app.post('/payment/register', paymentRegister);
+app.post('/payment/card', paymentCard);
+app.post('/payment/charge', paymentCharge);
 app.post('/email', sendEmail);
 
 app.listen(3000, () => {
