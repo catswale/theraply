@@ -1,45 +1,40 @@
-// import React, { useEffect, useState } from 'react'
-// import { useSelector, useDispatch } from 'react-redux';
-// import {Auth, API, graphqlOperation} from 'aws-amplify'
-// import {mutations, Client, queries} from '@theraply/lib';
-// import { setClient } from './client.slice'
-// import {useAuth} from '../auth/auth.hooks'
+import { useDispatch } from 'react-redux';
+import { Auth, API } from 'aws-amplify';
+import { pickTherapist as pickTherapistAction } from './therapist.slice';
 
-// export const useClient = () => {
-//   const {client} = useSelector(state => state.client)
-//   const dispatch = useDispatch()
-//   const {user} = useAuth()
-//   const {username, attributes} = user;
+interface PickTherapistParams {
+  genders: string[];
+  symptoms: string[];
+}
 
-//   useEffect(() => {
-//     fetchClient()
-//   }, [user])
+export const useTherapist = () => {
+  const dispatch = useDispatch();
 
-//   async function fetchClient() {
-//     console.log(username)
-//     if (!username) return
-//     const data = await API.graphql(graphqlOperation(queries.getClient, {id: username})) as Data
-//     type Data = {data: {getClient: any}}
-//     const client = data.data.getClient
-//     if (!client) {
-//       console.log('client doesnt exist in db, creating')
-//       // todo see if you can set client based on the return value below
-//       await API.graphql(graphqlOperation(mutations.createClient, {input: {
-//         id: username,
-//         firstName: attributes.given_name,
-//         email: attributes.email,
-//       }}))
-//       fetchClient()
-//     } else {
-//       client.therapists = client?.therapists?.items && client.therapists.items.map(connection => ({
-//         ...connection.therapist,
-//         channelID: connection.id,
-//       }))
-//       dispatch(setClient(client))
-//     }
-//   }
+  const pickTherapist = async ({
+    genders,
+    symptoms,
+  }: PickTherapistParams) => {
+    const session = await Auth.currentSession();
+    const response = await API.post('paymentAPI', '/client/therapist', {
+      headers: {
+        Authorization: `Bearer ${session.getIdToken().getJwtToken()}`,
+      },
+      body: {
+        symptoms,
+        genders,
+      },
+    });
 
-//   return {
-//       client,
-//   }
-// }
+    if (!response.success) {
+      throw new Error(response.message);
+    }
+
+    dispatch(pickTherapistAction(response.therapist));
+
+    return response;
+  };
+
+  return {
+    pickTherapist,
+  };
+};

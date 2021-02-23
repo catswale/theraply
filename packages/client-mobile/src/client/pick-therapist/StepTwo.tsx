@@ -3,7 +3,6 @@ import {
   View, Text, StyleSheet,
   ViewStyle, TouchableOpacity, TextStyle, Platform, PixelRatio,
 } from 'react-native';
-import { API, Auth } from 'aws-amplify';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import CheckBox from '@react-native-community/checkbox';
@@ -11,16 +10,19 @@ import { palette } from '@theraply/lib';
 
 import { theme, Background } from '../../theme';
 import WizardStep from '../../components/WizardStep';
+import { useTherapist } from '../../therapist/therapist.hooks';
 
 const dpi = PixelRatio.get();
 
+type RouteParams = {
+  PickTherapist2: {
+    symptoms: string[];
+  }
+};
+
 interface Props {
   navigation: StackNavigationProp<any, 'PickTherapist2'>;
-  route: RouteProp<any, 'PickTherapist2'>;
-}
-
-interface KeyValuePair {
-  [key: string]: any;
+  route: RouteProp<RouteParams, 'PickTherapist2'>;
 }
 
 const genders = [
@@ -35,7 +37,7 @@ const genders = [
 interface GenderParams {
   key: number,
   gender: string,
-  selectedGenders: KeyValuePair,
+  selectedGenders: Record<string, any>,
   setGender: Function
 }
 
@@ -64,7 +66,8 @@ const getGenders = ({
 
 const StepTwo = ({ route, navigation }: Props) => {
   const [disabled, onChangeDisabled] = useState(false);
-  const [selectedGenders, setSelectedGenders] = useState({} as KeyValuePair);
+  const [selectedGenders, setSelectedGenders] = useState({} as Record<string, any>);
+  const { pickTherapist } = useTherapist();
 
   const setGender = (gender: string, shouldAdd: boolean) => {
     const updatedGender = { ...selectedGenders };
@@ -80,20 +83,10 @@ const StepTwo = ({ route, navigation }: Props) => {
   const handleSubmit = async () => {
     onChangeDisabled(true);
     try {
-      const session = await Auth.currentSession();
-      const response = await API.post('paymentAPI', '/client/therapist', {
-        headers: {
-          Authorization: `Bearer ${session.getIdToken().getJwtToken()}`,
-        },
-        body: {
-          ...route.params,
-          genders: Object.keys(selectedGenders),
-        },
+      const response = await pickTherapist({
+        ...route.params,
+        genders: Object.keys(selectedGenders),
       });
-
-      if (!response.success) {
-        throw new Error(response.message);
-      }
 
       navigation.navigate('PickTherapist3', {
         ...route.params,
