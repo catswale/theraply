@@ -1,11 +1,11 @@
 {
-  "extends": "../../tsconfig.build.json",
-
   "compilerOptions": {
-    "outDir": "./dist"
+    "module": "CommonJS",
+    "target": "ES2017",
+    "noImplicitAny": false,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "types": []
   },
-
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["./src/**/*"],
 }

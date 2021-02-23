@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as awsServerlessExpressMiddleware from 'aws-serverless-express/middleware';
