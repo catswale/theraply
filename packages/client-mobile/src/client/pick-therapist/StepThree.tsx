@@ -17,15 +17,17 @@ type RouteParams = {
   PickTherapist3: {
     symptoms: string[];
     genders: string[];
+    therapist: Record<string, unknown>;
   }
 };
 
 interface Props {
   route: RouteProp<RouteParams, 'PickTherapist3'>;
-  navigation: StackNavigationProp<RouteParams, 'PickTherapist3'>;
+  navigation?: StackNavigationProp<RouteParams, 'PickTherapist3'>;
 }
 
-const StepThree = ({ route, navigation }: Props) => {
+const StepThree = ({ route }: Props) => {
+  const { therapist = {} } = route?.params;
 
   return (
     <Background
@@ -44,8 +46,8 @@ const StepThree = ({ route, navigation }: Props) => {
         </Text>
         <View style={styles.container}>
           <Therapist />
-          <Text style={{ ...theme.boldText, marginTop: 20 }}>Dr Susan Joe</Text>
-          <Text style={theme.tinyGrayText}>Psychologist, Clinical Psychologist</Text>
+          <Text style={{ ...theme.boldText, marginTop: 20 }}>Dr {`${therapist.firstName} ${therapist.lastName}`}</Text>
+          <Text style={theme.tinyGrayText}>{therapist.bio as string}</Text>
           <View style={styles.therapistOptions}>
             <View style={styles.option}><VideoIcon /></View>
             <View style={styles.option}><MicrophoneIcon /></View>
@@ -54,7 +56,7 @@ const StepThree = ({ route, navigation }: Props) => {
           <Text style={theme.boldText}>Specialisation</Text>
           <Text style={{
             ...theme.normalGrayText, width: '85%', textAlign: 'center', marginBottom: 20,
-          }}>Teens, Prenatal Pregnancy, Depression, Anxiety</Text>
+          }}>{(therapist.specializations as Array<string>)?.join(', ')}</Text>
           <TouchableOpacity>
             <Text style={styles.link}>View more</Text>
           </TouchableOpacity>

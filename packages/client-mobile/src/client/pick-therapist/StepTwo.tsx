@@ -5,21 +5,24 @@ import {
 } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { palette } from '@theraply/lib';
 import CheckBox from '@react-native-community/checkbox';
+import { palette } from '@theraply/lib';
 
 import { theme, Background } from '../../theme';
 import WizardStep from '../../components/WizardStep';
+import { useTherapist } from '../../therapist/therapist.hooks';
 
 const dpi = PixelRatio.get();
 
+type RouteParams = {
+  PickTherapist2: {
+    symptoms: string[];
+  }
+};
+
 interface Props {
   navigation: StackNavigationProp<any, 'PickTherapist2'>;
-  route: RouteProp<any, 'PickTherapist2'>;
-}
-
-interface KeyValuePair {
-  [key: string]: any;
+  route: RouteProp<RouteParams, 'PickTherapist2'>;
 }
 
 const genders = [
@@ -34,12 +37,15 @@ const genders = [
 interface GenderParams {
   key: number,
   gender: string,
-  selectedGenders: KeyValuePair,
+  selectedGenders: Record<string, any>,
   setGender: Function
 }
 
 const getGenders = ({
-  key, gender, selectedGenders, setGender,
+  key,
+  gender,
+  selectedGenders,
+  setGender,
 }: GenderParams) => (
   <View key={key} style={styles.checkBoxContainer}>
     <CheckBox
@@ -60,7 +66,8 @@ const getGenders = ({
 
 const StepTwo = ({ route, navigation }: Props) => {
   const [disabled, onChangeDisabled] = useState(false);
-  const [selectedGenders, setSelectedGenders] = useState({} as KeyValuePair);
+  const [selectedGenders, setSelectedGenders] = useState({} as Record<string, any>);
+  const { pickTherapist } = useTherapist();
 
   const setGender = (gender: string, shouldAdd: boolean) => {
     const updatedGender = { ...selectedGenders };
@@ -73,6 +80,26 @@ const StepTwo = ({ route, navigation }: Props) => {
     setSelectedGenders(updatedGender);
   };
 
+  const handleSubmit = async () => {
+    onChangeDisabled(true);
+    try {
+      const response = await pickTherapist({
+        ...route.params,
+        genders: Object.keys(selectedGenders),
+      });
+
+      navigation.navigate('PickTherapist3', {
+        ...route.params,
+        genders: Object.keys(selectedGenders),
+        therapist: response.therapist,
+      });
+    } catch (err) {
+      console.error(err);
+    } finally {
+      onChangeDisabled(false);
+    }
+  };
+
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton;
   return (
     <Background
@@ -80,10 +107,7 @@ const StepTwo = ({ route, navigation }: Props) => {
       footer={
         <TouchableOpacity
           style={{ ...buttonStyle }}
-          onPress={() => navigation.navigate('PickTherapist3', {
-            ...route.params,
-            genders: Object.keys(selectedGenders),
-          })}
+          onPress={handleSubmit}
           disabled={disabled}
         >
           <Text style={theme.primaryButtonText}>Continue</Text>
