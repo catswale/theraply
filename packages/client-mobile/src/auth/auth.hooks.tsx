@@ -47,29 +47,10 @@ export const useAuth = () => {
     try {
       await Auth.currentAuthenticatedUser();
       dispatch(setIsSignedIn(true));
-      getBearerToken();
     } catch (err) {
       dispatch(setIsSignedIn(false));
     }
     dispatch(setLoading(false));
-  }
-  async function getBearerToken() {
-    let { idToken } = selector;
-    if (!idToken) { // init
-      idToken = await createIDToken();
-    }
-    if (moment(idToken.expiry).isAfter(moment())) {
-      console.log('token is expired, getting a new one')
-      idToken = await createIDToken()
-    }
-    return `Bearer ${idToken.jwtToken}`;
-  }
-  
-  async function createIDToken() {
-    let idToken = (await Auth.currentSession()).getIdToken();
-    const result = {jwtToken: idToken.getJwtToken(), expiry: idToken.getExpiration()};
-    dispatch(setIDToken(result));
-    return result;
   }
 
   async function fetchCurrentAuthUser() {
@@ -109,7 +90,5 @@ export const useAuth = () => {
     signUp,
     signOut,
     resendConfirmationCode: (username: string) => resendConfirmationCode(username),
-    getBearerToken,
-    createIDToken,
   };
 };

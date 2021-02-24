@@ -28,7 +28,6 @@ export const SignIn = ({ route, navigation }) => {
       const user = await auth.signIn(email, password);
       auth.setUser(user);
       auth.setIsSignedIn(true);
-      auth.createIDToken();
     } catch (err) {
       setError(err.message);
     } finally {

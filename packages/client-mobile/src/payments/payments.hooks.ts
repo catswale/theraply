@@ -4,7 +4,6 @@ import { useClient } from '../client/client.hooks';
 
 export const usePayments = () => {
   const { client } = useClient();
-  const {getBearerToken} = useAuth();
 
   async function register() {
     console.log('registering with stripe');
@@ -28,7 +27,7 @@ export const usePayments = () => {
     console.log('adding card');
     try {
       const myInit = {
-        headers: { Authorization: getBearerToken() },
+        headers: { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` },
         body: {
           email: client.email,
           firstName: client.firstName,
