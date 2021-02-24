@@ -53,7 +53,7 @@ export const postTherapist = async (req: any, res: any) => {
       },
     });
 
-    return res.json({ success: 'success', therapist });
+    return res.json({ success: true, therapist });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'an error occurred while picking a therapist.' });
