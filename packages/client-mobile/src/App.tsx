@@ -3,7 +3,7 @@ import { Dimensions } from 'react-native';
 import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
-import { palette } from '@theraply/lib';
+import { PackageItem, palette } from '@theraply/lib';
 import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 import { Chat } from './chat/Chat.page';
 import { Dashboard } from './dashboard/Dashboard.page';
@@ -37,7 +37,7 @@ export type RootStackParamList = {
   VerifyEmail: undefined;
   TermsAndConditions: undefined;
   SignUpComplete: undefined;
-  CardEntry: undefined;
+  CardEntry: {packages: PackageItem[]};
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -99,7 +99,7 @@ const screenOptions: StackNavigationOptions = {
     ...theme.normalText,
     color: palette.primary.contrastText,
   },
-  headerBackImage: BackArrow,
+  headerTintColor: palette.secondary.contrastText,
   headerTitleAlign: 'center',
   headerBackTitleVisible: false,
 };

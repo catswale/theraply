@@ -1,44 +1,22 @@
-import { API, Auth } from 'aws-amplify';
-import { useAuth } from '../auth/auth.hooks';
 import { useClient } from '../client/client.hooks';
+import { callAPI } from '../services/api';
 
 export const usePayments = () => {
-  const { client } = useClient();
-
+  const { client, setClient } = useClient();
+  
   async function register() {
-    console.log('registering with stripe');
-    try {
-      console.log(`${(await Auth.currentSession()).getIdToken().getJwtToken()}`);
-      const myInit = {
-        headers: { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` },
-        body: {
-          email: client.email,
-          firstName: client.firstName,
-        },
-      };
-      const res = await API.post('paymentAPI', '/payment/register', myInit);
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
+    const res = await callAPI('/payment/register')
+    setClient({...client, stripeCustomerID: res.data.stripeCustomerID})
   }
 
-  async function addCard() {
-    console.log('adding card');
-    try {
-      const myInit = {
-        headers: { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` },
-        body: {
-          email: client.email,
-          firstName: client.firstName,
-        },
-      };
-      const res = await API.post('paymentAPI', '/payment/card', myInit);
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
+  async function addCard(cardToken: string) {
+    const res = await callAPI('/payment/card', {
+      token: cardToken,
+      stripeCustomerID: client.stripeCustomerID,
+    })
+    console.log(res)
   }
+  
   return {
     register,
     addCard,

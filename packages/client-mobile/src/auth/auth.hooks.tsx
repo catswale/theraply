@@ -79,6 +79,10 @@ export const useAuth = () => {
     }
   }
 
+  async function getBearerToken() {
+    return `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`
+  }
+
   return {
     user: selector.user,
     loading: selector.loading,
@@ -90,5 +94,6 @@ export const useAuth = () => {
     signUp,
     signOut,
     resendConfirmationCode: (username: string) => resendConfirmationCode(username),
+    getBearerToken,
   };
 };

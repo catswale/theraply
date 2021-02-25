@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import { PackageItem } from '@theraply/lib';
 import config from './config';
 import { getHeaderData } from './utils';
+import {Client} from '@theraply/lib';
 
 AWS.config.update({ region: config.TABLE_REGION });
 const dynamodb = new AWS.DynamoDB.DocumentClient();
@@ -22,9 +23,10 @@ export async function paymentRegister(req: Request, res: Response) {
         id: username,
       },
     };
-    const data = await dynamodb.get(params).promise() as any;
-    console.log(data);
-    if (!data.stripeCustomerID) {
+
+    const client = (await dynamodb.get(params).promise()).Item as Client;
+
+    if (!client.stripeCustomerID) {
       console.log('creating stripe customer');
       const customer = await stripe.customers.create({ email, name: firstName });
       const params = {
@@ -39,14 +41,17 @@ export async function paymentRegister(req: Request, res: Response) {
         ReturnValues: 'UPDATED_NEW',
       };
       const data = await dynamodb.update(params).promise();
+      client.stripeCustomerID = customer.id;
       console.log('updated a client');
       console.log(data);
     }
-    return res.json({ success: 'success' });
+    return res.json({ success: 'success', data: {stripeCustomerID: client.stripeCustomerID} });
   } catch (err) {
     console.log(err);
-    return res.status(500);
-  }
+    return res.status(500).send({
+      testMessage: 'This is an error!'
+   });
+  } 
 }
 
 export async function paymentCard(req: Request, res: Response) {

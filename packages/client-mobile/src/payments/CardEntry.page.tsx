@@ -1,112 +1,127 @@
 import React, { useState } from 'react';
 import {
-  View, Text, StyleSheet,
-  ViewStyle, TouchableOpacity, TextStyle, Dimensions,
+  View, Text, StyleSheet, TextInput, TouchableWithoutFeedback,
+  ViewStyle, TouchableOpacity, TextStyle, KeyboardAvoidingView,
+  Platform, Keyboard,
 } from 'react-native';
+import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 import { palette, PackageItem } from '@theraply/lib';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 import { theme, Background } from '../theme';
-import Graphic from '../../assets/images/credit-cards.svg';
-import ChatIcon from '../../assets/images/chat.svg';
-import AudioIcon from '../../assets/images/audio.svg';
-import CameraIcon from '../../assets/images/camera.svg';
 import { RootStackParamList } from '../App';
+import { useClient } from '../client/client.hooks';
+import { usePayments } from './payments.hooks';
 
-type ProfileScreenNavigationProp = StackNavigationProp<
+type ScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   'CardEntry'
 >;
+type ScreenRouteProp = RouteProp<RootStackParamList, 'CardEntry'>;
 type Props = {
-  navigation: ProfileScreenNavigationProp;
+  navigation: ScreenNavigationProp;
+  route: ScreenRouteProp
 };
-const { width } = Dimensions.get('window');
 
-export const CardEntry = ({ navigation }: Props) => {
-  const [disabled, setDisabled] = useState(true);
-  const [selectedPackageItems, setSelectedPackageItems] = useState([] as PackageItem[]);
-  const [firstPackageSelected, setFirstPackageSelected] = useState(false);
-  const [secondPackageSelected, setSecondPackageSelected] = useState(false);
+export const CardEntry = ({ route, navigation }: Props) => {
+  const [disabled, setDisabled] = useState(false);
+  const [cardNo, setCardNo] = useState('');
+  const [cardMonthExpiry, setCardMonthExpiry] = useState('');
+  const [cardYearExpiry, setCardYearExpiry] = useState('');
+  const [error, setError] = useState('');
+  const {client} = useClient()
+  const payments = usePayments()
+  const {packages} = route.params;
 
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton;
-  const firstPackageStyle = firstPackageSelected ? styles.packageContainerSelected : styles.packageContainer;
-  const secondPackageStyle = secondPackageSelected ? styles.packageContainerSelected : styles.packageContainer;
+
+  const onSubmit = async () => {
+    try {
+      if (!client.stripeCustomerID) {
+        await payments.register();
+      }
+      // const res = await Stripe.createTokenWithCardAsync({
+      //   number: cardNo,
+      //   expMonth: parseInt(cardMonthExpiry),
+      //   expYear: parseInt(cardYearExpiry),
+      // });
+      // console.log(res);
+      // await payments.addCard()
+    } catch (err) {
+      setError(err.friendlyMessage);
+    }
+  }
 
   return (
     <Background
       footer={
         <TouchableOpacity
           style={{ ...buttonStyle }}
-          onPress={() => {}}
+          onPress={onSubmit}
           disabled={disabled}
         >
-          <Text style={theme.primaryButtonText}>Continue</Text>
+          <Text style={theme.primaryButtonText}>Done</Text>
         </TouchableOpacity>
       }>
-      <View style={styles.container}>
-        <Text style={theme.boldText}>Fill this form</Text>
-        
-      </View>
+      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View>
+            <Text style={theme.boldText}>Fill this form</Text>
+            <Text style={{color: 'red'}}>{error}</Text>
+            <Text style={theme.h4}>Card Number</Text>
+            <TextInput
+              autoCorrect={false}
+              onSubmitEditing={() => {}}
+              autoCompleteType='cc-number'
+              keyboardType='number-pad'
+              style={{ ...theme.inputText, marginBottom: 40 }}
+              onChangeText={(text) => {
+                setCardNo(text)
+              }}
+              value={cardNo}
+            />
+            <View>
+              <Text style={theme.h4}>Expiry Month</Text>
+              <TextInput
+                autoCorrect={false}
+                onSubmitEditing={() => {}}
+                autoCompleteType='cc-exp-month'
+                keyboardType='number-pad'
+                style={{ ...theme.inputText, marginBottom: 40 }}
+                onChangeText={(text) => {
+                  setCardMonthExpiry(text)
+                }}
+                value={cardMonthExpiry}
+            />
+            <Text style={theme.h4}>Expiry Year</Text>
+            <TextInput
+              autoCorrect={false}
+              onSubmitEditing={() => {}}
+              autoCompleteType='cc-exp-year'
+              keyboardType='number-pad'
+              returnKeyType={'next'}
+              blurOnSubmit={ false }
+              style={{ ...theme.inputText, marginBottom: 40 }}
+              onChangeText={(text) => {
+                setCardYearExpiry(text)
+              }}
+              value={cardYearExpiry}
+            />
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </Background>
   );
 };
 
 interface Style {
   container: ViewStyle,
-  packagesContainer: ViewStyle,
-  packageContainerSelected: ViewStyle,
-  packageContainer: ViewStyle,
-  priceText: TextStyle,
-  packageText: TextStyle,
-  packageIconsContainer: ViewStyle,
-  graphic: ViewStyle,
 }
 
 const styles = StyleSheet.create<Style>({
   container: {
     justifyContent: 'space-between',
     height: '100%',
-  },
-  packagesContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    height: '35%',
-    minHeight: 190,
-  },
-  packageContainer: {
-    width: '45%',
-    borderRadius: 30,
-    borderColor: palette.tertiary.main,
-    borderWidth: 2,
-    alignItems: 'center',
-    padding: 20,
-    justifyContent: 'space-between',
-  },
-  packageContainerSelected: {
-    width: '45%',
-    borderRadius: 30,
-    borderColor: palette.primary.main,
-    borderWidth: 2,
-    alignItems: 'center',
-    padding: 20,
-    justifyContent: 'space-between',
-  },
-  priceText: {
-    color: palette.primary.main,
-    fontWeight: '700',
-    fontSize: 24,
-  },
-  packageText: {
-    fontSize: 14,
-    color: palette.text.primary,
-    textAlign: 'center',
-  },
-  packageIconsContainer: {
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  graphic: {
-    alignSelf: 'center',
   },
 });
