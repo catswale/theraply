@@ -4,7 +4,7 @@ import { API, graphqlOperation } from 'aws-amplify';
 import {
   mutations, Client, queries, Therapist,
 } from '@theraply/lib';
-import { setClient, setID } from './client.slice';
+import { setClient } from './client.slice';
 import { useAuth } from '../auth/auth.hooks';
 
 export const useClient = () => {
@@ -78,7 +78,6 @@ export const useClient = () => {
     fetchClient,
     createTherapistClientConnection,
     client,
-    setID: (id: string) => dispatch(setID(id)),
     setClient: (newClient: Client) => dispatch(setClient(newClient)),
   };
 };

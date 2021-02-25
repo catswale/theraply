@@ -36,7 +36,9 @@ export const ChoosePackage = ({ navigation }: Props) => {
       footer={
         <TouchableOpacity
           style={{ ...buttonStyle }}
-          onPress={() => {}}
+          onPress={() => {
+            navigation.navigate('CardEntry', {packages: selectedPackageItems})
+          }}
           disabled={disabled}
         >
           <Text style={theme.primaryButtonText}>Continue</Text>

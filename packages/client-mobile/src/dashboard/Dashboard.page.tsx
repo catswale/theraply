@@ -24,7 +24,7 @@ export const Dashboard = ({ navigation }) => {
             color="#841584"
           />
           <Text style={styles.warningText}>
-            If you are in a life threatening situation, don't use this app. Call
+            If you are in a life threatening situation, don't use this app. Call Lifeline on
             <Text style={styles.highlightedText}> 13 11 14</Text>
           </Text>
         </>

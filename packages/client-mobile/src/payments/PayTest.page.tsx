@@ -23,8 +23,6 @@ export const Pay = () => {
       number: '4000056655665556',
       expMonth: 11,
       expYear: 2023,
-      cvc: '424',
-      addressCountry: 'Australia',
     });
     console.log(res);
 

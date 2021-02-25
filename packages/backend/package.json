@@ -37,7 +37,7 @@
     "compile:lib": "cd node_modules/@theraply/lib && tsc -p tsconfig.build.json && cd ../../../",
     "build": "yarn clean && yarn compile && yarn build:lib && yarn zip",
     "zip": "zip -r --exclude=*amplify/backend* --exclude=*amplify/#current-cloud-backend* archive.zip *",
-    "start": "nodemon index.js",
+    "start": "set -o allexport && source .env && set +o allexport && nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "tsc -p tsconfig.build.json",
     "clean": "rm -rf built && rm -f archive.zip",
