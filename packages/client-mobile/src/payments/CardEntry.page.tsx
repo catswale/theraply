@@ -29,28 +29,35 @@ export const CardEntry = ({ route, navigation }: Props) => {
   const [cardMonthExpiry, setCardMonthExpiry] = useState('');
   const [cardYearExpiry, setCardYearExpiry] = useState('');
   const [error, setError] = useState('');
-  const {client} = useClient()
-  const payments = usePayments()
-  const {packages} = route.params;
+  const { client } = useClient();
+  const payments = usePayments();
+  const { pkg } = route?.params || {};
 
   const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton;
 
   const onSubmit = async () => {
     try {
-      if (!client.stripeCustomerID) {
-        await payments.register();
+      let { stripeCustomerID } = client;
+      if (!stripeCustomerID) {
+        stripeCustomerID = await payments.register();
+        console.log(`registered and got ${stripeCustomerID}`);
       }
-      // const res = await Stripe.createTokenWithCardAsync({
+      // const {tokenId}  = await Stripe.createTokenWithCardAsync({
       //   number: cardNo,
       //   expMonth: parseInt(cardMonthExpiry),
       //   expYear: parseInt(cardYearExpiry),
-      // });
-      // console.log(res);
-      // await payments.addCard()
+      // }) as any;
+      const { tokenId } = await Stripe.createTokenWithCardAsync({
+        number: '4242 4242 4242 4242',
+        expMonth: 2,
+        expYear: 22,
+      }) as any;
+      await payments.addCard(stripeCustomerID, tokenId);
+      await payments.charge(stripeCustomerID, pkg.name);
     } catch (err) {
       setError(err.friendlyMessage);
     }
-  }
+  };
 
   return (
     <Background
@@ -65,48 +72,48 @@ export const CardEntry = ({ route, navigation }: Props) => {
       }>
       <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View>
-            <Text style={theme.boldText}>Fill this form</Text>
-            <Text style={{color: 'red'}}>{error}</Text>
-            <Text style={theme.h4}>Card Number</Text>
-            <TextInput
-              autoCorrect={false}
-              onSubmitEditing={() => {}}
-              autoCompleteType='cc-number'
-              keyboardType='number-pad'
-              style={{ ...theme.inputText, marginBottom: 40 }}
-              onChangeText={(text) => {
-                setCardNo(text)
-              }}
-              value={cardNo}
-            />
-            <View>
-              <Text style={theme.h4}>Expiry Month</Text>
+          <View style={{ height: '100%' }}>
+            <View style={{ flex: 1 }}>
+              <Text style={{ ...theme.boldText, textAlign: 'center' }}>Fill this form</Text>
+            </View>
+            <View style={{ flex: 2 }}>
+              <Text style={{ color: palette.error.main }}>{error}</Text>
+              <Text style={theme.h4}>Card Number</Text>
               <TextInput
-                autoCorrect={false}
-                onSubmitEditing={() => {}}
-                autoCompleteType='cc-exp-month'
+                autoCompleteType='cc-number'
                 keyboardType='number-pad'
                 style={{ ...theme.inputText, marginBottom: 40 }}
                 onChangeText={(text) => {
-                  setCardMonthExpiry(text)
+                  setCardNo(text);
                 }}
-                value={cardMonthExpiry}
-            />
-            <Text style={theme.h4}>Expiry Year</Text>
-            <TextInput
-              autoCorrect={false}
-              onSubmitEditing={() => {}}
-              autoCompleteType='cc-exp-year'
-              keyboardType='number-pad'
-              returnKeyType={'next'}
-              blurOnSubmit={ false }
-              style={{ ...theme.inputText, marginBottom: 40 }}
-              onChangeText={(text) => {
-                setCardYearExpiry(text)
-              }}
-              value={cardYearExpiry}
-            />
+                value={cardNo}
+              />
+              <View style={styles.expiryContainer}>
+                <View style={{ flex: 1, paddingRight: 40 }}>
+                  <Text style={theme.h4}>Expiry Month</Text>
+                  <TextInput
+                    autoCompleteType='cc-exp-month'
+                    keyboardType='number-pad'
+                    style={{ ...theme.inputText }}
+                    onChangeText={(text) => {
+                      setCardMonthExpiry(text);
+                    }}
+                    value={cardMonthExpiry}
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={theme.h4}>Expiry Year</Text>
+                <TextInput
+                  autoCompleteType='cc-exp-year'
+                  keyboardType='number-pad'
+                  style={{ ...theme.inputText, marginBottom: 40 }}
+                  onChangeText={(text) => {
+                    setCardYearExpiry(text);
+                  }}
+                  value={cardYearExpiry}
+                />
+                </View>
+              </View>
             </View>
           </View>
         </TouchableWithoutFeedback>
@@ -117,11 +124,14 @@ export const CardEntry = ({ route, navigation }: Props) => {
 
 interface Style {
   container: ViewStyle,
+  expiryContainer: ViewStyle,
 }
 
 const styles = StyleSheet.create<Style>({
   container: {
-    justifyContent: 'space-between',
     height: '100%',
+  },
+  expiryContainer: {
+    flexDirection: 'row',
   },
 });

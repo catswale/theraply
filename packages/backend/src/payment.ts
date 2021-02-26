@@ -1,7 +1,7 @@
 import * as AWS from 'aws-sdk';
 import Stripe from 'stripe';
 import { Request, Response } from 'express';
-import { PackageItem } from '@theraply/lib';
+import { PackageItem, Packages } from '@theraply/lib';
 import config from './config';
 import { getHeaderData } from './utils';
 import {Client} from '@theraply/lib';
@@ -48,15 +48,16 @@ export async function paymentRegister(req: Request, res: Response) {
     return res.json({ success: 'success', data: {stripeCustomerID: client.stripeCustomerID} });
   } catch (err) {
     console.log(err);
-    return res.status(500).send({
-      testMessage: 'This is an error!'
-   });
-  } 
+    return res.status(500);
+  }
 }
 
 export async function paymentCard(req: Request, res: Response) {
   try {
+    console.log('calling /payment/card api')
     const { stripeCustomerID, token } = req.body;
+    console.log(stripeCustomerID)
+    console.log(token)
     if (!token || !stripeCustomerID) return res.status(500);
     const result = await createCard(stripeCustomerID, token);
     console.log(result);
@@ -76,18 +77,14 @@ async function createCard(stripeCustomerID, cardToken) {
 
 export async function paymentCharge(req: Request, res: Response) {
   try {
-    const { packages, stripeCustomerID } = req.body;
-    if (!packages || packages?.length === 0) return res.status(500);
-    let amount = 0; // in cents
-    if (packages.includes(PackageItem.Texting)) {
-      amount = 7000;
-    } else if (packages.includes([PackageItem.Texting, PackageItem.LiveSession])) {
-      amount = 10000;
-    } else {
-      console.error('Unknown package item combination');
+    const { pkgName, stripeCustomerID } = req.body;
+    const pkg = Packages[pkgName];
+    console.log(stripeCustomerID)
+    console.log(pkg)
+    if (!stripeCustomerID || !pkg) {
       return res.status(500);
     }
-    await charge(stripeCustomerID, amount, packages.toString);
+    await charge(stripeCustomerID, pkg.price, `${pkgName}: ${pkg.items.toString}`);
     return res.json({ success: 'success' });
   } catch (err) {
     console.log(err);

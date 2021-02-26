@@ -3,7 +3,9 @@ import {
   View, Text, StyleSheet,
   ViewStyle, TouchableOpacity, TextStyle, Dimensions,
 } from 'react-native';
-import { palette, PackageItem } from '@theraply/lib';
+import {
+  palette, PackageItem, Packages, Package,
+} from '@theraply/lib';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { theme, Background } from '../theme';
 import Graphic from '../../assets/images/credit-cards.svg';
@@ -24,6 +26,7 @@ const { width } = Dimensions.get('window');
 export const ChoosePackage = ({ navigation }: Props) => {
   const [disabled, setDisabled] = useState(true);
   const [selectedPackageItems, setSelectedPackageItems] = useState([] as PackageItem[]);
+  const [pkg, setPackage] = useState({} as Package);
   const [firstPackageSelected, setFirstPackageSelected] = useState(false);
   const [secondPackageSelected, setSecondPackageSelected] = useState(false);
 
@@ -37,7 +40,7 @@ export const ChoosePackage = ({ navigation }: Props) => {
         <TouchableOpacity
           style={{ ...buttonStyle }}
           onPress={() => {
-            navigation.navigate('CardEntry', {packages: selectedPackageItems})
+            navigation.navigate('CardEntry', { pkg });
           }}
           disabled={disabled}
         >
@@ -53,8 +56,8 @@ export const ChoosePackage = ({ navigation }: Props) => {
             onPress={() => {
               setSecondPackageSelected(false);
               setFirstPackageSelected(true);
-              setSelectedPackageItems([PackageItem.Texting]);
-              if (disabled) setDisabled(false);
+              setPackage(Packages.TEXTING);
+              setDisabled(false);
             }}
           >
             <Text style={styles.priceText}>$70</Text>
@@ -68,8 +71,8 @@ export const ChoosePackage = ({ navigation }: Props) => {
             onPress={() => {
               setFirstPackageSelected(false);
               setSecondPackageSelected(true);
-              setSelectedPackageItems([PackageItem.Texting, PackageItem.LiveSession]);
-              if (disabled) setDisabled(false);
+              setPackage(Packages.TEXTING_AND_LIVE_SESSION);
+              setDisabled(false);
             }}
           >
             <Text style={styles.priceText}>$100</Text>

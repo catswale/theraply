@@ -122,7 +122,7 @@ export const theme = StyleSheet.create<Style>({
     justifyContent: 'space-between',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingHorizontal: 13,
+    paddingHorizontal: 20,
   },
   upperBodyContainer: {
     paddingTop: 40,

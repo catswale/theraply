@@ -22,7 +22,7 @@ export type Client = {
   channelID?: string,
   createdAt: Date,
   updatedAt: Date,
-  stripeCustomerID: String,
+  stripeCustomerID: string,
 }
 
 export interface Therapist {
