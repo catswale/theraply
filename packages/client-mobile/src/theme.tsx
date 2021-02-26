@@ -151,7 +151,7 @@ export const Background = ({ children, footer, background }: BackgroundProps) =>
           {footer}
           {background && (
             <Corner style={{
-              position: 'absolute', left: -13, zIndex: -1, bottom: 0,
+              position: 'absolute', left: -18, zIndex: -1, bottom: 0,
             }} width={188} height={191} />
           )}
         </View>

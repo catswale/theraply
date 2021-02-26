@@ -23,10 +23,10 @@ type RouteParams = {
 
 interface Props {
   route: RouteProp<RouteParams, 'PickTherapist3'>;
-  navigation?: StackNavigationProp<RouteParams, 'PickTherapist3'>;
+  navigation?: StackNavigationProp<any, 'PickTherapist3'>;
 }
 
-const StepThree = ({ route }: Props) => {
+const StepThree = ({ route, navigation }: Props) => {
   const { therapist = {} } = route?.params;
 
   return (
@@ -57,7 +57,11 @@ const StepThree = ({ route }: Props) => {
           <Text style={{
             ...theme.normalGrayText, width: '85%', textAlign: 'center', marginBottom: 20,
           }}>{(therapist.specializations as Array<string>)?.join(', ')}</Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => { 
+            navigation?.navigate('Chat', {
+              therapist
+            })
+          }}>
             <Text style={styles.link}>View more</Text>
           </TouchableOpacity>
         </View>
