@@ -1,11 +1,14 @@
-import { mutations, queries } from '@theraply/lib';
+import { mutations, queries, Client } from '@theraply/lib';
 import { getHeaderData, callGraphQL } from './utils';
+import * as graphql from 'graphql';
+import gql from 'graphql-tag';
+const { print } = graphql;
 
 export const postTherapist = async (req: any, res: any) => {
   try {
     const graphql = callGraphQL(req);
 
-    const { username } = getHeaderData(req, res);
+    const { id: username } = getHeaderData(req, res);
 
     const { genders, symptoms } = req.body;
 
@@ -59,3 +62,23 @@ export const postTherapist = async (req: any, res: any) => {
     return res.status(500).json({ message: 'an error occurred while picking a therapist.' });
   }
 };
+
+export async function getClient(req, id): Promise<Client> {
+  const graphQLCaller = callGraphQL(req);
+  const getClient = gql`${queries.getClient}`;
+  const result = await graphQLCaller({
+    query: print(getClient),
+    variables: { id },
+  }) as any;
+  return result.data.getClient;
+}
+
+export async function updateClient(req, data) {
+  const graphQLCaller = callGraphQL(req);
+  const updateClient = gql`${mutations.updateClient}`;
+  return await graphQLCaller({
+    query: print(updateClient),
+    variables: {
+      input: data,
+  }});
+}

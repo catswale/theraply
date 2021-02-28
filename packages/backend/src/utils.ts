@@ -8,7 +8,7 @@ export function getHeaderData(req: Request, res: Response) {
   if (!accessToken) throw new Error('No auth header');
   const data = jwtDecode(accessToken) as any;
   return {
-    username: data.sub,
+    id: data.sub,
     email: data.email,
     firstName: data.given_name,
   };
@@ -17,12 +17,16 @@ export function getHeaderData(req: Request, res: Response) {
 export function callGraphQL(req: Request) {
   const accessToken = req.headers.authorization.split(' ')[1];
 
-  return (data) => Axios({
-    url: config.API_API_GRAPHQLAPIENDPOINTOUTPUT,
-    method: 'post',
-    headers: {
-      Authorization: accessToken,
-    },
-    data,
-  }).then((resp) => resp.data);
+  return async (data) => {
+    const result = await Axios({
+      url: config.API_API_GRAPHQLAPIENDPOINTOUTPUT,
+      method: 'post',
+      headers: {
+        Authorization: accessToken,
+      },
+      data,
+    }).then((resp) => resp.data);
+    if (result.errors?.length > 0) throw result.errors;
+    return result;
+  }
 }
