@@ -9,7 +9,7 @@ const mutations = { ...defaultMutations, ...customMutations };
 export { default as awsExports } from './aws-exports.js';
 
 export * from './types';
-export * from './constants';
+export * from './payment';
 export * from './palette';
 export {
   queries,

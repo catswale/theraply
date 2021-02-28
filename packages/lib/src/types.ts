@@ -1,5 +1,5 @@
 import { Moment } from 'moment';
-import {BookingState} from './constants';
+import { BookingState, PackageItem } from './payment';
 
 export type Message = {
   id: string;
@@ -23,6 +23,7 @@ export type Client = {
   createdAt: Date,
   updatedAt: Date,
   stripeCustomerID: string,
+  packageItems: PackageItem[],
 }
 
 export interface Therapist {
