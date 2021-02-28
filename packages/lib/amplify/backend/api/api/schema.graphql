@@ -56,7 +56,7 @@ type Client @model
     @connection(keyName: "byClient", fields: ["id"])
   therapistIDs: [String]
   stripeCustomerID: String
-  payments: [Payment]
+  packageItems: [PackageItem]
 }
 
 type TherapistPreferences {
@@ -73,12 +73,12 @@ type Symptoms {
   createdAt: AWSDateTime
 }
 
-type Payment {
+type PackageItem {
     id: ID
-    plan: String
-    start: AWSDateTime
-    end: AWSDateTime
+    packageName: String
+    expiry: AWSDateTime
     createdAt: AWSDateTime
+    sessions: Int
 }
 
 """Created by therapists about their clients"""
