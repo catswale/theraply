@@ -75,6 +75,7 @@ type Symptoms {
 
 type PackageItem {
     id: ID
+    name: String
     packageName: String
     expiry: AWSDateTime
     createdAt: AWSDateTime
