@@ -5,13 +5,12 @@ import {
   Platform, Keyboard,
 } from 'react-native';
 import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
-import { palette, PackageItem } from '@theraply/lib';
+import { palette } from '@theraply/lib';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { theme, Background } from '../theme';
 import { RootStackParamList } from '../App';
-import { useClient } from '../client/client.hooks';
-import { usePayments } from './payments.hooks';
+import { Loading } from '../components/Loading.page';
 
 type ScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -24,48 +23,47 @@ type Props = {
 };
 
 export const CardEntry = ({ route, navigation }: Props) => {
-  const [disabled, setDisabled] = useState(false);
   const [cardNo, setCardNo] = useState('');
   const [cardMonthExpiry, setCardMonthExpiry] = useState('');
   const [cardYearExpiry, setCardYearExpiry] = useState('');
   const [error, setError] = useState('');
-  const { client } = useClient();
-  const payments = usePayments();
+  const [loading, setLoading] = useState(false);
   const { pkg } = route?.params || {};
-
-  const buttonStyle = disabled ? theme.primaryButtonDisabled : theme.primaryButton;
 
   const onSubmit = async () => {
     try {
-      let { stripeCustomerID } = client;
-      if (!stripeCustomerID) {
-        stripeCustomerID = await payments.register();
-        console.log(`registered and got ${stripeCustomerID}`);
-      }
-      // const {tokenId}  = await Stripe.createTokenWithCardAsync({
+      setLoading(true);
+      // const { tokenId } = await Stripe.createTokenWithCardAsync({
       //   number: cardNo,
-      //   expMonth: parseInt(cardMonthExpiry),
-      //   expYear: parseInt(cardYearExpiry),
+      //   expMonth: Number(cardMonthExpiry),
+      //   expYear: Number(cardYearExpiry),
       // }) as any;
+
       const { tokenId } = await Stripe.createTokenWithCardAsync({
         number: '4242 4242 4242 4242',
         expMonth: 2,
         expYear: 22,
       }) as any;
-      await payments.addCard(stripeCustomerID, tokenId);
-      await payments.charge(stripeCustomerID, pkg.name);
+      navigation.navigate('ConfirmPackage', { pkg, cardTokenID: tokenId });
     } catch (err) {
-      setError(err.friendlyMessage);
+      console.log(err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
+  const formFilled = Boolean(cardNo && cardMonthExpiry && cardYearExpiry);
+  const buttonStyle = !formFilled ? theme.primaryButtonDisabled : theme.primaryButton;
+
+  if (loading) return <Loading/>;
   return (
     <Background
       footer={
         <TouchableOpacity
           style={{ ...buttonStyle }}
           onPress={onSubmit}
-          disabled={disabled}
+          disabled={!formFilled}
         >
           <Text style={theme.primaryButtonText}>Done</Text>
         </TouchableOpacity>

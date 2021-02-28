@@ -39,7 +39,7 @@ export type RootStackParamList = {
   SignUpComplete: undefined;
   ChoosePackage: undefined;
   CardEntry: {pkg: Package};
-  ConfirmPackage: {pkg: Package};
+  ConfirmPackage: {pkg: Package, cardTokenID: string};
   PaymentComplete: undefined;
 };
 

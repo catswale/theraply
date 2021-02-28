@@ -1,10 +1,11 @@
 import React from 'react';
 import {
-  View, Text, StyleSheet, Button,
+  View, Text, StyleSheet,
   ViewStyle, TouchableOpacity, TextStyle,
 } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
+import { RouteProp, CommonActions } from '@react-navigation/native';
+
 import { palette } from '@theraply/lib';
 import { theme, Background } from '../theme';
 import { RootStackParamList } from '../App';
@@ -27,7 +28,12 @@ export const PaymentComplete = ({ route, navigation }: Props) => (
           <TouchableOpacity
             style={theme.primaryButton}
             onPress={() => {
-              navigation.navigate('Dashboard'); // todo update
+              navigation.reset({
+                index: 0,
+                routes: [
+                  { name: 'Dashboard' },
+                ],
+              });
             }}
           >
             <Text style={theme.primaryButtonText}>Schedule a Session</Text>

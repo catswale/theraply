@@ -18,7 +18,7 @@
       "function": {
         "paymentCheckout": {
           "deploymentBucketName": "amplify-mobileapp-dev-184827-deployment",
-          "s3Key": "amplify-builds/paymentCheckout-6d3751785a4778694f79-build.zip"
+          "s3Key": "amplify-builds/paymentCheckout-7932685879544f574630-build.zip"
         }
       }
     }

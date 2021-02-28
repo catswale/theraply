@@ -80,7 +80,7 @@ export const useAuth = () => {
   }
 
   async function getBearerToken() {
-    return `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`
+    return `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`;
   }
 
   return {

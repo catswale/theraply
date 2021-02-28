@@ -9,13 +9,13 @@ import AudioIcon from '../../assets/images/audio.svg';
 import CameraIcon from '../../assets/images/camera.svg';
 
 export const PackageIcons = ({ pkg }: {pkg: Package}) => {
-  if (pkg.name === PackageName.Texting) {
+  if (pkg.name === 'Texting') {
     return (
       <View style={{ ...styles.packageIconsContainer, justifyContent: 'center' }}>
         <ChatIcon/>
       </View>
     );
-  } if (pkg.name === PackageName.TextingAndLiveSession) {
+  } if (pkg.name === 'TextingAndLiveSession') {
     return (
       <View style={styles.packageIconsContainer}>
         <ChatIcon/>
