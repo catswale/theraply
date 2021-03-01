@@ -44,7 +44,8 @@ const ChatHeaderRight = ({ status }: { status: boolean }) => {
 
 export const Chat = ({ route, navigation }) => {
   const [messages, setMessages] = useState([] as Message[]);
-  const [messageBody, setMessageBody] = React.useState('');
+  const [messageBody, setMessageBody] = useState('');
+  const [channelID, setChannelID] = useState('');
   const { therapist } = route.params;
   const { user: client } = useAuth();
   const chat = useChat();
@@ -56,7 +57,24 @@ export const Chat = ({ route, navigation }) => {
     navigation.setOptions({
       headerTitle: () => <ChatHeader name={`${therapist.firstName} ${therapist.lastName}`} />
     });
-    fetchMessages();
+
+    const init = async () => {
+      const { data: { getClient: clientTherapist } } = await API.graphql(graphqlOperation(
+        queries.getClient,
+        {
+          id: client.id,
+          therapistId: {
+            eq: therapist.id
+          },
+          limitTherapist: 1
+        }));
+
+      setChannelID(clientTherapist?.therapists?.items?.[0].id);
+      fetchMessages();
+    };
+
+    init();
+
   }, []);
 
   useEffect(() => {
@@ -66,7 +84,7 @@ export const Chat = ({ route, navigation }) => {
   }, [isOnline]);
 
   async function fetchMessages() {
-    const messages = await chat.fetchMessages(therapist.channelID);
+    const messages = await chat.fetchMessages(channelID);
     setMessages(messages);
   }
 
@@ -86,7 +104,7 @@ export const Chat = ({ route, navigation }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const input = {
-      channelID: therapist.channelID,
+      channelID,
       authorID: client.id,
       body: messageBody.trim(),
       clientID: client.id,
@@ -163,8 +181,10 @@ const message: ViewStyle = {
   paddingVertical: 8,
   paddingHorizontal: 12,
   maxWidth: 240,
-  backgroundColor: '#f1f0f0',
-  borderRadius: 16,
+  backgroundColor: palette.gray,
+  borderTopLeftRadius: 10,
+  borderTopRightRadius: 10,
+  borderBottomRightRadius: 10
 };
 const styles = StyleSheet.create<Style>({
   container: {
@@ -184,8 +204,10 @@ const styles = StyleSheet.create<Style>({
   messageMe: {
     ...message,
     alignSelf: 'flex-end',
-    backgroundColor: '#f19e38',
-    color: 'white',
+    backgroundColor: palette.fadedBlue.main,
+    color: palette.fadedBlue.contrastText,
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 10
   },
   text: {
     fontSize: 16,
@@ -204,7 +226,7 @@ const styles = StyleSheet.create<Style>({
     flexDirection: 'row',
     height: 64,
     position: 'absolute',
-    bottom: 40,
+    bottom: 90,
     left: 0,
     justifyContent: 'center',
     alignItems: 'center',

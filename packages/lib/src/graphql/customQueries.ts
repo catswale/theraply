@@ -22,14 +22,18 @@ export const getTherapist = /* GraphQL */ `
   }
 `;
 export const getClient = /* GraphQL */ `
-  query GetClient($id: ID!) {
+  query GetClient(
+    $id: ID!, 
+    $therapistId: ModelIDKeyConditionInput,
+    $limitTherapist: Int
+  ) {
     getClient(id: $id) {
       id
       firstName
       lastName
       email
       phoneNumber
-      therapists {
+      therapists (therapistID: $therapistId, limit: $limitTherapist) {
         items {
           therapist {
             id
@@ -46,3 +50,21 @@ export const getClient = /* GraphQL */ `
     }
   }
 `;
+
+// export const listClientTherapist = /* GraphQL */ `
+//   query ListClientTherapist(
+//     $filter: ModelTherapistClientRelationshipFilterInput
+//     $limit: Int
+//     $nextToken: String
+//   ) {
+//     listTherapistClientRelationship(filter: $filter, limit: $limit, nextToken: $nextToken) {
+//       items {
+//         id
+//         clientId
+//         therapistId
+//         active
+//       }
+//       nextToken
+//     }
+//   }
+// `;
