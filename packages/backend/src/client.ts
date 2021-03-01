@@ -1,13 +1,9 @@
 import { mutations, queries, Client } from '@theraply/lib';
 import { getHeaderData, callGraphQL } from './utils';
-import * as graphql from 'graphql';
-import gql from 'graphql-tag';
-const { print } = graphql;
 
 export const postTherapist = async (req: any, res: any) => {
   try {
-    const graphql = callGraphQL(req);
-
+    const graphQLCaller = callGraphQL(req);
     const { id: username } = getHeaderData(req, res);
 
     const { genders, symptoms } = req.body;
@@ -23,7 +19,7 @@ export const postTherapist = async (req: any, res: any) => {
       ],
     };
 
-    const { data: { listTherapists: { items: [therapist] } } } = await graphql({
+    const { data: { listTherapists: { items: [therapist] } } } = await graphQLCaller({
       query: queries.listTherapists,
       variables: {
         filter: therapistFilter,
@@ -33,7 +29,7 @@ export const postTherapist = async (req: any, res: any) => {
 
     if (!therapist) throw new Error('Therapist not found.');
 
-    const { data: { createTherapistClientRelationship: therapistClientRecord } } = await graphql({
+    const { data: { createTherapistClientRelationship: therapistClientRecord } } = await graphQLCaller({
       query: mutations.createTherapistClientRelationship,
       variables: {
         input: {
@@ -44,7 +40,7 @@ export const postTherapist = async (req: any, res: any) => {
       },
     });
 
-    await graphql({
+    await graphQLCaller({
       query: mutations.updateClient,
       variables: {
         input: {
@@ -65,9 +61,8 @@ export const postTherapist = async (req: any, res: any) => {
 
 export async function getClient(req, id): Promise<Client> {
   const graphQLCaller = callGraphQL(req);
-  const getClient = gql`${queries.getClient}`;
   const result = await graphQLCaller({
-    query: print(getClient),
+    query: queries.getClient,
     variables: { id },
   }) as any;
   return result.data.getClient;
@@ -75,10 +70,10 @@ export async function getClient(req, id): Promise<Client> {
 
 export async function updateClient(req, data) {
   const graphQLCaller = callGraphQL(req);
-  const updateClient = gql`${mutations.updateClient}`;
-  return await graphQLCaller({
-    query: print(updateClient),
+  await graphQLCaller({
+    query: mutations.updateClient,
     variables: {
       input: data,
-  }});
+    },
+  });
 }

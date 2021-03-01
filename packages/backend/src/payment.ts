@@ -1,13 +1,13 @@
 import Stripe from 'stripe';
 import { Request, Response } from 'express';
 import {
-  PackageItem, getPkg, Client, Package, PackageName, queries,
+  PackageItem, getPkg, Package, PackageName,
 } from '@theraply/lib';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 import config from './config';
 import { getHeaderData } from './utils';
-import {getClient, updateClient} from './client';
+import { getClient, updateClient } from './client';
 
 const stripe = new Stripe(config.STRIPE_KEY, {
   apiVersion: '2020-08-27',
@@ -15,37 +15,31 @@ const stripe = new Stripe(config.STRIPE_KEY, {
 
 export async function paymentRegister(req: Request, res: Response) {
   try {
+    console.log('payment register');
     const pkgName = req.body.pkgName as PackageName;
     const cardToken = req.body.cardToken as string;
-    if (!cardToken || !pkgName) return res.status(500);
+    if (!cardToken || !pkgName) return res.status(500).send({ success: false });
     const { id, email, firstName } = getHeaderData(req, res);
     const client = await getClient(req, id);
-    // console.log(client)
-    // let {stripeCustomerID} = client;
-    // if (!stripeCustomerID) {
-    //   console.log('creating stripe customer');
-    //   const customer = await stripe.customers.create({ email, name: firstName });
-    //   console.log(customer)
-    //   stripeCustomerID = customer.id;
-    //   const card = await createCard(stripeCustomerID, cardToken);
-    //   console.log('created card')
-    //   console.log(card)
-    // }
-    // const pkg = getPkg(pkgName);
-    // const oldPackageItems = client.packageItems || [];
-    // const packageItems = [...oldPackageItems, ...createPackageItems(pkg)];
-    // console.log(packageItems)
-    // const b = await charge(req, id, stripeCustomerID, pkg);
-    // await updateClient(req, {...client, packageItems, stripeCustomerID})
-    delete client.therapists
-    delete client.createdAt
-    delete client.updatedAt
-    delete client.owner
-    await updateClient(req, {...client})
+    let { stripeCustomerID } = client;
+    if (!stripeCustomerID) {
+      console.log('creating stripe customer');
+      const customer = await stripe.customers.create({ email, name: firstName });
+      console.log(customer);
+      stripeCustomerID = customer.id;
+      const card = await createCard(stripeCustomerID, cardToken);
+      console.log(card);
+    }
+    const pkg = getPkg(pkgName);
+    const oldPackageItems = client.packageItems || [];
+    const packageItems = [...oldPackageItems, ...createPackageItems(pkg)];
+    console.log(packageItems);
+    await charge(req, id, stripeCustomerID, pkg);
+    await updateClient(req, { id: client.id, packageItems, stripeCustomerID });
     return res.json({ success: true });
   } catch (err) {
     console.log(err);
-    return res.status(500).send({success: false});
+    return res.status(500).send({ success: false });
   }
 }
 
@@ -81,7 +75,7 @@ export async function paymentCharge(req: Request, res: Response) {
     const client = await getClient(req, id);
     const oldPackageItems = client.packageItems || [];
     const packageItems = [...oldPackageItems, ...createPackageItems(pkg)];
-    await updateClient(req, {...client, packageItems})
+    await updateClient(req, { ...client, packageItems });
     return res.json({ success: true });
   } catch (err) {
     console.log(err);
@@ -95,7 +89,7 @@ async function charge(req, id: string, stripeCustomerID: string, pkg: Package) {
     amount: pkg.price,
     currency: 'aud',
     description: `${pkg.name}: ${pkg.itemNames.toString}`,
-  })
+  });
 }
 
 function createPackageItems(pkg: Package) {
