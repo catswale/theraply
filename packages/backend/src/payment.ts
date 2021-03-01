@@ -22,6 +22,7 @@ export async function paymentRegister(req: Request, res: Response) {
     const { id, email, firstName } = getHeaderData(req, res);
     const client = await getClient(req, id);
     let { stripeCustomerID } = client;
+
     if (!stripeCustomerID) {
       console.log('creating stripe customer');
       const customer = await stripe.customers.create({ email, name: firstName });
@@ -36,7 +37,7 @@ export async function paymentRegister(req: Request, res: Response) {
     console.log(packageItems);
     await charge(req, id, stripeCustomerID, pkg);
     await updateClient(req, { id: client.id, packageItems, stripeCustomerID });
-    return res.json({ success: true });
+    return res.json({ success: true, stripeCustomerID });
   } catch (err) {
     console.log(err);
     return res.status(500).send({ success: false });

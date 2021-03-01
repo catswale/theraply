@@ -6,9 +6,8 @@ export const usePayments = () => {
   const { client, setClient } = useClient();
 
   async function register(cardToken: string, pkgName: PackageName) {
-    const res = await callAPI('/payment/register', { cardToken, pkgName });
-    setClient({ ...client, stripeCustomerID: res.data.stripeCustomerID });
-    return res.data.stripeCustomerID;
+    const { stripeCustomerID } = await callAPI('/payment/register', { cardToken, pkgName });
+    setClient({ stripeCustomerID });
   }
 
   async function addCard(stripeCustomerID: string, cardToken: string) {

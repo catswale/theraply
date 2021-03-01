@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Auth } from 'aws-amplify';
 import { useSelector, useDispatch } from 'react-redux';
-import moment from 'moment';
-import { CognitoIdToken } from 'amazon-cognito-identity-js';
 import {
-  setIsSignedIn, setLoading, setUser, setIDToken,
+  setIsSignedIn, setLoading, setUser,
 } from './auth.slice';
 
 export const useAuth = () => {
@@ -78,8 +76,9 @@ export const useAuth = () => {
       throw err;
     }
   }
-
+  // getBearerToken();
   async function getBearerToken() {
+    console.log(`Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`);
     return `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`;
   }
 

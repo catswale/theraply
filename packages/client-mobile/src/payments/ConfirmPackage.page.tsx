@@ -29,27 +29,21 @@ export const ConfirmPackage = ({ route, navigation }: Props) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { pkg, cardTokenID } = route?.params || {};
-  const { client } = useClient();
   const payments = usePayments();
 
   const onSubmit = async () => {
     try {
-      // setLoading(true);
-      let { stripeCustomerID } = client;
-      // if (!stripeCustomerID) {
-      //   stripeCustomerID = await payments.register();
-      // }
-      // await payments.addCard(stripeCustomerID, cardTokenID);
+      setLoading(true);
       await payments.register(cardTokenID, pkg.name);
-      // await payments.charge(stripeCustomerID, pkg.name);
-      // navigation.navigate('PaymentComplete');
+      navigation.navigate('PaymentComplete');
     } catch (err) {
       setError(err.friendlyMessage);
     } finally {
-      // setLoading(false);
+      setLoading(false);
     }
   };
-  if (loading) return <Loading/>
+
+  if (loading) return <Loading/>;
   return (
     <Background
       footer={

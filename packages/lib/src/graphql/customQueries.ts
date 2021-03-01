@@ -21,7 +21,8 @@ export const getTherapist = /* GraphQL */ `
     }
   }
 `;
-export const getClient = /* GraphQL */ `
+
+export const getClientTherapists = /* GraphQL */ `
   query GetClient($id: ID!) {
     getClient(id: $id) {
       id
