@@ -50,21 +50,3 @@ export const getClient = /* GraphQL */ `
     }
   }
 `;
-
-// export const listClientTherapist = /* GraphQL */ `
-//   query ListClientTherapist(
-//     $filter: ModelTherapistClientRelationshipFilterInput
-//     $limit: Int
-//     $nextToken: String
-//   ) {
-//     listTherapistClientRelationship(filter: $filter, limit: $limit, nextToken: $nextToken) {
-//       items {
-//         id
-//         clientId
-//         therapistId
-//         active
-//       }
-//       nextToken
-//     }
-//   }
-// `;
