@@ -4,7 +4,7 @@ import {
   ViewStyle, TouchableOpacity, TextStyle, Dimensions,
 } from 'react-native';
 import {
-  palette, PackageItem, Packages, Package,
+  palette, getPkg, packages, Package,
 } from '@theraply/lib';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { theme, Background } from '../theme';
@@ -25,8 +25,7 @@ const { width } = Dimensions.get('window');
 
 export const ChoosePackage = ({ navigation }: Props) => {
   const [disabled, setDisabled] = useState(true);
-  const [selectedPackageItems, setSelectedPackageItems] = useState([] as PackageItem[]);
-  const [pkg, setPackage] = useState({} as Package);
+  const [pkg, setPkg] = useState({} as Package);
   const [firstPackageSelected, setFirstPackageSelected] = useState(false);
   const [secondPackageSelected, setSecondPackageSelected] = useState(false);
 
@@ -56,7 +55,7 @@ export const ChoosePackage = ({ navigation }: Props) => {
             onPress={() => {
               setSecondPackageSelected(false);
               setFirstPackageSelected(true);
-              setPackage(Packages.TEXTING);
+              setPkg(getPkg('Texting'));
               setDisabled(false);
             }}
           >
@@ -71,7 +70,7 @@ export const ChoosePackage = ({ navigation }: Props) => {
             onPress={() => {
               setFirstPackageSelected(false);
               setSecondPackageSelected(true);
-              setPackage(Packages.TEXTING_AND_LIVE_SESSION);
+              setPkg(getPkg('TextingAndLiveSession'));
               setDisabled(false);
             }}
           >

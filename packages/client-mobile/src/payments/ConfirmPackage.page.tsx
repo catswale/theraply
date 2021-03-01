@@ -4,13 +4,16 @@ import {
   ViewStyle, TouchableOpacity, TextStyle,
 } from 'react-native';
 import {
-  palette, Packages, Package,
+  palette, Package,
 } from '@theraply/lib';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { theme, Background } from '../theme';
 import { RootStackParamList } from '../App';
 import { PackageIcons } from '../components/package';
+import { useClient } from '../client/client.hooks';
+import { usePayments } from './payments.hooks';
+import { Loading } from '../components/Loading.page';
 
 type ScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -23,22 +26,38 @@ type Props = {
 };
 
 export const ConfirmPackage = ({ route, navigation }: Props) => {
-  const { pkg } = route?.params || {};
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { pkg, cardTokenID } = route?.params || {};
+  const payments = usePayments();
+
+  const onSubmit = async () => {
+    try {
+      setLoading(true);
+      await payments.register(cardTokenID, pkg.name);
+      navigation.navigate('PaymentComplete');
+    } catch (err) {
+      setError(err.friendlyMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) return <Loading/>;
   return (
     <Background
       footer={
         <TouchableOpacity
           style={theme.primaryButton}
-          onPress={() => {
-            // navigation.navigate();
-          }}
+          onPress={onSubmit}
         >
-          <Text style={theme.primaryButtonText}>Continue</Text>
+          <Text style={theme.primaryButtonText}>Confirm</Text>
         </TouchableOpacity>
       }>
       <View style={styles.container}>
         <View style={{ flex: 1 }}>
-          <Text style={{ ...theme.boldText, textAlign: 'center' }}>Please confirm your package</Text>
+          <Text style={{ ...theme.boldText, textAlign: 'center' }}>Please confirm the purchase</Text>
+          <Text style={{ color: palette.error.main }}>{error}</Text>
         </View>
         <View style={{ flex: 2 }}>
           <PackageView pkg={pkg}/>

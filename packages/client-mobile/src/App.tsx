@@ -3,8 +3,9 @@ import { Dimensions } from 'react-native';
 import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
-import { PackageItem, palette, Package } from '@theraply/lib';
+import { palette, Package } from '@theraply/lib';
 import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
+import { STRIPE_KEY } from '@env'; // eslint-disable-line
 import { Chat } from './chat/Chat.page';
 import { Dashboard } from './dashboard/Dashboard.page';
 import { SignIn } from './auth/SignIn.page';
@@ -39,7 +40,7 @@ export type RootStackParamList = {
   SignUpComplete: undefined;
   ChoosePackage: undefined;
   CardEntry: {pkg: Package};
-  ConfirmPackage: {pkg: Package};
+  ConfirmPackage: {pkg: Package, cardTokenID: string};
   PaymentComplete: undefined;
 };
 
@@ -52,7 +53,7 @@ const App = () => {
 
   useEffect(() => {
     Stripe.setOptionsAsync({
-      publishableKey: 'pk_test_51HyBbcLY5UjkiodXb5bxgUvEC0CqWqEA7OXytdhiE3XaMc2Tf0IiLOCSnwgKeaNJv4jo8D8ydIIyRSHXFj80p9PX00BJ4fuKgV',
+      publishableKey: STRIPE_KEY,
       androidPayMode: 'test', // [optional] used to set wallet environment (AndroidPay)
       merchantId: 'merchant.com.theraply.app', // [optional] used for payments with ApplePay
     });
@@ -66,9 +67,9 @@ const App = () => {
           isSignedIn ? (
             <>
               <Stack.Screen name="Dashboard" component={Dashboard} options={{ title: 'Home' }} />
+              <Stack.Screen name="ChoosePackage" component={ChoosePackage} options={{ title: 'Package' }} />
               <Stack.Screen name="PaymentComplete" component={PaymentComplete} options={{ title: 'Complete' }} />
               <Stack.Screen name="ConfirmPackage" component={ConfirmPackage} options={{ title: 'Confirm' }} />
-              <Stack.Screen name="ChoosePackage" component={ChoosePackage} options={{ title: 'Package' }} />
               <Stack.Screen name="PickTherapist1" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepOne} />
               <Stack.Screen name="PickTherapist2" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepTwo} />
               <Stack.Screen name="PickTherapist3" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepThree} />

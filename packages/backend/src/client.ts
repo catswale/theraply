@@ -1,11 +1,10 @@
-import { mutations, queries } from '@theraply/lib';
+import { mutations, queries, Client } from '@theraply/lib';
 import { getHeaderData, callGraphQL } from './utils';
 
 export const postTherapist = async (req: any, res: any) => {
   try {
-    const graphql = callGraphQL(req);
-
-    const { username } = getHeaderData(req, res);
+    const graphQLCaller = callGraphQL(req);
+    const { id: username } = getHeaderData(req, res);
 
     const { genders, symptoms } = req.body;
 
@@ -20,7 +19,7 @@ export const postTherapist = async (req: any, res: any) => {
       ],
     };
 
-    const { data: { listTherapists: { items: [therapist] } } } = await graphql({
+    const { data: { listTherapists: { items: [therapist] } } } = await graphQLCaller({
       query: queries.listTherapists,
       variables: {
         filter: therapistFilter,
@@ -30,7 +29,7 @@ export const postTherapist = async (req: any, res: any) => {
 
     if (!therapist) throw new Error('Therapist not found.');
 
-    const { data: { createTherapistClientRelationship: therapistClientRecord } } = await graphql({
+    const { data: { createTherapistClientRelationship: therapistClientRecord } } = await graphQLCaller({
       query: mutations.createTherapistClientRelationship,
       variables: {
         input: {
@@ -41,7 +40,7 @@ export const postTherapist = async (req: any, res: any) => {
       },
     });
 
-    await graphql({
+    await graphQLCaller({
       query: mutations.updateClient,
       variables: {
         input: {
@@ -59,3 +58,22 @@ export const postTherapist = async (req: any, res: any) => {
     return res.status(500).json({ message: 'an error occurred while picking a therapist.' });
   }
 };
+
+export async function getClient(req, id): Promise<Client> {
+  const graphQLCaller = callGraphQL(req);
+  const result = await graphQLCaller({
+    query: queries.getClient,
+    variables: { id },
+  }) as any;
+  return result.data.getClient;
+}
+
+export async function updateClient(req, data) {
+  const graphQLCaller = callGraphQL(req);
+  await graphQLCaller({
+    query: mutations.updateClient,
+    variables: {
+      input: data,
+    },
+  });
+}

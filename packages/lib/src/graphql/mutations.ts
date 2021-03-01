@@ -254,12 +254,13 @@ export const createClient = /* GraphQL */ `
       }
       therapistIDs
       stripeCustomerID
-      payments {
+      packageItems {
         id
-        plan
-        start
-        end
+        name
+        packageName
+        expiry
         createdAt
+        sessions
       }
       createdAt
       updatedAt
@@ -294,12 +295,13 @@ export const updateClient = /* GraphQL */ `
       }
       therapistIDs
       stripeCustomerID
-      payments {
+      packageItems {
         id
-        plan
-        start
-        end
+        name
+        packageName
+        expiry
         createdAt
+        sessions
       }
       createdAt
       updatedAt
@@ -334,12 +336,13 @@ export const deleteClient = /* GraphQL */ `
       }
       therapistIDs
       stripeCustomerID
-      payments {
+      packageItems {
         id
-        plan
-        start
-        end
+        name
+        packageName
+        expiry
         createdAt
+        sessions
       }
       createdAt
       updatedAt

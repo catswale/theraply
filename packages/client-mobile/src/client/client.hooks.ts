@@ -47,7 +47,7 @@ export const useClient = () => {
       ...connection.therapist,
       channelID: connection.id,
     }));
-    console.log(newClient)
+    console.log(newClient);
     dispatch(setClient(newClient));
   }
 
@@ -78,6 +78,6 @@ export const useClient = () => {
     fetchClient,
     createTherapistClientConnection,
     client,
-    setClient: (newClient: Client) => dispatch(setClient(newClient)),
+    setClient: (data: any) => dispatch(setClient({ ...client, ...data })),
   };
 };

@@ -4,16 +4,25 @@ import {
   ViewStyle, TouchableOpacity, TextStyle, Button,
 } from 'react-native';
 import { palette } from '@theraply/lib';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { theme, Background } from '../theme';
 import { useClient } from '../client/client.hooks';
 import ChatIcon from '../../assets/images/chat-thin.svg';
 import CalendarIcon from '../../assets/images/calendar.svg';
 import { useAuth } from '../auth/auth.hooks';
+import { RootStackParamList } from '../App';
 
-export const Dashboard = ({ navigation }) => {
+type ScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'CardEntry'
+>;
+type Props = {navigation: ScreenNavigationProp};
+
+export const Dashboard = ({ navigation }: Props) => {
   const { client } = useClient();
   const auth = useAuth();
-
+  console.log(client);
+  const packageName = client.packageItems?.[0]?.packageName || 'None';
   return (
     <Background
       footer={
@@ -49,6 +58,12 @@ export const Dashboard = ({ navigation }) => {
             <Text style={theme.primaryButtonText}>Chat with a Therapist</Text>
           </TouchableOpacity>
         }
+        <TouchableOpacity
+            onPress={() => navigation.navigate('ChoosePackage')}
+          >
+            <Text style={{ color: palette.primary.main }}>Payment Flow</Text>
+          </TouchableOpacity>
+          <Text>Current Package: {packageName}</Text>
       </>
     </Background>
   );

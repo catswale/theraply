@@ -21,6 +21,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'import/extensions': 'off',
     'no-use-before-define': 'off',
+    'no-console': 'off',
   },
   settings: {
     'import/resolver': {

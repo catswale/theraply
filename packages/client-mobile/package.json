@@ -66,6 +66,7 @@
     "expo-yarn-workspaces": "^1.2.1",
     "jest": "~25.2.6",
     "jest-expo": "~39.0.0",
+    "react-native-dotenv": "^2.5.3",
     "react-native-svg-transformer": "^0.14.3",
     "react-test-renderer": "~16.13.1",
     "typescript": "~3.9.5"
