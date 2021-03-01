@@ -65,6 +65,7 @@ const App = () => {
         {
           isSignedIn ? (
             <>
+              <Stack.Screen name="Chat" component={Chat} />
               <Stack.Screen name="Dashboard" component={Dashboard} options={{ title: 'Home' }} />
               <Stack.Screen name="PaymentComplete" component={PaymentComplete} options={{ title: 'Complete' }} />
               <Stack.Screen name="ConfirmPackage" component={ConfirmPackage} options={{ title: 'Confirm' }} />
@@ -73,7 +74,6 @@ const App = () => {
               <Stack.Screen name="PickTherapist2" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepTwo} />
               <Stack.Screen name="PickTherapist3" options={{ title: 'Pick a Therapist.' }} component={PickTherapist.StepThree} />
               <Stack.Screen name="CardEntry" component={CardEntry} options={{ title: 'Payment' }} />
-              <Stack.Screen name="Chat" component={Chat} />
             </>
           ) : (
               <>

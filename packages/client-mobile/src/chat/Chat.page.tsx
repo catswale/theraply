@@ -6,15 +6,16 @@ import {
   mutations, subscriptions, queries, Message, palette,
 } from '@theraply/lib';
 import Amplify, { API, graphqlOperation, Auth } from 'aws-amplify';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useChat } from './chat.hooks';
 import { useAuth } from '../auth/auth.hooks';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import EmojiIcon from '../../assets/images/emoji.svg';
 import MicrophoneIcon from '../../assets/images/microphone-icon.svg';
 import AttachmentIcon from '../../assets/images/attachment-icon.svg';
 import CalendarIcon from '../../assets/images/calendar-icon.svg';
 import ChatAvatar from '../../assets/images/chat-avatar.svg';
 import { Background } from '../theme';
+import { useClient } from '../client/client.hooks';
 
 interface Event {
   provider: object;
@@ -25,43 +26,51 @@ interface Event {
   }
 }
 
-const ChatHeader = ({ name }: { name: string }) => {
-  return (
+const ChatHeader = ({ name }: { name: string }) => (
     <View style={styles.chatHeader}>
       <ChatAvatar height={30} width={30} />
       <Text style={styles.chatHeaderText}>{name}</Text>
     </View>
-  );
-};
+);
 
-const ChatHeaderRight = ({ status }: { status: boolean }) => {
-  return (
+const ChatHeaderRight = ({ status }: { status: boolean }) => (
     <View style={styles.chatHeaderRight}>
       <Text style={{ ...styles.chatHeaderText, color: palette.text.primary }}>{status ? 'Online' : 'Typing'}</Text>
     </View>
-  );
-};
+);
 
 export const Chat = ({ route, navigation }) => {
   const [messages, setMessages] = useState([] as Message[]);
   const [messageBody, setMessageBody] = React.useState('');
-  const { therapist } = route.params;
-  const { user: client } = useAuth();
+  // const { therapist } = route.params;
+  const therapist = {
+    id: '4acae033-3e0f-4aad-82c9-bd48740cf928',
+    __typename: 'Therapist',
+    active: true,
+    lastName: 'Doe',
+    updatedAt: '2020-12-14T09:38:44.434Z',
+    createdAt: '2020-12-14T09:38:44.434Z',
+    owner: '4acae033-3e0f-4aad-82c9-bd48740cf928',
+    email: 'catswale+john@gmail.com',
+    firstName: 'John',
+    gender: 'Male',
+    channelID: 'test', // pass this in as parameter separate from therapist
+  };
+  const { client } = useClient();
   const chat = useChat();
   // This value is most likely gotten from a graphql subscription
   const [isOnline, setOnlineStatus] = useState(true);
 
-
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: () => <ChatHeader name={`${therapist.firstName} ${therapist.lastName}`} />
+      headerTitle: () => <ChatHeader name={`${therapist.firstName} ${therapist.lastName}`} />,
     });
     fetchMessages();
   }, []);
 
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => <ChatHeaderRight status={isOnline} />
+      headerRight: () => <ChatHeaderRight status={isOnline} />,
     });
   }, [isOnline]);
 
@@ -69,7 +78,7 @@ export const Chat = ({ route, navigation }) => {
     const messages = await chat.fetchMessages(therapist.channelID);
     setMessages(messages);
   }
-
+  console.log(client);
   useEffect(() => {
     const subscription = API
       .graphql(graphqlOperation(subscriptions.onCreateMessage, { owner: client.id, clientID: client.id, therapistID: therapist.id })) // @ts-ignore
@@ -83,6 +92,10 @@ export const Chat = ({ route, navigation }) => {
     };
   }, [messages]);
 
+  useEffect(() => {
+
+  }, []);
+  console.log(messages);
   const handleSubmit = async (event) => {
     event.preventDefault();
     const input = {
@@ -203,7 +216,7 @@ const styles = StyleSheet.create<Style>({
   chatBar: {
     flexDirection: 'row',
     height: 64,
-    position: 'absolute',
+    // position: 'absolute',
     bottom: 40,
     left: 0,
     justifyContent: 'center',
@@ -228,6 +241,6 @@ const styles = StyleSheet.create<Style>({
     lineHeight: 26,
   },
   chatHeaderRight: {
-    marginRight: 20
-  }
+    marginRight: 20,
+  },
 });
