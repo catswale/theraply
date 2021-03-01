@@ -226,7 +226,7 @@ const styles = StyleSheet.create<Style>({
     flexDirection: 'row',
     height: 64,
     position: 'absolute',
-    bottom: 90,
+    bottom: 40,
     left: 0,
     justifyContent: 'center',
     alignItems: 'center',

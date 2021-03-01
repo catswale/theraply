@@ -2,7 +2,7 @@ import React from 'react';
 import { palette } from '@theraply/lib';
 import {
   View, StyleSheet,
-  ViewStyle, TextStyle, Dimensions,
+  ViewStyle, TextStyle, Dimensions, SafeAreaView,
 } from 'react-native';
 import Corner from '../assets/images/bottom-left-corner-art.svg';
 
@@ -111,6 +111,7 @@ export const theme = StyleSheet.create<Style>({
   container: {
     backgroundColor: palette.secondary.main,
     height,
+    flex: 1,
   },
   bodyContainer: {
     display: 'flex',
@@ -126,11 +127,10 @@ export const theme = StyleSheet.create<Style>({
   },
   upperBodyContainer: {
     paddingTop: 40,
-    flex: 7,
+    flex: 8,
   },
   lowerBodyContainer: {
-    paddingBottom: 45,
-    flex: 3,
+    flex: 2,
     justifyContent: 'center',
   },
 });
@@ -142,19 +142,19 @@ interface BackgroundProps {
 }
 
 export const Background = ({ children, footer, background }: BackgroundProps) => (
-    <View style={theme.container} >
-      <View style={theme.bodyContainer}>
-        <View style={theme.upperBodyContainer}>
-          {children}
-        </View>
-        <View style={theme.lowerBodyContainer}>
-          {footer}
-          {background && (
-            <Corner style={{
-              position: 'absolute', left: -18, zIndex: -1, bottom: 0,
-            }} width={188} height={191} />
-          )}
-        </View>
+  <SafeAreaView style={theme.container} >
+    <View style={theme.bodyContainer}>
+      <View style={theme.upperBodyContainer}>
+        {children}
+      </View>
+      <View style={theme.lowerBodyContainer}>
+        {footer}
+        {background && (
+          <Corner style={{
+            position: 'absolute', left: -20, zIndex: -1, bottom: 0,
+          }} width={148} height={151} />
+        )}
       </View>
     </View>
+  </SafeAreaView>
 );
