@@ -33,11 +33,11 @@ export async function paymentRegister(req: Request, res: Response) {
     }
     const pkg = getPkg(pkgName);
     const oldPackageItems = client.packageItems || [];
-    const packageItems = [...oldPackageItems, ...createPackageItems(pkg)];
+    const packageItems = [...createPackageItems(pkg), ...oldPackageItems];
     console.log(packageItems);
     await charge(req, id, stripeCustomerID, pkg);
     await updateClient(req, { id: client.id, packageItems, stripeCustomerID });
-    return res.json({ success: true, stripeCustomerID });
+    return res.json({ success: true, stripeCustomerID, packageItems });
   } catch (err) {
     console.log(err);
     return res.status(500).send({ success: false });

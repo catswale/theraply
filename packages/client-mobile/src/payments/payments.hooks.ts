@@ -3,11 +3,11 @@ import { useClient } from '../client/client.hooks';
 import { callAPI } from '../services/api';
 
 export const usePayments = () => {
-  const { client, setClient } = useClient();
+  const { updateClient } = useClient();
 
   async function register(cardToken: string, pkgName: PackageName) {
-    const { stripeCustomerID } = await callAPI('/payment/register', { cardToken, pkgName });
-    setClient({ stripeCustomerID });
+    const { stripeCustomerID, packageItems } = await callAPI('/payment/register', { cardToken, pkgName });
+    updateClient({ stripeCustomerID, packageItems });
   }
 
   async function addCard(stripeCustomerID: string, cardToken: string) {

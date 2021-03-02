@@ -6,7 +6,8 @@
     "preserveConstEnums": true,
     "outDir": "./built",
     "sourceMap": true,
-    "types": []
+    "types": [],
+    "esModuleInterop": true,
   },
   "include": ["./src/**/*", "app.js"],
 }

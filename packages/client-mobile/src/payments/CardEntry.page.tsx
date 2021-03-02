@@ -33,17 +33,17 @@ export const CardEntry = ({ route, navigation }: Props) => {
   const onSubmit = async () => {
     try {
       setLoading(true);
-      // const { tokenId } = await Stripe.createTokenWithCardAsync({
-      //   number: cardNo,
-      //   expMonth: Number(cardMonthExpiry),
-      //   expYear: Number(cardYearExpiry),
-      // }) as any;
-
       const { tokenId } = await Stripe.createTokenWithCardAsync({
-        number: '4242 4242 4242 4242',
-        expMonth: 2,
-        expYear: 22,
+        number: cardNo,
+        expMonth: Number(cardMonthExpiry),
+        expYear: Number(cardYearExpiry),
       }) as any;
+
+      // const { tokenId } = await Stripe.createTokenWithCardAsync({
+      //   number: '4242 4242 4242 4242',
+      //   expMonth: 2,
+      //   expYear: 22,
+      // }) as any;
       navigation.navigate('ConfirmPackage', { pkg, cardTokenID: tokenId });
     } catch (err) {
       console.log(err);
