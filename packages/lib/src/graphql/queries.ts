@@ -21,10 +21,6 @@ export const getTherapist = /* GraphQL */ `
       bio
       active
       gender
-      authenticatedUserIDs
-      clients {
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -49,7 +45,41 @@ export const listTherapists = /* GraphQL */ `
         bio
         active
         gender
-        authenticatedUserIDs
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getTherapistClientRelationship = /* GraphQL */ `
+  query GetTherapistClientRelationship($id: ID!) {
+    getTherapistClientRelationship(id: $id) {
+      id
+      therapistID
+      clientID
+      active
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listTherapistClientRelationships = /* GraphQL */ `
+  query ListTherapistClientRelationships(
+    $filter: ModelTherapistClientRelationshipFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTherapistClientRelationships(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        therapistID
+        clientID
+        active
         createdAt
         updatedAt
       }
@@ -75,9 +105,6 @@ export const getClient = /* GraphQL */ `
         id
         content
         createdAt
-      }
-      therapists {
-        nextToken
       }
       therapistIDs
       stripeCustomerID
@@ -157,7 +184,6 @@ export const getMessage = /* GraphQL */ `
     getMessage(id: $id) {
       id
       channelID
-      authorID
       body
       therapistID
       clientID
@@ -177,7 +203,6 @@ export const listMessages = /* GraphQL */ `
       items {
         id
         channelID
-        authorID
         body
         therapistID
         clientID
@@ -224,6 +249,33 @@ export const listBookings = /* GraphQL */ `
     }
   }
 `;
+export const getClientRelationships = /* GraphQL */ `
+  query GetClientRelationships(
+    $clientID: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelTherapistClientRelationshipFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getClientRelationships(
+      clientID: $clientID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        therapistID
+        clientID
+        active
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const messagesByChannelId = /* GraphQL */ `
   query MessagesByChannelId(
     $channelID: ID
@@ -244,7 +296,6 @@ export const messagesByChannelId = /* GraphQL */ `
       items {
         id
         channelID
-        authorID
         body
         therapistID
         clientID

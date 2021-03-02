@@ -5,7 +5,7 @@ export const callAPI = async (route: string, body = {}) => {
     console.log(`calling ${route}`);
     const bearer = `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`;
     const init = { headers: { Authorization: bearer }, body };
-    return await API.post('paymentAPI', route, init);
+    return await API.post('backend', route, init);
   } catch (err) {
     console.log(err);
     const defaultErrorMsg = 'Something went wrong, please try again.';

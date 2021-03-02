@@ -1,6 +1,6 @@
 projects:
-  api:
-    schemaPath: amplify/backend/api/api/build/schema.graphql
+  theraplyapp:
+    schemaPath: src/graphql/schema.json
     includes:
       - src/graphql/**/*.ts
     excludes:
@@ -9,9 +9,7 @@ projects:
       amplify:
         codeGenTarget: typescript
         generatedFileName: src/API.ts
-        docsFilePath: graphql
-        region: ap-southeast-2
-        apiId: null
+        docsFilePath: src/graphql
         maxDepth: 2
 extensions:
   amplify:

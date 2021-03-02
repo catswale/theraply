@@ -1,0 +1,123 @@
+type Therapist
+  @model {
+  id: ID!
+  firstName: String!
+  lastName: String
+  email: AWSEmail!
+  phoneNumber: AWSPhone
+  availability: [Availability]
+  specializations: [String]
+  titles: [String]
+  greeting: String
+  bio: String
+  active: Boolean
+  gender: String
+}
+
+type Availability {
+  id: ID!
+  start: AWSDateTime!
+  end: AWSDateTime!
+}
+
+type TherapistClientRelationship
+  @model 
+  @auth(rules: [
+    { allow: owner, ownerField: "clientID" }
+    { allow: owner, ownerField: "therapistID" }
+  ]) 
+  @key(
+    name: "getClientRelationships"
+    fields: ["clientID"]
+    queryField: "getClientRelationships"
+  ) 
+  @key(fields: ["clientID", "active"]) {
+  id: ID!
+  therapistID: ID!
+  clientID: ID!
+  active: Boolean
+}
+
+type Client @model 
+  @auth(rules: [
+    { allow: owner }, 
+    { allow: owner, ownerField: "therapistIDs", operations: [read] }
+  ]) {
+  id: ID!
+  firstName: String!
+  lastName: String
+  email: AWSEmail!
+  phoneNumber: AWSPhone
+  dob: AWSDate
+  symptoms: [Symptoms]
+  therapistPreferences: [TherapistPreferences]
+  therapistIDs: [String]
+  stripeCustomerID: String
+  packageItems: [PackageItem]
+}
+
+type TherapistPreferences {
+    id: ID
+  """Array of preferences eg. [Female]"""
+  content: [String] 
+  createdAt: AWSDateTime
+}
+
+type Symptoms {
+  id: ID
+  """Array of symptom strings eg. [Depression, Anxiety]"""
+  content: [String] 
+  createdAt: AWSDateTime
+}
+
+type PackageItem {
+    id: ID
+    name: String
+    packageName: String
+    expiry: AWSDateTime
+    createdAt: AWSDateTime
+    sessions: Int
+}
+
+"""Created by therapists about their clients"""
+type Note @model 
+  @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  title: String
+  content: String
+  clientID: String
+}
+
+type Message
+  @model
+  @auth(rules: [
+    { allow: owner, ownerField: "clientID" }
+    { allow: owner, ownerField: "therapistID" }
+  ])
+  @key(
+    name: "byChannelID"
+    fields: ["channelID", "createdAt"]
+    queryField: "messagesByChannelID"
+  ) {
+  id: ID!
+  channelID: ID!
+  body: String!
+  therapistID: String!
+  clientID: String!
+  participants: [String]
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+type Booking 
+  @model 
+  @auth(rules: [
+    { allow: owner, ownerField: "participants" }
+  ]){
+  id: ID!
+  bookingID: ID!
+  start: AWSDateTime!
+  end: AWSDateTime!
+  state: String!
+  participants: [String]!
+}

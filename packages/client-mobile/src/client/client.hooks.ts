@@ -21,12 +21,12 @@ export const useClient = () => {
 
   useEffect(() => {
     if (id && !client?.id) {
-      fetchClient();
+      initClient();
     }
   }, [user]);
 
   // Fetch user data from the database
-  async function fetchClient() {
+  async function initClient() {
     if (!id) return;
     const data = await API.graphql(graphqlOperation(queries.getClient, { id })) as Data;
     type Data = {data: {getClient: any}}
@@ -43,10 +43,6 @@ export const useClient = () => {
         },
       }));
     }
-    newClient.therapists = newClient?.therapists?.items && newClient.therapists.items.map((connection) => ({
-      ...connection.therapist,
-      channelID: connection.id,
-    }));
     console.log(newClient);
     dispatch(setClient(newClient));
   }
@@ -71,13 +67,13 @@ export const useClient = () => {
     };
 
     const update = await API.graphql({ query: mutations.updateClient, variables: { input: newClient } });
-    await fetchClient();
+    await initClient();
   }
 
   return {
-    fetchClient,
     createTherapistClientConnection,
     client,
-    setClient: (data: any) => dispatch(setClient({ ...client, ...data })),
+    setClient: (data: any) => dispatch(setClient(data)),
+    updateClient: (data: any) => dispatch(setClient({ ...client, ...data })),
   };
 };

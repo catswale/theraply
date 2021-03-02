@@ -1,0 +1,63 @@
+{
+    "paths": [
+        {
+            "name": "/client/payment/register",
+            "lambdaFunction": "theraplyappc2eaddc1",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/client/payment/register"
+        },
+        {
+            "name": "/email",
+            "lambdaFunction": "backend",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/email"
+        },
+        {
+            "name": "/client/therapist",
+            "lambdaFunction": "backend",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/client/therapist"
+        }
+    ],
+    "resourceName": "backend",
+    "apiName": "backend",
+    "functionArns": [
+        {
+            "lambdaFunction": "theraplyappc2eaddc1"
+        },
+        {
+            "lambdaFunction": "backend"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-theraplyapp-dev-173423-authRole",
+        "unAuthRoleName": "amplify-theraplyapp-dev-173423-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "theraplyappc2eaddc1",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        },
+        {
+            "category": "function",
+            "resourceName": "backend",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ],
+    "uuid": "85b303c3"
+}

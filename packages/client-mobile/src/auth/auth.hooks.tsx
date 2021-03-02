@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   setIsSignedIn, setLoading, setUser,
 } from './auth.slice';
+import { setClient } from '../client/client.slice';
 
 export const useAuth = () => {
   const selector = useSelector((state) => state.auth);
@@ -62,6 +63,7 @@ export const useAuth = () => {
       await Auth.signOut();
       dispatch(setIsSignedIn(false));
       dispatch(setUser({}));
+      dispatch(setClient({}));
     } catch (error) {
       console.log('error signing out: ', error);
     }

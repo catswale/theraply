@@ -1,24 +1,28 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-mobileapp-dev-184827-authRole",
-      "UnauthRoleArn": "arn:aws:iam::397169578167:role/amplify-mobileapp-dev-184827-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::397169578167:role/amplify-mobileapp-dev-184827-authRole",
+      "AuthRoleName": "amplify-theraplyapp-dev-173423-authRole",
+      "UnauthRoleArn": "arn:aws:iam::397169578167:role/amplify-theraplyapp-dev-173423-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::397169578167:role/amplify-theraplyapp-dev-173423-authRole",
       "Region": "ap-southeast-2",
-      "DeploymentBucketName": "amplify-mobileapp-dev-184827-deployment",
-      "UnauthRoleName": "amplify-mobileapp-dev-184827-unauthRole",
-      "StackName": "amplify-mobileapp-dev-184827",
-      "StackId": "arn:aws:cloudformation:ap-southeast-2:397169578167:stack/amplify-mobileapp-dev-184827/6af25ee0-3230-11eb-bea6-0a5c8161115c",
-      "AmplifyAppId": "d2tcw5aycaiqjd"
+      "DeploymentBucketName": "amplify-theraplyapp-dev-173423-deployment",
+      "UnauthRoleName": "amplify-theraplyapp-dev-173423-unauthRole",
+      "StackName": "amplify-theraplyapp-dev-173423",
+      "StackId": "arn:aws:cloudformation:ap-southeast-2:397169578167:stack/amplify-theraplyapp-dev-173423/7ad1c6e0-7b3a-11eb-9361-02dd7379711a",
+      "AmplifyAppId": "deto18717i1ya"
     },
     "categories": {
       "auth": {
-        "mobileapp3d64a26e": {}
+        "theraplyapp8dae363a": {}
       },
       "function": {
-        "paymentCheckout": {
-          "deploymentBucketName": "amplify-mobileapp-dev-184827-deployment",
-          "s3Key": "amplify-builds/paymentCheckout-7932685879544f574630-build.zip"
+        "backend": {
+          "deploymentBucketName": "amplify-theraplyapp-dev-173423-deployment",
+          "s3Key": "amplify-builds/backend-3663455a774b53346b6d-build.zip"
+        },
+        "theraplyappc2eaddc1": {
+          "deploymentBucketName": "amplify-theraplyapp-dev-173423-deployment",
+          "s3Key": "amplify-builds/theraplyappc2eaddc1-6b516147694273414e79-build.zip"
         }
       }
     }
