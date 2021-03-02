@@ -43,6 +43,7 @@ export const useClient = () => {
         },
       }));
     }
+    console.log(newClient);
     // newClient.therapists = newClient?.therapists?.items && newClient.therapists.items.map((connection) => ({
     //   ...connection.therapist,
     //   channelID: connection.id,

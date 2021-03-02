@@ -17,7 +17,6 @@ export type Client = {
   lastName?: string,
   email: string,
   phoneNumber?: string,
-  therapists?: any[],
   therapistIDs: string[],
   channelID?: string,
   createdAt: Date,

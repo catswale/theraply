@@ -46,7 +46,7 @@
     "test": "jest",
     "compile": "tsc -p tsconfig.build.json",
     "clean": "rm -rf built && rm -f archive.zip",
-    "deploy:dev": "yarn build && lerna link && aws lambda update-function-code --function-name paymentCheckout-dev --zip-file fileb://archive.zip"
+    "deploy:dev": "yarn build && lerna link && aws lambda update-function-code --function-name backend-dev --zip-file fileb://archive.zip"
   },
   "author": "",
   "license": "ISC"

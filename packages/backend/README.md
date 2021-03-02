@@ -9,7 +9,7 @@ npm i -g nodemon
 yarn start
 
 # Test locally
-Test the API with a frontend by changing aws-exports.js paymentAPI endpoint to http://localhost:3000"
+Test the API with a frontend by changing aws-exports.js backend endpoint to http://localhost:3000"
 
 # Push changes to the dev environment
 `aws configure` // configure with the aws account sent to you from. Only needs to be done once

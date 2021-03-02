@@ -1,4 +1,3 @@
-/* tslint:disable */
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
@@ -21,10 +20,6 @@ export const getTherapist = /* GraphQL */ `
       bio
       active
       gender
-      authenticatedUserIDs
-      clients {
-        nextToken
-      }
       createdAt
       updatedAt
     }
@@ -43,13 +38,52 @@ export const listTherapists = /* GraphQL */ `
         lastName
         email
         phoneNumber
+        availability {
+          id
+          start
+          end
+        }
         specializations
         titles
         greeting
         bio
         active
         gender
-        authenticatedUserIDs
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getTherapistClientRelationship = /* GraphQL */ `
+  query GetTherapistClientRelationship($id: ID!) {
+    getTherapistClientRelationship(id: $id) {
+      id
+      therapistID
+      clientID
+      active
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listTherapistClientRelationships = /* GraphQL */ `
+  query ListTherapistClientRelationships(
+    $filter: ModelTherapistClientRelationshipFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTherapistClientRelationships(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        therapistID
+        clientID
+        active
         createdAt
         updatedAt
       }
@@ -75,9 +109,6 @@ export const getClient = /* GraphQL */ `
         id
         content
         createdAt
-      }
-      therapists {
-        nextToken
       }
       therapistIDs
       stripeCustomerID
@@ -109,8 +140,26 @@ export const listClients = /* GraphQL */ `
         email
         phoneNumber
         dob
+        symptoms {
+          id
+          content
+          createdAt
+        }
+        therapistPreferences {
+          id
+          content
+          createdAt
+        }
         therapistIDs
         stripeCustomerID
+        packageItems {
+          id
+          name
+          packageName
+          expiry
+          createdAt
+          sessions
+        }
         createdAt
         updatedAt
         owner
@@ -157,7 +206,6 @@ export const getMessage = /* GraphQL */ `
     getMessage(id: $id) {
       id
       channelID
-      authorID
       body
       therapistID
       clientID
@@ -177,7 +225,6 @@ export const listMessages = /* GraphQL */ `
       items {
         id
         channelID
-        authorID
         body
         therapistID
         clientID
@@ -244,7 +291,6 @@ export const messagesByChannelId = /* GraphQL */ `
       items {
         id
         channelID
-        authorID
         body
         therapistID
         clientID

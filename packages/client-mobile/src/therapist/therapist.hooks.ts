@@ -15,7 +15,7 @@ export const useTherapist = () => {
     symptoms,
   }: PickTherapistParams) => {
     const session = await Auth.currentSession();
-    const response = await API.post('paymentAPI', '/client/therapist', {
+    const response = await API.post('backend', '/client/therapist', {
       headers: {
         Authorization: `Bearer ${session.getIdToken().getJwtToken()}`,
       },

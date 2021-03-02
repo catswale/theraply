@@ -1,6 +1,28 @@
 {
+  "auth": {
+    "theraplyapp8dae363a": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  },
   "api": {
-    "api": {
+    "backend": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "theraplyappc2eaddc1",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
+    },
+    "theraplyapp": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "output": {
@@ -8,42 +30,24 @@
           "defaultAuthentication": {
             "authenticationType": "AMAZON_COGNITO_USER_POOLS",
             "userPoolConfig": {
-              "userPoolId": "authmobileapp3d64a26e"
+              "userPoolId": "auththeraplyapp8dae363a"
             }
           },
           "additionalAuthenticationProviders": []
         }
       }
-    },
-    "paymentAPI": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [
-        {
-          "category": "function",
-          "resourceName": "paymentCheckout",
-          "attributes": [
-            "Name",
-            "Arn"
-          ]
-        }
-      ]
-    }
-  },
-  "auth": {
-    "mobileapp3d64a26e": {
-      "service": "Cognito",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [],
-      "customAuth": false
     }
   },
   "function": {
-    "paymentCheckout": {
+    "backend": {
       "build": true,
       "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": []
+      "service": "Lambda"
+    },
+    "theraplyappc2eaddc1": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
     }
   }
 }

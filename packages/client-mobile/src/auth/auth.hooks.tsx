@@ -4,12 +4,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   setIsSignedIn, setLoading, setUser,
 } from './auth.slice';
-import { useClient } from '../client/client.hooks';
+import { setClient } from '../client/client.slice';
 
 export const useAuth = () => {
   const selector = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const { setClient } = useClient();
 
   useEffect(() => {
     fetchIsSignedIn();
