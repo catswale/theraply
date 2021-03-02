@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import {
-  View, Text, StyleSheet, TextInput, Button, ViewStyle, TextStyle,
+  View, Text, StyleSheet, TextInput, ViewStyle, TextStyle,
 } from 'react-native';
 import {
   mutations, subscriptions, queries, Message, palette,
 } from '@theraply/lib';
-import Amplify, { API, graphqlOperation, Auth } from 'aws-amplify';
+import { API, graphqlOperation } from 'aws-amplify';
+import { RootStackParamList } from '../App';
 import { useChat } from './chat.hooks';
-import { useAuth } from '../auth/auth.hooks';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import EmojiIcon from '../../assets/images/emoji.svg';
-import MicrophoneIcon from '../../assets/images/microphone-icon.svg';
-import AttachmentIcon from '../../assets/images/attachment-icon.svg';
-import CalendarIcon from '../../assets/images/calendar-icon.svg';
 import ChatAvatar from '../../assets/images/chat-avatar.svg';
 import { Background } from '../theme';
+import { useClient } from '../client/client.hooks';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 
 interface Event {
   provider: object;
@@ -42,15 +40,20 @@ const ChatHeaderRight = ({ status }: { status: boolean }) => {
   );
 };
 
-export const Chat = ({ route, navigation }) => {
+type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Chat'>;
+type ScreenRouteProp = RouteProp<RootStackParamList, 'Chat'>;
+type Props = {
+  navigation: ScreenNavigationProp;
+  route: ScreenRouteProp
+};
+
+export const Chat = ({ route, navigation }: Props) => {
   const [messages, setMessages] = useState([] as Message[]);
   const [messageBody, setMessageBody] = useState('');
   const [channelID, setChannelID] = useState('');
   const { therapist } = route.params;
-  const { user: client } = useAuth();
+  const { client } = useClient();
   const chat = useChat();
-  // This value is most likely gotten from a graphql subscription
-  const [isOnline, setOnlineStatus] = useState(true);
 
 
   useEffect(() => {
@@ -74,14 +77,7 @@ export const Chat = ({ route, navigation }) => {
     };
 
     init();
-
   }, []);
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => <ChatHeaderRight status={isOnline} />
-    });
-  }, [isOnline]);
 
   async function fetchMessages() {
     const messages = await chat.fetchMessages(channelID);
@@ -101,8 +97,7 @@ export const Chat = ({ route, navigation }) => {
     };
   }, [messages]);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
     const input = {
       channelID,
       authorID: client.id,
@@ -133,18 +128,6 @@ export const Chat = ({ route, navigation }) => {
               onChangeText={(text) => setMessageBody(text)}
               onSubmitEditing={handleSubmit}
             />
-            <TouchableOpacity>
-              <EmojiIcon width={15} height={15} />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <MicrophoneIcon width={10} height={16} />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <AttachmentIcon width={14} height={15} />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <CalendarIcon width={13} height={14} />
-            </TouchableOpacity>
           </View>
         </View>
       }>
@@ -152,7 +135,7 @@ export const Chat = ({ route, navigation }) => {
         {messages.map((message) => (
           <View
             key={message.id}
-            style={message.authorID === client.id ? styles.messageMe : styles.message}>
+            style={message.owner === client.id ? styles.messageMe : styles.message}>
             <Text style={styles.text}>{message.body}</Text>
           </View>
         ))}
@@ -233,7 +216,7 @@ const styles = StyleSheet.create<Style>({
     width: '100%',
   },
   chatBarInput: {
-    width: '60%',
+    width: '90%',
     height: '100%',
   },
   chatHeader: {

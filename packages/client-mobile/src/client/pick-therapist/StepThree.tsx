@@ -6,6 +6,7 @@ import {
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import { palette } from '@theraply/lib';
+import { RootStackParamList } from '../../App';
 import { theme, Background } from '../../theme';
 import WizardStep from '../../components/WizardStep';
 import Therapist from '../../../assets/images/therapist.svg';
@@ -13,18 +14,12 @@ import VideoIcon from '../../../assets/images/camera.svg';
 import MicrophoneIcon from '../../../assets/images/audio.svg';
 import ChatIcon from '../../../assets/images/chat.svg';
 
-type RouteParams = {
-  PickTherapist3: {
-    symptoms: string[];
-    genders: string[];
-    therapist: Record<string, unknown>;
-  }
+type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'PickTherapist3'>;
+type ScreenRouteProp = RouteProp<RootStackParamList, 'PickTherapist3'>;
+type Props = {
+  navigation: ScreenNavigationProp;
+  route: ScreenRouteProp
 };
-
-interface Props {
-  route: RouteProp<RouteParams, 'PickTherapist3'>;
-  navigation?: StackNavigationProp<any, 'PickTherapist3'>;
-}
 
 const StepThree = ({ route, navigation }: Props) => {
   const { therapist = {} } = route?.params;
