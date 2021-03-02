@@ -11,6 +11,7 @@ import ChatIcon from '../../assets/images/chat-thin.svg';
 import CalendarIcon from '../../assets/images/calendar.svg';
 import { useAuth } from '../auth/auth.hooks';
 import { RootStackParamList } from '../App';
+import { callAPI } from '../services/api';
 
 type ScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -59,7 +60,7 @@ export const Dashboard = ({ navigation }: Props) => {
           </TouchableOpacity>
         }
         <TouchableOpacity
-            onPress={() => navigation.navigate('ChoosePackage')}
+            onPress={() => callAPI('/email')}
           >
             <Text style={{ color: palette.primary.main }}>Payment Flow</Text>
           </TouchableOpacity>

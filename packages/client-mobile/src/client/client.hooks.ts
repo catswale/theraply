@@ -44,11 +44,6 @@ export const useClient = () => {
       }));
     }
     console.log(newClient);
-    // newClient.therapists = newClient?.therapists?.items && newClient.therapists.items.map((connection) => ({
-    //   ...connection.therapist,
-    //   channelID: connection.id,
-    // }));
-    console.log(newClient);
     dispatch(setClient(newClient));
   }
 
@@ -76,7 +71,6 @@ export const useClient = () => {
   }
 
   return {
-    fetchClient: initClient,
     createTherapistClientConnection,
     client,
     setClient: (data: any) => dispatch(setClient(data)),

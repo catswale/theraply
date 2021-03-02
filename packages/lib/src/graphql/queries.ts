@@ -1,3 +1,4 @@
+/* tslint:disable */
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
@@ -38,11 +39,6 @@ export const listTherapists = /* GraphQL */ `
         lastName
         email
         phoneNumber
-        availability {
-          id
-          start
-          end
-        }
         specializations
         titles
         greeting
@@ -140,26 +136,8 @@ export const listClients = /* GraphQL */ `
         email
         phoneNumber
         dob
-        symptoms {
-          id
-          content
-          createdAt
-        }
-        therapistPreferences {
-          id
-          content
-          createdAt
-        }
         therapistIDs
         stripeCustomerID
-        packageItems {
-          id
-          name
-          packageName
-          expiry
-          createdAt
-          sessions
-        }
         createdAt
         updatedAt
         owner
@@ -264,6 +242,33 @@ export const listBookings = /* GraphQL */ `
         end
         state
         participants
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getClientRelationships = /* GraphQL */ `
+  query GetClientRelationships(
+    $clientID: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelTherapistClientRelationshipFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getClientRelationships(
+      clientID: $clientID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        therapistID
+        clientID
+        active
         createdAt
         updatedAt
       }

@@ -7,6 +7,22 @@
                 "open": true
             },
             "policyResourceName": "/client/payment/register"
+        },
+        {
+            "name": "/email",
+            "lambdaFunction": "backend",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/email"
+        },
+        {
+            "name": "/client/therapist",
+            "lambdaFunction": "backend",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/client/therapist"
         }
     ],
     "resourceName": "backend",
@@ -14,6 +30,9 @@
     "functionArns": [
         {
             "lambdaFunction": "theraplyappc2eaddc1"
+        },
+        {
+            "lambdaFunction": "backend"
         }
     ],
     "privacy": {
@@ -30,6 +49,15 @@
                 "Name",
                 "Arn"
             ]
+        },
+        {
+            "category": "function",
+            "resourceName": "backend",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
         }
-    ]
+    ],
+    "uuid": "85b303c3"
 }

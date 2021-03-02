@@ -19,6 +19,14 @@
             "Name",
             "Arn"
           ]
+        },
+        {
+          "category": "function",
+          "resourceName": "backend",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
         }
       ]
     },

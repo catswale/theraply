@@ -25,7 +25,13 @@ type TherapistClientRelationship
   @auth(rules: [
     { allow: owner, ownerField: "clientID" }
     { allow: owner, ownerField: "therapistID" }
-  ]) {
+  ]) 
+  @key(
+    name: "getClientRelationships"
+    fields: ["clientID"]
+    queryField: "getClientRelationships"
+  ) 
+  @key(fields: ["clientID", "active"]) {
   id: ID!
   therapistID: ID!
   clientID: ID!
