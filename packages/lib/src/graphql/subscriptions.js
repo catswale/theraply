@@ -2,8 +2,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateTherapist = /* GraphQL */ `
-  subscription OnCreateTherapist($owner: String!) {
-    onCreateTherapist(owner: $owner) {
+  subscription OnCreateTherapist($owner: String!, $clientIDs: String!) {
+    onCreateTherapist(owner: $owner, clientIDs: $clientIDs) {
       id
       firstName
       lastName
@@ -28,8 +28,8 @@ export const onCreateTherapist = /* GraphQL */ `
   }
 `;
 export const onUpdateTherapist = /* GraphQL */ `
-  subscription OnUpdateTherapist($owner: String!) {
-    onUpdateTherapist(owner: $owner) {
+  subscription OnUpdateTherapist($owner: String!, $clientIDs: String!) {
+    onUpdateTherapist(owner: $owner, clientIDs: $clientIDs) {
       id
       firstName
       lastName
@@ -54,8 +54,8 @@ export const onUpdateTherapist = /* GraphQL */ `
   }
 `;
 export const onDeleteTherapist = /* GraphQL */ `
-  subscription OnDeleteTherapist($owner: String!) {
-    onDeleteTherapist(owner: $owner) {
+  subscription OnDeleteTherapist($owner: String!, $clientIDs: String!) {
+    onDeleteTherapist(owner: $owner, clientIDs: $clientIDs) {
       id
       firstName
       lastName

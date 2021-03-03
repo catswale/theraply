@@ -12,6 +12,7 @@ import CalendarIcon from '../../assets/images/calendar.svg';
 import { useAuth } from '../auth/auth.hooks';
 import { RootStackParamList } from '../App';
 import { callAPI } from '../services/api';
+import { useTherapist } from '../therapist/therapist.hooks';
 
 type ScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -22,7 +23,7 @@ type Props = {navigation: ScreenNavigationProp};
 export const Dashboard = ({ navigation }: Props) => {
   const { client } = useClient();
   const auth = useAuth();
-  console.log(client);
+  useTherapist();
   const packageName = client.packageItems?.[0]?.packageName || 'None';
   return (
     <Background

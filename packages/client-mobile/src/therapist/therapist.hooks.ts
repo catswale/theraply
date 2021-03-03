@@ -2,10 +2,12 @@ import { useDispatch } from 'react-redux';
 import {
   Auth, API, graphqlOperation,
 } from 'aws-amplify';
-import { queries } from '@theraply/lib';
+import { queries, ClientTherapistRelationship, Therapist } from '@theraply/lib';
+import { useEffect } from 'react';
 import { setTherapists } from './therapist.slice';
 
 import { useClient } from '../client/client.hooks';
+import { useAuth } from '../auth/auth.hooks';
 
 interface PickTherapistParams {
   genders: string[];
@@ -14,24 +16,19 @@ interface PickTherapistParams {
 
 export const useTherapist = () => {
   const dispatch = useDispatch();
-  const { client } = useClient();
+  const { user } = useAuth();
 
-  async function getTherapistRelationships() {
-    if (!client.id) return;
-    const data = await API.graphql(graphqlOperation(queries.getClientRelationships, {
-      clientID: client.id,
-    })) as Data;
-    type Data = {data: {getClientRelationships: {items: any}}}
-    const relationships = data.data.getClientRelationships.items;
-    console.log(data.data.getClientRelationships.items);
-  }
+  useEffect(() => {
+    if (user.id) {
+      getTherapists();
+    }
+  }, [user]);
 
-  async function listTherapists() {
+  async function getTherapists() {
     const data = await API.graphql(graphqlOperation(queries.listTherapists)) as Data;
-    type Data = {data: {listTherapists: {items: any}}}
-    console.log(data);
+    type Data = {data: {listTherapists: {items: Therapist[]}}}
+    dispatch(setTherapists(data.data.listTherapists.items))
   }
-  // listTherapists();
 
   const pickTherapist = async ({
     genders,

@@ -1,9 +1,10 @@
 type Therapist
   @model 
   @auth(rules: [
-  { allow: owner }
+  { allow: owner }, 
+  { allow: owner, ownerField: "clientIDs", operations: [read] }
   ]) {
-  id: ID!
+  id: ID! 
   firstName: String!
   lastName: String
   email: AWSEmail!

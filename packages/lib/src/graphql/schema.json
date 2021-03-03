@@ -3929,15 +3929,6 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "clientIDs",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelStringInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
           "name" : "bio",
           "description" : null,
           "type" : {
@@ -5615,6 +5606,19 @@
               }
             },
             "defaultValue" : null
+          }, {
+            "name" : "clientIDs",
+            "description" : null,
+            "type" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "String",
+                "ofType" : null
+              }
+            },
+            "defaultValue" : null
           } ],
           "type" : {
             "kind" : "OBJECT",
@@ -5639,6 +5643,19 @@
               }
             },
             "defaultValue" : null
+          }, {
+            "name" : "clientIDs",
+            "description" : null,
+            "type" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "String",
+                "ofType" : null
+              }
+            },
+            "defaultValue" : null
           } ],
           "type" : {
             "kind" : "OBJECT",
@@ -5652,6 +5669,19 @@
           "description" : null,
           "args" : [ {
             "name" : "owner",
+            "description" : null,
+            "type" : {
+              "kind" : "NON_NULL",
+              "name" : null,
+              "ofType" : {
+                "kind" : "SCALAR",
+                "name" : "String",
+                "ofType" : null
+              }
+            },
+            "defaultValue" : null
+          }, {
+            "name" : "clientIDs",
             "description" : null,
             "type" : {
               "kind" : "NON_NULL",
