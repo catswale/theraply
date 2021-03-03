@@ -30,7 +30,7 @@
         }
       ]
     },
-    "theraplyapp": {
+    "theraplygraphql": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "output": {
@@ -50,7 +50,17 @@
     "backend": {
       "build": true,
       "providerPlugin": "awscloudformation",
-      "service": "Lambda"
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "api",
+          "resourceName": "theraplygraphql",
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput"
+          ]
+        }
+      ]
     },
     "theraplyappc2eaddc1": {
       "build": true,

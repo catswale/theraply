@@ -1,4 +1,3 @@
-/* tslint:disable */
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
@@ -18,11 +17,13 @@ export const getTherapist = /* GraphQL */ `
       specializations
       titles
       greeting
+      clientIDs
       bio
       active
       gender
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -39,14 +40,21 @@ export const listTherapists = /* GraphQL */ `
         lastName
         email
         phoneNumber
+        availability {
+          id
+          start
+          end
+        }
         specializations
         titles
         greeting
+        clientIDs
         bio
         active
         gender
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }
@@ -136,8 +144,26 @@ export const listClients = /* GraphQL */ `
         email
         phoneNumber
         dob
+        symptoms {
+          id
+          content
+          createdAt
+        }
+        therapistPreferences {
+          id
+          content
+          createdAt
+        }
         therapistIDs
         stripeCustomerID
+        packageItems {
+          id
+          name
+          packageName
+          expiry
+          createdAt
+          sessions
+        }
         createdAt
         updatedAt
         owner

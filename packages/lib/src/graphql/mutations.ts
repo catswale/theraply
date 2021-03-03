@@ -1,4 +1,3 @@
-/* tslint:disable */
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
@@ -21,11 +20,13 @@ export const createTherapist = /* GraphQL */ `
       specializations
       titles
       greeting
+      clientIDs
       bio
       active
       gender
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -48,11 +49,13 @@ export const updateTherapist = /* GraphQL */ `
       specializations
       titles
       greeting
+      clientIDs
       bio
       active
       gender
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -75,11 +78,13 @@ export const deleteTherapist = /* GraphQL */ `
       specializations
       titles
       greeting
+      clientIDs
       bio
       active
       gender
       createdAt
       updatedAt
+      owner
     }
   }
 `;

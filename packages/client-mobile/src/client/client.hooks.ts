@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { API, graphqlOperation } from 'aws-amplify';
 import {
-  mutations, Client, queries, Therapist,
+  mutations, Client, queries, Therapist, ClientTherapistRelationship,
 } from '@theraply/lib';
-import { setClient } from './client.slice';
+import { setClient, setRelationships, ClientState } from './client.slice';
 import { useAuth } from '../auth/auth.hooks';
 
 export const useClient = () => {
-  const { client }: {client: Client} = useSelector((state) => state.client);
+  const { client, relationships }: ClientState = useSelector((state) => state.client);
   const dispatch = useDispatch();
   const { user, fetchCurrentAuthUser } = useAuth();
   const { id, attributes } = user;
@@ -22,15 +22,16 @@ export const useClient = () => {
   useEffect(() => {
     if (id && !client?.id) {
       initClient();
+      initRelationships();
     }
   }, [user]);
 
-  // Fetch user data from the database
   async function initClient() {
     if (!id) return;
+    console.log('fetching client');
     const data = await API.graphql(graphqlOperation(queries.getClient, { id })) as Data;
     type Data = {data: {getClient: any}}
-
+    console.log(`fetched client ${data}`);
     let newClient = data.data.getClient;
     if (!newClient) {
       console.log('client doesnt exist in db, creating');
@@ -45,6 +46,15 @@ export const useClient = () => {
     }
     console.log(newClient);
     dispatch(setClient(newClient));
+  }
+
+  async function initRelationships() {
+    const data = await API.graphql(graphqlOperation(queries.getClientRelationships, {
+      clientID: id,
+    })) as Data;
+    type Data = {data: {getClientRelationships: {items: ClientTherapistRelationship[]}}}
+    const result = data.data.getClientRelationships.items;
+    dispatch(setRelationships(result));
   }
 
   async function createTherapistClientConnection(therapist: Therapist, client: Client) {

@@ -40,6 +40,13 @@ export interface TherapistClient {
   lastName: string,
 }
 
+export interface ClientTherapistRelationship {
+  id: string,
+  active: boolean,
+  therapistID: string,
+  clientID: string,
+}
+
 export interface Booking {
   id: string,
   bookingID: string,

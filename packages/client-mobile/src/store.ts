@@ -10,7 +10,3 @@ export default configureStore({
     bookings: bookingsSlice,
   },
 });
-
-export type State = {
-  auth: typeof authSlice
-}

@@ -1,9 +1,10 @@
 type Therapist
   @model 
   @auth(rules: [
-  { allow: owner }
+  { allow: owner }, 
+  { allow: owner, ownerField: "clientIDs", operations: [read] }
   ]) {
-  id: ID! @auth(rules: [{ allow: owner, ownerField: "clientIDs", operations: [read] }])
+  id: ID! 
   firstName: String!
   lastName: String
   email: AWSEmail!
@@ -34,8 +35,7 @@ type TherapistClientRelationship
     name: "getClientRelationships"
     fields: ["clientID"]
     queryField: "getClientRelationships"
-  ) 
-  @key(fields: ["clientID", "active"]) {
+  ) {
   id: ID!
   therapistID: ID!
   clientID: ID!

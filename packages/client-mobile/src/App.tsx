@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, Button } from 'react-native';
 import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
@@ -8,6 +8,7 @@ import { PaymentsStripe as Stripe } from 'expo-payments-stripe';
 import { STRIPE_KEY } from '@env'; // eslint-disable-line
 import { Chat } from './chat/Chat.page';
 import { Dashboard } from './dashboard/Dashboard.page';
+import { Menu } from './dashboard/Menu.page';
 import { SignIn } from './auth/SignIn.page';
 import { Landing } from './auth/Landing.page';
 import { SignUp } from './auth/SignUpOne.page';
@@ -26,6 +27,7 @@ import store from './store';
 
 export type RootStackParamList = {
   Dashboard: undefined;
+  Menu: undefined;
   PickTherapist1: undefined;
   PickTherapist2: undefined;
   PickTherapist3: {
@@ -72,7 +74,8 @@ const App = () => {
         {
           isSignedIn ? (
             <>
-              <Stack.Screen name="Dashboard" component={Dashboard} options={{ title: 'Home' }} />
+              <Stack.Screen name="Dashboard" component={Dashboard} options={{ title: 'Home'}} />
+              <Stack.Screen name="Menu" component={Menu} options={{headerShown: false}}/>
               <Stack.Screen name="ChoosePackage" component={ChoosePackage} options={{ title: 'Package' }} />
               <Stack.Screen name="PaymentComplete" component={PaymentComplete} options={{ title: 'Complete' }} />
               <Stack.Screen name="ConfirmPackage" component={ConfirmPackage} options={{ title: 'Confirm' }} />
