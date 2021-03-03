@@ -7,6 +7,7 @@ import { palette } from '@theraply/lib';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useClient } from '../client/client.hooks';
 import Cancel from '../../assets/images/cancel.svg';
+import Card from '../../assets/images/card.svg';
 import User from '../../assets/images/user.svg';
 import { useAuth } from '../auth/auth.hooks';
 import { RootStackParamList } from '../App';
@@ -39,6 +40,12 @@ export const Menu = ({ navigation }: Props) => {
         </View>
       </View>
       <View style={styles.menuContainer}>
+        <View style={styles.menuRows}>
+          <TouchableOpacity style={styles.menuRow}>
+            <Card/>
+            <Text style={styles.menuItemText}>Payment</Text>
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity  onPress={auth.signOut}>
             <Text style={styles.logoutText}>Logout</Text>
         </TouchableOpacity>
@@ -58,6 +65,9 @@ interface Style {
   emailText: TextStyle
   menuContainer: ViewStyle
   logoutText: TextStyle
+  menuRows: ViewStyle
+  menuRow: ViewStyle
+  menuItemText: TextStyle
 }
 
 const styles = StyleSheet.create<Style>({
@@ -96,12 +106,25 @@ const styles = StyleSheet.create<Style>({
     borderTopRightRadius: 30,
     backgroundColor: palette.background.default,
     height: '65%',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center'
   },
   logoutText: {
     color: palette.primary.main,
     textDecorationLine: 'underline',
-    fontSize: 14
+    fontSize: 14,
+    marginBottom: 46,
+  },
+  menuRows: {
+    width: '100%',
+    marginTop: 39,
+  },
+  menuRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 40,
+  },
+  menuItemText: {
+    marginLeft: 13,
   }
 });
