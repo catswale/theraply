@@ -8,6 +8,7 @@ export type Message = {
   body: string;
   createdAt: Date;
   updatedAt: Date;
+  owner: string;
 }
 
 export type Client = {

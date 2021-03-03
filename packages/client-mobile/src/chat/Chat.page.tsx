@@ -5,14 +5,16 @@ import {
 import {
   mutations, subscriptions, queries, Message, palette,
 } from '@theraply/lib';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 import { API, graphqlOperation } from 'aws-amplify';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { RootStackParamList } from '../App';
 import { useChat } from './chat.hooks';
 import ChatAvatar from '../../assets/images/chat-avatar.svg';
 import { Background } from '../theme';
 import { useClient } from '../client/client.hooks';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
+import ChatSendIcon from '../../assets/images/send-arrow.svg';
 
 interface Event {
   provider: object;
@@ -23,22 +25,12 @@ interface Event {
   }
 }
 
-const ChatHeader = ({ name }: { name: string }) => {
-  return (
-    <View style={styles.chatHeader}>
-      <ChatAvatar height={30} width={30} />
-      <Text style={styles.chatHeaderText}>{name}</Text>
-    </View>
-  );
-};
-
-const ChatHeaderRight = ({ status }: { status: boolean }) => {
-  return (
-    <View style={styles.chatHeaderRight}>
-      <Text style={{ ...styles.chatHeaderText, color: palette.text.primary }}>{status ? 'Online' : 'Typing'}</Text>
-    </View>
-  );
-};
+const ChatHeader = ({ name }: { name: string }) => (
+  <View style={styles.chatHeader}>
+    <ChatAvatar height={30} width={30} />
+    <Text style={styles.chatHeaderText}>{name}</Text>
+  </View>
+);
 
 type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Chat'>;
 type ScreenRouteProp = RouteProp<RootStackParamList, 'Chat'>;
@@ -55,10 +47,9 @@ export const Chat = ({ route, navigation }: Props) => {
   const { client } = useClient();
   const chat = useChat();
 
-
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: () => <ChatHeader name={`${therapist.firstName} ${therapist.lastName}`} />
+      headerTitle: () => <ChatHeader name={`${therapist.firstName} ${therapist.lastName}`} />,
     });
 
     const init = async () => {
@@ -67,10 +58,11 @@ export const Chat = ({ route, navigation }: Props) => {
         {
           id: client.id,
           therapistId: {
-            eq: therapist.id
+            eq: therapist.id,
           },
-          limitTherapist: 1
-        }));
+          limitTherapist: 1,
+        },
+      ));
 
       setChannelID(clientTherapist?.therapists?.items?.[0].id);
       fetchMessages();
@@ -80,13 +72,16 @@ export const Chat = ({ route, navigation }: Props) => {
   }, []);
 
   async function fetchMessages() {
-    const messages = await chat.fetchMessages(channelID);
-    setMessages(messages);
+    setMessages(await chat.fetchMessages(channelID));
   }
 
   useEffect(() => {
     const subscription = API
-      .graphql(graphqlOperation(subscriptions.onCreateMessage, { owner: client.id, clientID: client.id, therapistID: therapist.id })) // @ts-ignore
+      .graphql(graphqlOperation(subscriptions.onCreateMessage, {
+        owner: client.id,
+        clientID: client.id,
+        therapistID: therapist.id,
+      })) // @ts-ignore
       .subscribe({
         next: (event: Event) => {
           setMessages([...messages, event.value.data.onCreateMessage]);
@@ -126,8 +121,10 @@ export const Chat = ({ route, navigation }: Props) => {
               placeholder="Type something..."
               value={messageBody}
               onChangeText={(text) => setMessageBody(text)}
-              onSubmitEditing={handleSubmit}
             />
+            <TouchableOpacity onPress={handleSubmit} style={styles.chatSend}>
+              <ChatSendIcon height={14} width={14} />
+            </TouchableOpacity>
           </View>
         </View>
       }>
@@ -156,6 +153,7 @@ interface Style {
   chatHeader: ViewStyle;
   chatHeaderText: ViewStyle;
   chatHeaderRight: ViewStyle;
+  chatSend: ViewStyle;
 }
 
 const message: ViewStyle = {
@@ -167,7 +165,7 @@ const message: ViewStyle = {
   backgroundColor: palette.gray,
   borderTopLeftRadius: 10,
   borderTopRightRadius: 10,
-  borderBottomRightRadius: 10
+  borderBottomRightRadius: 10,
 };
 const styles = StyleSheet.create<Style>({
   container: {
@@ -190,7 +188,7 @@ const styles = StyleSheet.create<Style>({
     backgroundColor: palette.fadedBlue.main,
     color: palette.fadedBlue.contrastText,
     borderBottomRightRadius: 0,
-    borderBottomLeftRadius: 10
+    borderBottomLeftRadius: 10,
   },
   text: {
     fontSize: 16,
@@ -233,6 +231,14 @@ const styles = StyleSheet.create<Style>({
     lineHeight: 26,
   },
   chatHeaderRight: {
-    marginRight: 20
-  }
+    marginRight: 20,
+  },
+  chatSend: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: palette.primary.main,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
