@@ -30,7 +30,7 @@
         }
       ]
     },
-    "theraplyapp": {
+    "theraplygraphql": {
       "service": "AppSync",
       "providerPlugin": "awscloudformation",
       "output": {

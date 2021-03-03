@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import {
-  Auth, API, API, graphqlOperation,
+  Auth, API, graphqlOperation,
 } from 'aws-amplify';
 import { queries } from '@theraply/lib';
 import { setTherapists } from './therapist.slice';

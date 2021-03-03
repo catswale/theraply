@@ -28,9 +28,10 @@ export const useClient = () => {
   // Fetch user data from the database
   async function initClient() {
     if (!id) return;
+    console.log('fetching client');
     const data = await API.graphql(graphqlOperation(queries.getClient, { id })) as Data;
     type Data = {data: {getClient: any}}
-
+    console.log(`fetched client ${data}`);
     let newClient = data.data.getClient;
     if (!newClient) {
       console.log('client doesnt exist in db, creating');
