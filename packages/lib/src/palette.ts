@@ -30,7 +30,8 @@ export const palette = {
     // disabled
   },
   background: {
-    default: 'rgba(247,253,255, 0.1)',
+    default: '#fff',
+    secondary: 'rgba(247,253,255, 0.1)',
   },
   action: {
     // active

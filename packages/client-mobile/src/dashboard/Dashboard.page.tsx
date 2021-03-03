@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View, Text, StyleSheet,
   ViewStyle, TouchableOpacity, TextStyle, Button,
@@ -9,6 +9,7 @@ import { theme, Background } from '../theme';
 import { useClient } from '../client/client.hooks';
 import ChatIcon from '../../assets/images/chat-thin.svg';
 import CalendarIcon from '../../assets/images/calendar.svg';
+import Menu from '../../assets/images/menu.svg';
 import { useAuth } from '../auth/auth.hooks';
 import { RootStackParamList } from '../App';
 import { callAPI } from '../services/api';
@@ -23,17 +24,21 @@ type Props = {navigation: ScreenNavigationProp};
 export const Dashboard = ({ navigation }: Props) => {
   const { client } = useClient();
   const auth = useAuth();
-  useTherapist();
+  const {therapists} = useTherapist();
+
+  useEffect(() => {
+    navigation.setOptions({headerLeft: () => (
+      <TouchableOpacity onPress={() => navigation.navigate('Menu')}>
+        <Menu style={{marginLeft: 20, marginBottom: 5}}/>
+      </TouchableOpacity>
+    ),});
+  }, [])
+
   const packageName = client.packageItems?.[0]?.packageName || 'None';
   return (
     <Background
       footer={
         <>
-          <Button
-            onPress={() => auth.signOut()}
-            title="Log Out"
-            color="#841584"
-          />
           <Text style={styles.warningText}>
             If you are in a life threatening situation, don't use this app. Call Lifeline on
             <Text style={styles.highlightedText}> 13 11 14</Text>

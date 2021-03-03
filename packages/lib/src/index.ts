@@ -6,7 +6,7 @@ import * as subscriptions from './graphql/subscriptions';
 
 const queries = { ...defaultQueries, ...customQueries };
 const mutations = { ...defaultMutations, ...customMutations };
-export { default as awsExports } from './aws-exports.js';
+export { default as awsExports } from './aws-exports';
 
 export * from './types';
 export * from './payment';
