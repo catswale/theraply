@@ -1,9 +1,5 @@
 type Therapist
-  @model 
-  @auth(rules: [
-  { allow: owner }, 
-  { allow: owner, ownerField: "clientIDs", operations: [read] }
-  ]) {
+  @model {
   id: ID! 
   firstName: String!
   lastName: String
@@ -17,6 +13,13 @@ type Therapist
   bio: String
   active: Boolean
   gender: String
+  avatar: S3Object
+}
+
+type S3Object {
+  bucket: String!
+  region: String!
+  key: String!
 }
 
 type Availability {

@@ -21,9 +21,13 @@ export const getTherapist = /* GraphQL */ `
       bio
       active
       gender
+      avatar {
+        bucket
+        region
+        key
+      }
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -52,9 +56,13 @@ export const listTherapists = /* GraphQL */ `
         bio
         active
         gender
+        avatar {
+          bucket
+          region
+          key
+        }
         createdAt
         updatedAt
-        owner
       }
       nextToken
     }

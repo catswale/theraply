@@ -1,4 +1,3 @@
-/* tslint:disable */
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
@@ -18,9 +17,15 @@ export const onCreateTherapist = /* GraphQL */ `
       specializations
       titles
       greeting
+      clientIDs
       bio
       active
       gender
+      avatar {
+        bucket
+        region
+        key
+      }
       createdAt
       updatedAt
     }
@@ -42,9 +47,15 @@ export const onUpdateTherapist = /* GraphQL */ `
       specializations
       titles
       greeting
+      clientIDs
       bio
       active
       gender
+      avatar {
+        bucket
+        region
+        key
+      }
       createdAt
       updatedAt
     }
@@ -66,9 +77,15 @@ export const onDeleteTherapist = /* GraphQL */ `
       specializations
       titles
       greeting
+      clientIDs
       bio
       active
       gender
+      avatar {
+        bucket
+        region
+        key
+      }
       createdAt
       updatedAt
     }
