@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { API, graphqlOperation, Auth } from 'aws-amplify';
 import { queries, mutations, Therapist } from '@theraply/lib';
-import { useHistory } from 'react-router-dom';
+import {
+  useHistory,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom';
 import { ClientCard } from './Client.card';
 import Header from '../components/header';
 import styles from './style.module.css';
+import Home from '../components/home';
 
 export const Dashboard = () => {
   const [therapist, setTherapist] = useState({} as Therapist);
+  const [activeNav, setActiveNav] = useState(1);
   const history = useHistory();
   useEffect(() => {
     fetchUserInfo();
@@ -72,14 +79,16 @@ export const Dashboard = () => {
   return (
     <>
       <Header />
-      <SideNav />
+      <SideNav active={activeNav} onNavClick={(nav: number) => setActiveNav(nav)} />
       <main className={styles.main__container__wrapper}>
-        <section className={styles.main__container}>
-          <p className={styles.bold__caption__text}>Welcome Jane!</p>
-          <p className={styles.caption__text}>
-            Thank you for connecting with and empowering your clients
-          </p>
-        </section>
+        <Switch>
+          <Route exact path="/"
+            render={() => (
+              <Redirect to="/dashboard" />
+            )}
+          />
+          <Route path="/dashboard" component={Home} />
+        </Switch>
       </main>
       {/* <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <h1>Dashboard</h1>
@@ -96,12 +105,32 @@ export const Dashboard = () => {
   );
 };
 
-const SideNav = () => (
+type SideNavProps = {
+  active: number;
+  // eslint-disable-next-line no-unused-vars
+  onNavClick: (x: number) => void;
+}
+
+const SideNav = ({ active, onNavClick }: SideNavProps) => (
   <aside className={styles.side__nav__container}>
     <nav className={styles.side__nav}>
       <ul>
-        <li><button className="regular__button"><span className={styles.dashboard__icon}></span> Dashboard</button></li>
-        <li><button className="regular__button"><span className={styles.chat__icon}></span> Chats</button></li>
+        <li className={active === 1 ? styles.side__nav__active : ''}>
+          <button
+            className="regular__button"
+            onClick={() => onNavClick(1)}
+          >
+            <span className={styles.dashboard__icon}></span> Dashboard
+          </button>
+        </li>
+        <li className={active === 2 ? styles.side__nav__active : ''}>
+          <button
+            className="regular__button"
+            onClick={() => onNavClick(2)}
+          >
+            <span className={styles.chat__icon}></span> Chats
+          </button>
+        </li>
       </ul>
     </nav>
   </aside>

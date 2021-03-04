@@ -23,7 +23,18 @@
 .side__nav>ul>li>button {
   font-size: 18px;
   line-height: 39px;
+}
+
+.side__nav>ul>li:not(.side__nav__active)>button {
   color: var(--primary-text);
+}
+
+.side__nav__active>button {
+  color: var(--primary-color);
+}
+
+.side__nav__active>button>span {
+  background: var(--primary-color);
 }
 
 .dashboard__icon {
@@ -59,30 +70,4 @@
   min-height: 700px;
   margin-bottom: 60px;
   position: relative;
-}
-
-.main__container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.bold__caption__text {
-  font-weight: bold;
-  font-size: 24px;
-  line-height: 28px;
-  color: var(--primary-text);
-}
-
-.caption__text {
-  font-size: 24px;
-  line-height: 39px;
-  color: var(--primary-text);
-  width: 380px;
 }

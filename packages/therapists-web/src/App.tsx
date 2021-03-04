@@ -24,13 +24,8 @@ const App = () => (
       <Route path="/login" component={SignIn} />
       <Route path="/signup" component={SignUp} />
       <Route path="/signup-confirm" component={ConfirmSignUp} />
-      <Route exact path="/"
-        render={() => (
-              <Redirect to="/dashboard" />
-        )}
-      />
-      <ProtectedRoute path="/dashboard" component={Dashboard}/>
       <ProtectedRoute path="/chat" component={Chat} />
+      <ProtectedRoute path="/" component={Dashboard}/>
     </Switch>
   </Router>
 );
