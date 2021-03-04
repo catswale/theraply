@@ -3,6 +3,8 @@ import { API, graphqlOperation, Auth } from 'aws-amplify';
 import { queries, mutations, Therapist } from '@theraply/lib';
 import { useHistory } from 'react-router-dom';
 import { ClientCard } from './Client.card';
+import Header from '../components/header';
+import styles from './style.module.css';
 
 export const Dashboard = () => {
   const [therapist, setTherapist] = useState({} as Therapist);
@@ -26,28 +28,34 @@ export const Dashboard = () => {
     const authUser = await Auth.currentAuthenticatedUser();
     fetchTherapist(authUser);
   };
+
   async function fetchTherapist({ username, attributes }: any) {
     try {
-      const data = await API.graphql(graphqlOperation(queries.getTherapist, { id: username })) as TherapistData;
-      type TherapistData = {data: {getTherapist: any}}
-      const therapist = data.data.getTherapist;
-      console.log(therapist);
-      if (!therapist) {
+      const data = await API.graphql(
+        graphqlOperation(queries.getTherapist, { id: username })
+      ) as TherapistData;
+      type TherapistData = { data: { getTherapist: any } }
+      const foundTherapist = data.data.getTherapist;
+      console.log(foundTherapist);
+      if (!foundTherapist) {
         console.log('therapist doesnt exist in db, creating.');
         await API.graphql(graphqlOperation(mutations.createTherapist, {
           input: {
-            id: username, firstName: attributes.given_name, lastName: attributes.family_name, email: attributes.email,
+            id: username,
+            firstName: attributes.given_name,
+            lastName: attributes.family_name,
+            email: attributes.email,
           },
         }));
 
         fetchTherapist({ username, attributes });
       } else {
-        console.log(therapist);
-        therapist.clients = therapist.clients.items.map((connection: any) => ({
+        console.log(foundTherapist);
+        foundTherapist.clients = foundTherapist.clients.items.map((connection: any) => ({
           ...connection.client,
           channelID: connection.id,
         }));
-        setTherapist(therapist);
+        setTherapist(foundTherapist);
       }
     } catch (err) {
       console.log('error getting (user) therapist');
@@ -56,21 +64,45 @@ export const Dashboard = () => {
   }
 
   async function fetchUser() {
-    // const data = await API.graphql(graphqlOperation(queries.getClient, {id: '40bec478-66b7-44d2-b327-5fa6fbe42de4'})) as any
+    // const data = await API.graphql(
+    //  graphqlOperation(queries.getClient, {id: '40bec478-66b7-44d2-b327-5fa6fbe42de4'})) as any
     // console.log(data)
   }
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <h1>Dashboard</h1>
-      <h2>Hello {therapist.firstName}</h2>
-      <h3>Your Clients</h3>
-      {
-        therapist?.clients?.map((client) => (
-          <ClientCard key={client.channelID} client={client} therapist={therapist}/>
-        ))
-      }
-      <button onClick={signOut}>SIGN OUT</button>
-    </div>
+    <>
+      <Header />
+      <SideNav />
+      <main className={styles.main__container__wrapper}>
+        <section className={styles.main__container}>
+          <p className={styles.bold__caption__text}>Welcome Jane!</p>
+          <p className={styles.caption__text}>
+            Thank you for connecting with and empowering your clients
+          </p>
+        </section>
+      </main>
+      {/* <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <h1>Dashboard</h1>
+        <h2>Hello {therapist.firstName}</h2>
+        <h3>Your Clients</h3>
+        {
+          therapist?.clients?.map((client) => (
+            <ClientCard key={client.channelID} client={client} therapist={therapist}/>
+          ))
+        }
+        <button onClick={signOut}>SIGN OUT</button>
+      </div> */}
+    </>
   );
 };
+
+const SideNav = () => (
+  <aside className={styles.side__nav__container}>
+    <nav className={styles.side__nav}>
+      <ul>
+        <li><button className="regular__button"><span className={styles.dashboard__icon}></span> Dashboard</button></li>
+        <li><button className="regular__button"><span className={styles.chat__icon}></span> Chats</button></li>
+      </ul>
+    </nav>
+  </aside>
+);
