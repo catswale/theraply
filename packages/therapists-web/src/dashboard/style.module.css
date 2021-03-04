@@ -29,6 +29,11 @@
   color: var(--primary-text);
 }
 
+.side__nav__active {
+  border-left: 7px solid var(--primary-color);
+  padding-left: 17px!important;
+}
+
 .side__nav__active>a {
   color: var(--primary-color);
 }
