@@ -1,5 +1,9 @@
 type Therapist
-  @model {
+  @model 
+  @auth (
+    rules: [{ allow: owner }
+      { allow: public, provider: apiKey, operations: [read] }]
+  ) {
   id: ID! 
   firstName: String!
   lastName: String
