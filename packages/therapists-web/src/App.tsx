@@ -9,7 +9,6 @@ import {
   Redirect,
 } from 'react-router-dom';
 import awsExports from './aws-exports';
-import { Chat } from './chat/Chat.page';
 import { Dashboard } from './dashboard/Dashboard.page';
 import { SignIn } from './auth/SignIn.page';
 import { SignUp } from './auth/SignUp.page';
@@ -24,7 +23,6 @@ const App = () => (
       <Route path="/login" component={SignIn} />
       <Route path="/signup" component={SignUp} />
       <Route path="/signup-confirm" component={ConfirmSignUp} />
-      <ProtectedRoute path="/chat" component={Chat} />
       <ProtectedRoute path="/" component={Dashboard}/>
     </Switch>
   </Router>

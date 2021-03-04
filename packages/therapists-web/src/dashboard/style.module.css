@@ -20,20 +20,20 @@
   align-items: center;
 }
 
-.side__nav>ul>li>button {
+.side__nav>ul>li>a {
   font-size: 18px;
   line-height: 39px;
 }
 
-.side__nav>ul>li:not(.side__nav__active)>button {
+.side__nav>ul>li:not(.side__nav__active)>a {
   color: var(--primary-text);
 }
 
-.side__nav__active>button {
+.side__nav__active>a {
   color: var(--primary-color);
 }
 
-.side__nav__active>button>span {
+.side__nav__active>a>span {
   background: var(--primary-color);
 }
 

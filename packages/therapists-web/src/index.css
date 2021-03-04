@@ -28,6 +28,7 @@ code {
   justify-content: center;
   background: none;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .regular__bold__text {

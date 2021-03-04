@@ -6,11 +6,13 @@ import {
   Switch,
   Route,
   Redirect,
+  NavLink,
 } from 'react-router-dom';
 import { ClientCard } from './Client.card';
 import Header from '../components/header';
 import styles from './style.module.css';
 import Home from '../components/home';
+import { Chat } from '../chat/Chat.page';
 
 export const Dashboard = () => {
   const [therapist, setTherapist] = useState({} as Therapist);
@@ -88,6 +90,7 @@ export const Dashboard = () => {
             )}
           />
           <Route path="/dashboard" component={Home} />
+          <Route path="/chat" component={Chat} />
         </Switch>
       </main>
       {/* <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -116,20 +119,22 @@ const SideNav = ({ active, onNavClick }: SideNavProps) => (
     <nav className={styles.side__nav}>
       <ul>
         <li className={active === 1 ? styles.side__nav__active : ''}>
-          <button
+          <NavLink
+            to="/dashboard"
             className="regular__button"
             onClick={() => onNavClick(1)}
           >
             <span className={styles.dashboard__icon}></span> Dashboard
-          </button>
+          </NavLink>
         </li>
         <li className={active === 2 ? styles.side__nav__active : ''}>
-          <button
+          <NavLink
+            to="/chat"
             className="regular__button"
             onClick={() => onNavClick(2)}
           >
             <span className={styles.chat__icon}></span> Chats
-          </button>
+          </NavLink>
         </li>
       </ul>
     </nav>
