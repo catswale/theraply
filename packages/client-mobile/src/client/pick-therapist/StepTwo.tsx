@@ -6,7 +6,7 @@ import {
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 import CheckBox from '@react-native-community/checkbox';
-import { palette } from '@theraply/lib';
+import { GENDERS, palette } from '@theraply/lib';
 
 import { theme, Background } from '../../theme';
 import WizardStep from '../../components/WizardStep';
@@ -24,15 +24,6 @@ interface Props {
   navigation: StackNavigationProp<any, 'PickTherapist2'>;
   route: RouteProp<RouteParams, 'PickTherapist2'>;
 }
-
-const genders = [
-  'Female',
-  'Male',
-  'Transgender',
-  'Gender Neutral',
-  'Indigenous Australian',
-  'Other',
-];
 
 interface GenderParams {
   key: number,
@@ -122,7 +113,7 @@ const StepTwo = ({ route, navigation }: Props) => {
           <Text>Gender</Text>
           <View style={styles.checkboxGroup}>
             {
-              genders.map((g, i) => getGenders({
+              GENDERS.map((g, i) => getGenders({
                 key: i, gender: g, selectedGenders, setGender,
               }))
             }

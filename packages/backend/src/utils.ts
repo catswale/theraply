@@ -32,19 +32,12 @@ export function callGraphQL(req: Request) {
   }
 }
 
-export async function callGraphQLFromServer() {
-  const graphqlData = await Axios({
+export async function callGraphQLFromServer(data): Promise<{data: {[key:string]: any}}> {
+  const result = await Axios({
     url: config.API_THERAPLYGRAPHQL_GRAPHQLAPIENDPOINTOUTPUT,
     method: 'post',
-    headers: {
-      'x-api-key': config.API_THERAPLYGRAPHQL_GRAPHQLAPIKEYOUTPUT
-    },
-    data: {
-      query: queries.listTherapists,
-    }
+    headers: { 'x-api-key': config.API_THERAPLYGRAPHQL_GRAPHQLAPIKEYOUTPUT },
+    data,
   });
-  const body = {
-      graphqlData: graphqlData.data.data.listTherapists
-  }
-  console.log(graphqlData.data.data.listTherapists)
+  return result.data;
 }

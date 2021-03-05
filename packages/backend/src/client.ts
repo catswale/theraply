@@ -1,6 +1,6 @@
 import { mutations, queries, Client } from '@theraply/lib';
 import { updateTherapist } from './therapist';
-import { getHeaderData, callGraphQL } from './utils';
+import { getHeaderData, callGraphQL, callGraphQLFromServer } from './utils';
 
 export const postTherapist = async (req: any, res: any) => {
   try {
@@ -19,8 +19,7 @@ export const postTherapist = async (req: any, res: any) => {
         },
       ],
     };
-
-    const { data: { listTherapists: { items: [therapist] } } } = await graphQLCaller({
+    let { data: { listTherapists: { items: [therapist] } } } = await callGraphQLFromServer({
       query: queries.listTherapists,
       variables: {
         filter: therapistFilter,
@@ -28,7 +27,15 @@ export const postTherapist = async (req: any, res: any) => {
       },
     });
 
-    if (!therapist) throw new Error('Therapist not found.');
+    if (!therapist) {
+      console.log('No filtered therapist found, getting any therapist');
+      const data = await callGraphQLFromServer({
+        query: queries.listTherapists,
+        variables: { limit: 1 },
+      });
+      therapist = data.data.listTherapists.items[0];
+      if (!therapist) throw new Error('Therapist not found')
+    }
 
     const { data: { createTherapistClientRelationship: therapistClientRecord } } = await graphQLCaller({
       query: mutations.createTherapistClientRelationship,
@@ -41,19 +48,11 @@ export const postTherapist = async (req: any, res: any) => {
       },
     });
 
-    await graphQLCaller({
-      query: mutations.updateClient,
-      variables: {
-        input: {
-          id: id,
-          symptoms: [{ content: symptoms }],
-          therapistPreferences: [{ content: genders }],
-          therapistIDs: [therapistClientRecord.id],
-        },
-      },
-    });
-
-    // await updateTherapist(req, { id: therapist.id, clientIDs: [id] });
+    await updateClient(req, {
+      id,
+      symptoms: [{ content: symptoms }],
+      therapistPreferences: [{ content: genders }],
+    })
 
     return res.json({ success: true, therapist });
   } catch (err) {
@@ -73,7 +72,7 @@ export async function getClient(req, id): Promise<Client> {
 
 export async function updateClient(req, data) {
   const graphQLCaller = callGraphQL(req);
-  await graphQLCaller({
+  return await graphQLCaller({
     query: mutations.updateClient,
     variables: {
       input: data,
