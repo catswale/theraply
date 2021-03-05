@@ -1,5 +1,5 @@
 import { mutations, queries, Client } from '@theraply/lib';
-import { updateTherapist } from './therapist';
+import { updateTherapist } from './therapist/therapist';
 import { getHeaderData, callGraphQL, callGraphQLFromServer } from './utils';
 
 export const postTherapist = async (req: any, res: any) => {

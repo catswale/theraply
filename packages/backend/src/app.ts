@@ -2,6 +2,7 @@ import express from 'express';
 import * as bodyParser from 'body-parser';
 import * as awsServerlessExpressMiddleware from 'aws-serverless-express/middleware';
 import { postTherapist } from './client';
+import {getClientTherapists} from './therapist/therapist.routes';
 import { sendEmail } from './email';
 import { paymentRegister, paymentCharge, paymentCard } from './payment';
 
@@ -17,6 +18,7 @@ app.use((req, res, next) => {
 });
 
 app.post('/client/therapist', postTherapist);
+app.get('/client/therapists', getClientTherapists);
 app.post('/client/payment/register', paymentRegister);
 app.post('/payment/card', paymentCard);
 app.post('/payment/charge', paymentCharge);

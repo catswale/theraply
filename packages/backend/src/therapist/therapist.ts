@@ -1,5 +1,5 @@
 import { queries, mutations } from '@theraply/lib';
-import { getHeaderData, callGraphQL } from './utils';
+import { getHeaderData, callGraphQL } from '../utils';
 
 const axios = require('axios');
 const gql = require('graphql-tag');
