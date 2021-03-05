@@ -1,10 +1,11 @@
 import { mutations, queries, Client } from '@theraply/lib';
+import { updateTherapist } from './therapist';
 import { getHeaderData, callGraphQL } from './utils';
 
 export const postTherapist = async (req: any, res: any) => {
   try {
     const graphQLCaller = callGraphQL(req);
-    const { id: username } = getHeaderData(req, res);
+    const { id } = getHeaderData(req, res);
 
     const { genders, symptoms } = req.body;
 
@@ -34,7 +35,7 @@ export const postTherapist = async (req: any, res: any) => {
       variables: {
         input: {
           therapistID: therapist.id,
-          clientID: username,
+          clientID: id,
           active: true,
         },
       },
@@ -44,13 +45,15 @@ export const postTherapist = async (req: any, res: any) => {
       query: mutations.updateClient,
       variables: {
         input: {
-          id: username,
+          id: id,
           symptoms: [{ content: symptoms }],
           therapistPreferences: [{ content: genders }],
           therapistIDs: [therapistClientRecord.id],
         },
       },
     });
+
+    // await updateTherapist(req, { id: therapist.id, clientIDs: [id] });
 
     return res.json({ success: true, therapist });
   } catch (err) {

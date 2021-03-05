@@ -1,3 +1,4 @@
+/* tslint:disable */
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
@@ -44,11 +45,6 @@ export const listTherapists = /* GraphQL */ `
         lastName
         email
         phoneNumber
-        availability {
-          id
-          start
-          end
-        }
         specializations
         titles
         greeting
@@ -56,11 +52,6 @@ export const listTherapists = /* GraphQL */ `
         bio
         active
         gender
-        avatar {
-          bucket
-          region
-          key
-        }
         createdAt
         updatedAt
       }
@@ -152,26 +143,8 @@ export const listClients = /* GraphQL */ `
         email
         phoneNumber
         dob
-        symptoms {
-          id
-          content
-          createdAt
-        }
-        therapistPreferences {
-          id
-          content
-          createdAt
-        }
         therapistIDs
         stripeCustomerID
-        packageItems {
-          id
-          name
-          packageName
-          expiry
-          createdAt
-          sessions
-        }
         createdAt
         updatedAt
         owner

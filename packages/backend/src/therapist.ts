@@ -1,4 +1,5 @@
-import { queries } from '@theraply/lib';
+import { queries, mutations } from '@theraply/lib';
+import { getHeaderData, callGraphQL } from './utils';
 
 const axios = require('axios');
 const gql = require('graphql-tag');
@@ -34,4 +35,14 @@ export async function listTherapists(req) {
   } catch (err) {
     console.log('error posting to appsync: ', err);
   }
+}
+
+export async function updateTherapist(req, data) {
+  const graphQLCaller = callGraphQL(req);
+  await graphQLCaller({
+    query: queries.getClientRelationships,
+    variables: {
+      input: data,
+    },
+  });
 }

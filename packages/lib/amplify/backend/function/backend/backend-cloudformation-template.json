@@ -23,6 +23,10 @@
     "apitheraplygraphqlGraphQLAPIEndpointOutput": {
       "Type": "String",
       "Default": "apitheraplygraphqlGraphQLAPIEndpointOutput"
+    },
+    "apitheraplygraphqlGraphQLAPIKeyOutput": {
+      "Type": "String",
+      "Default": "apitheraplygraphqlGraphQLAPIKeyOutput"
     }
   },
   "Conditions": {
@@ -83,6 +87,9 @@
             },
             "API_THERAPLYGRAPHQL_GRAPHQLAPIENDPOINTOUTPUT": {
               "Ref": "apitheraplygraphqlGraphQLAPIEndpointOutput"
+            },
+            "API_THERAPLYGRAPHQL_GRAPHQLAPIKEYOUTPUT": {
+              "Ref": "apitheraplygraphqlGraphQLAPIKeyOutput"
             }
           }
         },

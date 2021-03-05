@@ -1,7 +1,8 @@
-import { Request, Response } from 'express';
+import { query, Request, Response } from 'express';
 import Axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import config from './config';
+import { queries } from '@theraply/lib';
 
 export function getHeaderData(req: Request, res: Response) {
   const accessToken = req.headers.authorization.split(' ')[1];
@@ -19,7 +20,7 @@ export function callGraphQL(req: Request) {
 
   return async (data) => {
     const result = await Axios({
-      url: config.API_API_GRAPHQLAPIENDPOINTOUTPUT,
+      url: config.API_THERAPLYGRAPHQL_GRAPHQLAPIENDPOINTOUTPUT,
       method: 'post',
       headers: {
         Authorization: accessToken,
@@ -29,4 +30,21 @@ export function callGraphQL(req: Request) {
     if (result.errors?.length > 0) throw result.errors;
     return result;
   }
+}
+
+export async function callGraphQLFromServer() {
+  const graphqlData = await Axios({
+    url: config.API_THERAPLYGRAPHQL_GRAPHQLAPIENDPOINTOUTPUT,
+    method: 'post',
+    headers: {
+      'x-api-key': config.API_THERAPLYGRAPHQL_GRAPHQLAPIKEYOUTPUT
+    },
+    data: {
+      query: queries.listTherapists,
+    }
+  });
+  const body = {
+      graphqlData: graphqlData.data.data.listTherapists
+  }
+  console.log(graphqlData.data.data.listTherapists)
 }

@@ -1,7 +1,9 @@
-import {palette} from '@theraply/lib';
+import {palette, queries} from '@theraply/lib';
+import { callGraphQLFromServer, callGraphQL } from './utils';
 
-export function sendEmail(req: any, res: any) {
+export async function sendEmail(req: any, res: any) {
   try {
+    const graphql = callGraphQL(req);
     console.log('Email called');
     const {
       recipient, sender, topic, text,
