@@ -81,18 +81,20 @@ export const Dashboard = () => {
   return (
     <>
       <Header />
-      <SideNav active={activeNav} onNavClick={(nav: number) => setActiveNav(nav)} />
-      <main className={styles.main__container__wrapper}>
-        <Switch>
-          <Route exact path="/"
-            render={() => (
-              <Redirect to="/dashboard" />
-            )}
-          />
-          <Route path="/dashboard" component={Home} />
-          <Route path="/chat" component={Chat} />
-        </Switch>
-      </main>
+      <section className={styles.wrapper}>
+        <SideNav active={activeNav} onNavClick={(nav: number) => setActiveNav(nav)} />
+        <main className={styles.main__container__wrapper}>
+          <Switch>
+            <Route exact path="/"
+              render={() => (
+                <Redirect to="/dashboard" />
+              )}
+            />
+            <Route path="/dashboard" component={Home} />
+            <Route path="/chat" component={Chat} />
+          </Switch>
+        </main>
+      </section>
       {/* <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <h1>Dashboard</h1>
         <h2>Hello {therapist.firstName}</h2>

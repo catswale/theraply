@@ -1,9 +1,8 @@
-.side__nav__container {
-  display: inline-block;
-  vertical-align: top;
+.wrapper {
+  display: flex;
 }
 
-.side__nav {
+.side__nav__container {
   width: 15.76%;
   min-width: 227px;
 }
@@ -65,14 +64,13 @@
 }
 
 .main__container__wrapper {
-  display: inline-block;
-  vertical-align: top;
+  flex-grow: 1;
   background: var(--main-background);
   border-radius: 30px;
   border: 1px solid var(--faded-blue);
-  width: 84.24%;
   height: max-content;
   min-height: 700px;
   margin-bottom: 60px;
+  margin-right: 48px;
   position: relative;
 }
