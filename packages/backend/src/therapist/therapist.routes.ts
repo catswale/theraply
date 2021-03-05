@@ -16,7 +16,7 @@ export async function getClientTherapists(req, res) {
     }) as Data;
     if (relationsips.length === 0) throw new Error('User has no relationships');
 
-    const {data: {listTherapists: {items: therapists}}} = await callGraphQLFromServer({
+    let {data: {listTherapists: {items: therapists}}} = await callGraphQLFromServer({
       query: queries.listTherapists,
       variables: {
         filter: { and: [
@@ -25,6 +25,11 @@ export async function getClientTherapists(req, res) {
         ]}
       }
     });
+
+    therapists = therapists.map(therapist => ({
+      ...therapist,
+      relationship: relationsips[0]
+    }))
     console.log(therapists)
     return res.json({ success: true, therapists });
   } catch (err) {

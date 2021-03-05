@@ -16,16 +16,16 @@ import { RootStackParamList } from '../App';
 import { callAPI } from '../services/api';
 import { useTherapist } from '../therapists/therapists.hooks';
 import {TherapistCard} from './TherapistCard'
+import { useChat } from '../chat/chat.hooks';
 
 type ScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
-  'CardEntry'
+  'Dashboard'
 >;
-type Props = {navigation: ScreenNavigationProp};
+export type Props = {navigation: ScreenNavigationProp};
 
 export const Dashboard = ({ navigation }: Props) => {
   const { client } = useClient();
-  const auth = useAuth();
   const {therapists} = useTherapist();
   useEffect(() => {
     navigation.setOptions({headerLeft: () => (
@@ -47,7 +47,6 @@ export const Dashboard = ({ navigation }: Props) => {
     //   .then(result => console.log(result))
     //   .catch(err => console.log(err));
   }
-
   const packageName = client.packageItems?.[0]?.packageName || 'None';
   return (
     <Background
@@ -87,7 +86,7 @@ export const Dashboard = ({ navigation }: Props) => {
           <Text>Current Package: {packageName}</Text> */}
           <Text style={{marginBottom: 15}}>Chats</Text>
           {
-            therapists.map((t) => <TherapistCard therapist={t}/>)
+            therapists.map((t) => <TherapistCard key={t.id} therapist={t} navigation={navigation}/>)
           }
       </>
     </Background>

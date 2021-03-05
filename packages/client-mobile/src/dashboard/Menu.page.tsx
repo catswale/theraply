@@ -27,7 +27,7 @@ export const Menu = ({ navigation }: Props) => {
       { name: 'Dashboard' },
     ],
   });
-  console.log(client)
+
   return (
     <View style={{height: '100%', backgroundColor: palette.secondary.main}}>
       <View style={{backgroundColor: palette.secondary.main, height: '35%'}}>

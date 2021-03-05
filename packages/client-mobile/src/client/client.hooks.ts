@@ -4,7 +4,7 @@ import { API, graphqlOperation } from 'aws-amplify';
 import {
   mutations, Client, queries, Therapist, ClientTherapistRelationship,
 } from '@theraply/lib';
-import { setClient, setRelationships, ClientState } from './client.slice';
+import { setClient, ClientState } from './client.slice';
 import { useAuth } from '../auth/auth.hooks';
 
 export const useClient = () => {
@@ -39,38 +39,13 @@ export const useClient = () => {
           id,
           firstName: attributes.given_name,
           email: attributes.email,
-          therapistIDs: [],
         },
       }));
     }
     dispatch(setClient(newClient));
   }
 
-  async function createTherapistClientConnection(therapist: Therapist, client: Client) {
-    if (client.therapistIDs.find((id) => id === therapist.id)) return;
-    console.log('adding client therapist connection.');
-
-    const res = await API.graphql(graphqlOperation(mutations.createTherapistClientRelationship, {
-      input: {
-        therapistID: therapist.id,
-        clientID: client.id,
-      },
-    }));
-    const newClient: any = {
-      id: client.id,
-      firstName: client.firstName,
-      lastName: client.lastName,
-      email: client.email,
-      phoneNumber: client.phoneNumber,
-      therapistIDs: [...client.therapistIDs, therapist.id],
-    };
-
-    const update = await API.graphql({ query: mutations.updateClient, variables: { input: newClient } });
-    await initClient();
-  }
-
   return {
-    createTherapistClientConnection,
     client,
     setClient: (data: any) => dispatch(setClient(data)),
     updateClient: (data: any) => dispatch(setClient({ ...client, ...data })),

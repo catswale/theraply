@@ -15,6 +15,7 @@ import ChatAvatar from '../../assets/images/chat-avatar.svg';
 import { Background } from '../theme';
 import { useClient } from '../client/client.hooks';
 import ChatSendIcon from '../../assets/images/send-arrow.svg';
+import { setChats } from './chat.slice';
 
 interface Event {
   provider: object;
@@ -42,7 +43,6 @@ type Props = {
 export const Chat = ({ route, navigation }: Props) => {
   const [messages, setMessages] = useState([] as Message[]);
   const [messageBody, setMessageBody] = useState('');
-  const [channelID, setChannelID] = useState('');
   const { therapist } = route.params;
   const { client } = useClient();
   const chat = useChat();
@@ -53,18 +53,6 @@ export const Chat = ({ route, navigation }: Props) => {
     });
 
     const init = async () => {
-      const { data: { getClient: clientTherapist } } = await API.graphql(graphqlOperation(
-        queries.getClient,
-        {
-          id: client.id,
-          therapistId: {
-            eq: therapist.id,
-          },
-          limitTherapist: 1,
-        },
-      ));
-
-      setChannelID(clientTherapist?.therapists?.items?.[0].id);
       fetchMessages();
     };
 
@@ -72,7 +60,7 @@ export const Chat = ({ route, navigation }: Props) => {
   }, []);
 
   async function fetchMessages() {
-    setMessages(await chat.fetchMessages(channelID));
+    setMessages(await chat.fetchMessages(therapist.relationship.id));
   }
 
   useEffect(() => {
@@ -84,7 +72,9 @@ export const Chat = ({ route, navigation }: Props) => {
       })) // @ts-ignore
       .subscribe({
         next: (event: Event) => {
-          setMessages([...messages, event.value.data.onCreateMessage]);
+          const message = event.value.data.onCreateMessage;
+          chat.addMessage(therapist.id, message);
+          setMessages([...messages, message]);
         },
       });
     return () => {
@@ -94,8 +84,7 @@ export const Chat = ({ route, navigation }: Props) => {
 
   const handleSubmit = async () => {
     const input = {
-      channelID,
-      authorID: client.id,
+      channelID: therapist.relationship.id,
       body: messageBody.trim(),
       clientID: client.id,
       therapistID: therapist.id,

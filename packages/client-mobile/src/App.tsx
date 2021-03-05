@@ -24,6 +24,7 @@ import {
   ChoosePackage, CardEntry, ConfirmPackage, PaymentComplete,
 } from './payments';
 import store from './store';
+import {Therapist} from '@theraply/lib';
 
 export type RootStackParamList = {
   Dashboard: undefined;
@@ -36,7 +37,7 @@ export type RootStackParamList = {
     therapist: Record<string, unknown>;
   };
   Chat: {
-    therapist: Record<string, unknown>;
+    therapist: Therapist;
   };
   Pay: undefined;
   Landing: undefined;

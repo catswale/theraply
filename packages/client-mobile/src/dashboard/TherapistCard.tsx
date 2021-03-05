@@ -5,19 +5,32 @@ import {
 } from 'react-native';
 import { theme } from '../theme';
 import { palette, Therapist } from '@theraply/lib';
+import {Props as DashboardProps} from './Dashboard.page';
+import { useChat } from '../chat/chat.hooks';
 
-export const TherapistCard = ({therapist}: {therapist: Therapist}) => {
+interface Props extends DashboardProps {
+  therapist: Therapist
+}
+
+export const TherapistCard = ({navigation, therapist}: Props) => {
+  const {chats} = useChat();
+  const chat = chats?.[therapist.id];
+  const message = chat?.[chat.length - 1].body
   return (
-    <View key={therapist.id} style={styles.container}>
+    <TouchableOpacity 
+    key={therapist.id}
+    onPress={() => navigation.navigate('Chat', {therapist})}
+    style={styles.container}
+    >
       <View style={{flexDirection: 'row'}}>
         <View style={styles.avatar}/>
         <View style={{paddingLeft: 15}}>
           <Text style={theme.boldText}>{therapist.firstName} {therapist.lastName}</Text>
-          <Text style={styles.chatPreviewText}>Hello Jane how may I help you</Text>
+          <Text style={styles.chatPreviewText}>{message}</Text>
         </View>
       </View>
       <View style={styles.newChatIndicator}/>
-    </View>
+    </TouchableOpacity>
   )
 }
 
