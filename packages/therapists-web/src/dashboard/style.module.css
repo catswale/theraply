@@ -62,15 +62,3 @@
   margin-right: 11px;
   background: var(--primary-text);
 }
-
-.mainContainerWrapper {
-  flex-grow: 1;
-  background: var(--main-background);
-  border-radius: 30px;
-  border: 1px solid var(--faded-blue);
-  height: max-content;
-  min-height: 700px;
-  margin-bottom: 60px;
-  margin-right: 48px;
-  position: relative;
-}
