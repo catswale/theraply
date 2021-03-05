@@ -18,7 +18,6 @@ export type Client = {
   lastName?: string,
   email: string,
   phoneNumber?: string,
-  therapistIDs: string[],
   channelID?: string,
   createdAt: Date,
   updatedAt: Date,
@@ -31,14 +30,6 @@ export interface Therapist {
   lastName: string,
   email: string,
   id: string,
-  clients: TherapistClient[]
-}
-
-export interface TherapistClient {
-  id: string,
-  channelID: string,
-  firstName: string,
-  lastName: string,
 }
 
 export interface ClientTherapistRelationship {
