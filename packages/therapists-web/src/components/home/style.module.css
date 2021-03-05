@@ -1,4 +1,4 @@
-.main__container {
+.mainContainer {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -10,14 +10,14 @@
   text-align: center;
 }
 
-.bold__caption__text {
+.boldCaptionText {
   font-weight: bold;
   font-size: 24px;
   line-height: 28px;
   color: var(--primary-text);
 }
 
-.caption__text {
+.captionText {
   font-size: 24px;
   line-height: 39px;
   color: var(--primary-text);

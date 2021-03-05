@@ -6,16 +6,16 @@ const Header = () => (
     <div>
       <img src="/logo.svg" alt="Theraply logo" />
     </div>
-    <nav className={style.profile__nav}>
-      <div className={style.profile__name}>
-        <span className="regular__bold__text">Jane Doe</span>
-        <span className="regular__text">a.done@gmail.com</span>
+    <nav className={style.profileNav}>
+      <div className={style.profileName}>
+        <span className="regularBoldText">Jane Doe</span>
+        <span className="regularText">a.done@gmail.com</span>
       </div>
-      <button className={['regular__button', style.user__profile__button].join(' ')}>
-        <span className={style.user__icon}></span>
+      <button className={['regularButton', style.userProfileButton].join(' ')}>
+        <span className={style.userIcon}></span>
       </button>
-      <button className="regular__button">
-        <span className={style.notification__icon}></span>
+      <button className="regularButton">
+        <span className={style.notificationIcon}></span>
       </button>
     </nav>
   </header>

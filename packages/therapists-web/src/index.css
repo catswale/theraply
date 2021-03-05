@@ -19,7 +19,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.regular__button {
+.regularButton {
   border: none;
   outline: none;
   padding: 0px;
@@ -31,14 +31,14 @@ code {
   text-decoration: none;
 }
 
-.regular__bold__text {
+.regularBoldText {
   font-weight: bold;
   font-size: 16px;
   line-height: 26px;
   color: var(--grey2);
 }
 
-.regular__text {
+.regularText {
   font-size: 13px;
   line-height: 18px;
   color: var(--grey2);

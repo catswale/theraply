@@ -7,17 +7,17 @@
   padding-right: 48px;
 }
 
-.profile__nav {
+.profileNav {
   display: flex;
   width: max-content;
   justify-content: space-between;
 }
 
-.profile__nav>* {
+.profileNav>* {
   margin-left: 30px;
 }
 
-.profile__name {
+.profileName {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -25,21 +25,21 @@
   padding-bottom: 0px;
 }
 
-.user__profile__button {
+.userProfileButton {
   min-width: 50px;
   min-height: 50px;
   border-radius: 50%;
   background: var(--faded-blue);
 }
 
-.user__icon {
+.userIcon {
   display: block;
   background: url(/user-icon.svg);
   width: 23px;
   height: 27px;
 }
 
-.notification__icon {
+.notificationIcon {
   display: block;
   background: url(/notification-icon.svg);
   width: 22px;

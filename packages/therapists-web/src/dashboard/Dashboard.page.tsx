@@ -83,7 +83,7 @@ export const Dashboard = () => {
       <Header />
       <section className={styles.wrapper}>
         <SideNav active={activeNav} onNavClick={(nav: number) => setActiveNav(nav)} />
-        <main className={styles.main__container__wrapper}>
+        <main className={styles.mainContainerWrapper}>
           <Switch>
             <Route exact path="/"
               render={() => (
@@ -117,25 +117,25 @@ type SideNavProps = {
 }
 
 const SideNav = ({ active, onNavClick }: SideNavProps) => (
-  <aside className={styles.side__nav__container}>
-    <nav className={styles.side__nav}>
+  <aside className={styles.sideNavContainer}>
+    <nav className={styles.sideNav}>
       <ul>
-        <li className={active === 1 ? styles.side__nav__active : ''}>
+        <li className={active === 1 ? styles.sideNavActive : ''}>
           <NavLink
             to="/dashboard"
-            className="regular__button"
+            className="regularButton"
             onClick={() => onNavClick(1)}
           >
-            <span className={styles.dashboard__icon}></span> Dashboard
+            <span className={styles.dashboardIcon}></span> Dashboard
           </NavLink>
         </li>
-        <li className={active === 2 ? styles.side__nav__active : ''}>
+        <li className={active === 2 ? styles.sideNavActive : ''}>
           <NavLink
             to="/chat"
-            className="regular__button"
+            className="regularButton"
             onClick={() => onNavClick(2)}
           >
-            <span className={styles.chat__icon}></span> Chats
+            <span className={styles.chatIcon}></span> Chats
           </NavLink>
         </li>
       </ul>
