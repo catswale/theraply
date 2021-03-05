@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import {
-  View, Text, StyleSheet, TextInput, Button, ViewStyle, TextStyle,
+  View, Text, StyleSheet, TextInput, ViewStyle, TextStyle,
 } from 'react-native';
 import {
-  mutations, subscriptions, queries, Message,
+  mutations, subscriptions, queries, Message, palette,
 } from '@theraply/lib';
-import Amplify, { API, graphqlOperation, Auth } from 'aws-amplify';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { API, graphqlOperation } from 'aws-amplify';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { RootStackParamList } from '../App';
 import { useChat } from './chat.hooks';
+import ChatAvatar from '../../assets/images/chat-avatar.svg';
+import { Background } from '../theme';
+import { useClient } from '../client/client.hooks';
+import ChatSendIcon from '../../assets/images/send-arrow.svg';
 
 interface Event {
   provider: object;
@@ -17,23 +25,63 @@ interface Event {
   }
 }
 
-export const Chat = ({ route, navigation }) => {
+const ChatHeader = ({ name }: { name: string }) => (
+  <View style={styles.chatHeader}>
+    <ChatAvatar height={30} width={30} />
+    <Text style={styles.chatHeaderText}>{name}</Text>
+  </View>
+);
+
+type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Chat'>;
+type ScreenRouteProp = RouteProp<RootStackParamList, 'Chat'>;
+type Props = {
+  navigation: ScreenNavigationProp;
+  route: ScreenRouteProp
+};
+
+export const Chat = ({ route, navigation }: Props) => {
   const [messages, setMessages] = useState([] as Message[]);
-  const [messageBody, setMessageBody] = React.useState('');
-  const { therapist, client } = route.params;
+  const [messageBody, setMessageBody] = useState('');
+  const [channelID, setChannelID] = useState('');
+  const { therapist } = route.params;
+  const { client } = useClient();
   const chat = useChat();
+
   useEffect(() => {
-    fetchMessages();
+    navigation.setOptions({
+      headerTitle: () => <ChatHeader name={`${therapist.firstName} ${therapist.lastName}`} />,
+    });
+
+    const init = async () => {
+      const { data: { getClient: clientTherapist } } = await API.graphql(graphqlOperation(
+        queries.getClient,
+        {
+          id: client.id,
+          therapistId: {
+            eq: therapist.id,
+          },
+          limitTherapist: 1,
+        },
+      ));
+
+      setChannelID(clientTherapist?.therapists?.items?.[0].id);
+      fetchMessages();
+    };
+
+    init();
   }, []);
 
   async function fetchMessages() {
-    const messages = await chat.fetchMessages(therapist.channelID);
-    setMessages(messages);
+    setMessages(await chat.fetchMessages(channelID));
   }
 
   useEffect(() => {
     const subscription = API
-      .graphql(graphqlOperation(subscriptions.onCreateMessage, { owner: client.id, clientID: client.id, therapistID: therapist.id })) // @ts-ignore
+      .graphql(graphqlOperation(subscriptions.onCreateMessage, {
+        owner: client.id,
+        clientID: client.id,
+        therapistID: therapist.id,
+      })) // @ts-ignore
       .subscribe({
         next: (event: Event) => {
           setMessages([...messages, event.value.data.onCreateMessage]);
@@ -44,9 +92,9 @@ export const Chat = ({ route, navigation }) => {
     };
   }, [messages]);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async () => {
     const input = {
-      channelID: therapist.channelID,
+      channelID,
       authorID: client.id,
       body: messageBody.trim(),
       clientID: client.id,
@@ -63,26 +111,33 @@ export const Chat = ({ route, navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <Background
+      background
+      footer={
+        <View style={styles.chatBar}>
+          <View style={styles.chatBox}>
+            <TextInput
+              style={styles.chatBarInput}
+              placeholder="Type something..."
+              value={messageBody}
+              onChangeText={(text) => setMessageBody(text)}
+            />
+            <TouchableOpacity onPress={handleSubmit} style={styles.chatSend}>
+              <ChatSendIcon height={14} width={14} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      }>
       <View style={styles.messages}>
-      {messages.map((message) => (
-        <View
-          key={message.id}
-          style={message.authorID === client.id ? styles.messageMe : styles.message}>
+        {messages.map((message) => (
+          <View
+            key={message.id}
+            style={message.owner === client.id ? styles.messageMe : styles.message}>
             <Text style={styles.text}>{message.body}</Text>
           </View>
-      ))}
+        ))}
       </View>
-      <View style={styles.chatBar}>
-        <TextInput
-        style={styles.chatBarInput}
-        defaultValue="Type your message here"
-        value={messageBody}
-        onChangeText={(text) => setMessageBody(text)}
-        />
-        <Button title='Submit' onPress={handleSubmit}/>
-      </View>
-    </View>
+    </Background>
   );
 };
 
@@ -94,6 +149,11 @@ interface Style {
   text: TextStyle;
   chatBar: ViewStyle;
   chatBarInput: ViewStyle;
+  chatBox: ViewStyle;
+  chatHeader: ViewStyle;
+  chatHeaderText: ViewStyle;
+  chatHeaderRight: ViewStyle;
+  chatSend: ViewStyle;
 }
 
 const message: ViewStyle = {
@@ -102,8 +162,10 @@ const message: ViewStyle = {
   paddingVertical: 8,
   paddingHorizontal: 12,
   maxWidth: 240,
-  backgroundColor: '#f1f0f0',
-  borderRadius: 16,
+  backgroundColor: palette.gray,
+  borderTopLeftRadius: 10,
+  borderTopRightRadius: 10,
+  borderBottomRightRadius: 10,
 };
 const styles = StyleSheet.create<Style>({
   container: {
@@ -123,25 +185,60 @@ const styles = StyleSheet.create<Style>({
   messageMe: {
     ...message,
     alignSelf: 'flex-end',
-    backgroundColor: '#f19e38',
-    color: 'white',
+    backgroundColor: palette.fadedBlue.main,
+    color: palette.fadedBlue.contrastText,
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 10,
   },
   text: {
     fontSize: 16,
   },
+  chatBox: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 30,
+    backgroundColor: palette.gray,
+    paddingHorizontal: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
   chatBar: {
     flexDirection: 'row',
     height: 64,
-    borderTopColor: '#ddd',
-    borderTopWidth: 1,
+    position: 'absolute',
+    bottom: 40,
+    left: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
   },
   chatBarInput: {
-    width: '80%',
-    height: 32,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 16,
+    width: '90%',
+    height: '100%',
+  },
+  chatHeader: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  chatHeaderText: {
+    color: palette.primary.contrastText,
+    marginLeft: 5,
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: 16,
+    lineHeight: 26,
+  },
+  chatHeaderRight: {
+    marginRight: 20,
+  },
+  chatSend: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: palette.primary.main,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

@@ -30,8 +30,14 @@ export type RootStackParamList = {
   Menu: undefined;
   PickTherapist1: undefined;
   PickTherapist2: undefined;
-  PickTherapist3: undefined;
-  Chat: undefined;
+  PickTherapist3: {
+    symptoms: string[];
+    genders: string[];
+    therapist: Record<string, unknown>;
+  };
+  Chat: {
+    therapist: Record<string, unknown>;
+  };
   Pay: undefined;
   Landing: undefined;
   SignIn: undefined;
