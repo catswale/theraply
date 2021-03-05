@@ -3,7 +3,8 @@ import {
   View, Text, StyleSheet,
   ViewStyle, TouchableOpacity, TextStyle, Button,
 } from 'react-native';
-import { palette } from '@theraply/lib';
+import { Storage } from 'aws-amplify';
+import { palette, Therapist } from '@theraply/lib';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { theme, Background } from '../theme';
 import { useClient } from '../client/client.hooks';
@@ -13,7 +14,8 @@ import Menu from '../../assets/images/menu.svg';
 import { useAuth } from '../auth/auth.hooks';
 import { RootStackParamList } from '../App';
 import { callAPI } from '../services/api';
-import { useTherapist } from '../therapist/therapist.hooks';
+import { useTherapist } from '../therapists/therapists.hooks';
+import {TherapistCard} from './TherapistCard'
 
 type ScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -25,14 +27,26 @@ export const Dashboard = ({ navigation }: Props) => {
   const { client } = useClient();
   const auth = useAuth();
   const {therapists} = useTherapist();
-
   useEffect(() => {
     navigation.setOptions({headerLeft: () => (
       <TouchableOpacity onPress={() => navigation.navigate('Menu')}>
         <Menu style={{marginLeft: 20, marginBottom: 5}}/>
       </TouchableOpacity>
     ),});
+    test()
   }, [])
+
+  const test = async function () {
+    // const result = await Storage.get("1258b757-054e-4ac3-baba-657ee8735f48", {download: true});
+    // result.Body.text().then(string => { 
+    //   // handle the String data return String 
+    //   console.log('GOT BLOB')
+    // });
+    // console.log('list')
+    // Storage.list('') // for listing ALL files without prefix, pass '' instead
+    //   .then(result => console.log(result))
+    //   .catch(err => console.log(err));
+  }
 
   const packageName = client.packageItems?.[0]?.packageName || 'None';
   return (
@@ -56,7 +70,7 @@ export const Dashboard = ({ navigation }: Props) => {
           <Text style={theme.primaryButtonText}>Book a Live Session</Text>
         </TouchableOpacity>
         {
-          client?.therapists?.length === 0
+          therapists?.length === 0
           && <TouchableOpacity
             style={{ ...theme.secondaryButton, ...styles.iconButton }}
             onPress={() => navigation.navigate('PickTherapist1')}
@@ -65,12 +79,16 @@ export const Dashboard = ({ navigation }: Props) => {
             <Text style={theme.primaryButtonText}>Chat with a Therapist</Text>
           </TouchableOpacity>
         }
-        <TouchableOpacity
-            onPress={() => callAPI('/email')}
+        {/* <TouchableOpacity
+            onPress={() => callAPI('get', '/client/therapist')}
           >
             <Text style={{ color: palette.primary.main }}>Payment Flow</Text>
           </TouchableOpacity>
-          <Text>Current Package: {packageName}</Text>
+          <Text>Current Package: {packageName}</Text> */}
+          <Text style={{marginBottom: 15}}>Chats</Text>
+          {
+            therapists.map((t) => <TherapistCard therapist={t}/>)
+          }
       </>
     </Background>
   );

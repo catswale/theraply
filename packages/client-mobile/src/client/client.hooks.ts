@@ -8,7 +8,7 @@ import { setClient, setRelationships, ClientState } from './client.slice';
 import { useAuth } from '../auth/auth.hooks';
 
 export const useClient = () => {
-  const { client, relationships }: ClientState = useSelector((state) => state.client);
+  const { client }: ClientState = useSelector((state) => state.client);
   const dispatch = useDispatch();
   const { user, fetchCurrentAuthUser } = useAuth();
   const { id, attributes } = user;
@@ -22,7 +22,6 @@ export const useClient = () => {
   useEffect(() => {
     if (id && !client?.id) {
       initClient();
-      initRelationships();
     }
   }, [user]);
 
@@ -44,17 +43,7 @@ export const useClient = () => {
         },
       }));
     }
-    console.log(newClient);
     dispatch(setClient(newClient));
-  }
-
-  async function initRelationships() {
-    const data = await API.graphql(graphqlOperation(queries.getClientRelationships, {
-      clientID: id,
-    })) as Data;
-    type Data = {data: {getClientRelationships: {items: ClientTherapistRelationship[]}}}
-    const result = data.data.getClientRelationships.items;
-    dispatch(setRelationships(result));
   }
 
   async function createTherapistClientConnection(therapist: Therapist, client: Client) {

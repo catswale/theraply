@@ -10,7 +10,7 @@ import { GENDERS, palette } from '@theraply/lib';
 
 import { theme, Background } from '../../theme';
 import WizardStep from '../../components/WizardStep';
-import { useTherapist } from '../../therapist/therapist.hooks';
+import { useTherapist } from '../../therapists/therapists.hooks';
 
 const dpi = PixelRatio.get();
 
