@@ -1,9 +1,18 @@
 :root {
-  --faded-blue: #E0F7FF;
-  --grey2: #4F4F4F;
   --primary-text: #000F33;
   --main-background: #FAFEFF;
   --primary-color: #004AFF;
+  --faded-blue: #E0F7FF;
+  --grey1: #333333;
+  --grey2: #4F4F4F;
+  --grey4: #BDBDBD;
+  --grey6: #F2F2F2;
+  --faint-blue: #A8C0FA;
+  --black: #00071A;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {

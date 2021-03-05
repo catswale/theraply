@@ -14,7 +14,6 @@
 
 .sideNav>ul>li {
   height: 56px;
-  padding-left: 24px;
   display: flex;
   align-items: center;
 }
@@ -22,22 +21,20 @@
 .sideNav>ul>li>a {
   font-size: 18px;
   line-height: 39px;
+  padding-left: 24px;
 }
 
-.sideNav>ul>li:not(.sideNavActive)>a {
+.sideNav>ul>li>a:not(.sideNavActive) {
   color: var(--primary-text);
 }
 
-.sideNavActive {
+a.sideNavActive {
   border-left: 7px solid var(--primary-color);
   padding-left: 17px!important;
-}
-
-.sideNavActive>a {
   color: var(--primary-color);
 }
 
-.sideNavActive>a>span {
+a.sideNavActive>span {
   background: var(--primary-color);
 }
 
