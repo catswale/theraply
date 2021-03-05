@@ -51,8 +51,8 @@ type TherapistClientRelationship
 
 type Client @model 
   @auth(rules: [
-    { allow: owner },
-    { allow: public, provider: apiKey, operations: [read] } }
+    { allow: owner }, 
+    { allow: public, provider: apiKey, operations: [read] }
   ]) {
   id: ID!
   firstName: String!

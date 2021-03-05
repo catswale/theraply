@@ -23,6 +23,21 @@
                 "open": true
             },
             "policyResourceName": "/client/therapist"
+        },
+        {
+            "name": "/client/therapists",
+            "lambdaFunction": "backend",
+            "privacy": {
+                "private": true,
+                "auth": [
+                    "/POST",
+                    "/GET",
+                    "/PUT",
+                    "/PATCH",
+                    "/DELETE"
+                ]
+            },
+            "policyResourceName": "/client/therapists"
         }
     ],
     "resourceName": "backend",
@@ -36,7 +51,7 @@
         }
     ],
     "privacy": {
-        "auth": 0,
+        "auth": 1,
         "unauth": 0,
         "authRoleName": "amplify-theraplyapp-dev-173423-authRole",
         "unAuthRoleName": "amplify-theraplyapp-dev-173423-unauthRole"
@@ -59,5 +74,5 @@
             ]
         }
     ],
-    "uuid": "85b303c3"
+    "uuid": "0fc2ca0e"
 }
