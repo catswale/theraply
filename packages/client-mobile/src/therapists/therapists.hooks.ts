@@ -55,8 +55,12 @@ export const useTherapist = () => {
     if (!response.success) {
       throw new Error(response.message);
     }
-
-    dispatch(setTherapists(response.therapist));
+    const avatarURI = await Storage.get('avatar', { 
+      level: 'protected', 
+      identityId: response.therapist.id 
+    }) as string;
+    response.therapist.avatarURI = avatarURI;
+    dispatch(setTherapists([response.therapist]));
 
     return response;
   };

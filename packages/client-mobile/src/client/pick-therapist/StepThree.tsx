@@ -1,18 +1,20 @@
 import React from 'react';
 import {
-  View, Text, StyleSheet,
+  View, Text, StyleSheet, Image, Dimensions,
   ViewStyle, TouchableOpacity, TextStyle,
 } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
-import { palette } from '@theraply/lib';
+import { palette, Therapist } from '@theraply/lib';
 import { RootStackParamList } from '../../App';
 import { theme, Background } from '../../theme';
 import WizardStep from '../../components/WizardStep';
-import Therapist from '../../../assets/images/therapist.svg';
 import VideoIcon from '../../../assets/images/camera.svg';
 import MicrophoneIcon from '../../../assets/images/audio.svg';
 import ChatIcon from '../../../assets/images/chat.svg';
+
+const { width } = Dimensions.get('window');
+
 
 type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'PickTherapist3'>;
 type ScreenRouteProp = RouteProp<RootStackParamList, 'PickTherapist3'>;
@@ -22,8 +24,7 @@ type Props = {
 };
 
 const StepThree = ({ route, navigation }: Props) => {
-  const { therapist = {} } = route?.params;
-
+  const { therapist = {} }: {therapist: Therapist} = route?.params;
   return (
     <Background
       background
@@ -40,7 +41,12 @@ const StepThree = ({ route, navigation }: Props) => {
           Congrats! You are one step closer to feeling better. And we have found you a therapist :)
         </Text>
         <View style={styles.container}>
-          <Therapist />
+          <Image
+            style={styles.avatar}
+            source={{
+              uri: therapist.avatarURI,
+            }}
+          />
           <Text style={{ ...theme.boldText, marginTop: 20 }}>Dr {`${therapist.firstName} ${therapist.lastName}`}</Text>
           <Text style={theme.tinyGrayText}>{therapist.bio as string}</Text>
           <View style={styles.therapistOptions}>
@@ -79,6 +85,7 @@ interface Style {
   option: ViewStyle,
   wrapper: ViewStyle,
   link: ViewStyle,
+  avatar: ViewStyle,
 }
 
 const styles = StyleSheet.create<Style>({
@@ -137,5 +144,11 @@ const styles = StyleSheet.create<Style>({
     fontSize: 14,
     lineHeight: 26,
     textAlign: 'center',
+  },
+  avatar: {
+    height: width * 0.4, 
+    width: width * 0.4,
+    backgroundColor: palette.tertiary.main, 
+    borderRadius: 100
   },
 });
