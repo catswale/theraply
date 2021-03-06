@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   View, Text, StyleSheet,
-  ViewStyle, TouchableOpacity, TextStyle, Button,
+  ViewStyle, TouchableOpacity, TextStyle, Image,
 } from 'react-native';
 import { theme } from '../theme';
 import { palette, Therapist } from '@theraply/lib';
@@ -16,6 +16,7 @@ export const TherapistCard = ({navigation, therapist}: Props) => {
   const {chats} = useChat();
   const chat = chats?.[therapist.id];
   const message = chat?.[chat.length - 1].body
+
   return (
     <TouchableOpacity 
     key={therapist.id}
@@ -23,7 +24,12 @@ export const TherapistCard = ({navigation, therapist}: Props) => {
     style={styles.container}
     >
       <View style={{flexDirection: 'row'}}>
-        <View style={styles.avatar}/>
+        <Image
+          style={styles.avatar}
+          source={{
+            uri: therapist.avatarURI,
+          }}
+        />
         <View style={{paddingLeft: 15}}>
           <Text style={theme.boldText}>{therapist.firstName} {therapist.lastName}</Text>
           <Text style={styles.chatPreviewText}>{message}</Text>
@@ -56,8 +62,7 @@ const styles = StyleSheet.create<Style>({
   avatar: {
     height: 50, 
     width: 50, 
-    backgroundColor: 
-    palette.tertiary.main, 
+    backgroundColor: palette.tertiary.main, 
     borderRadius: 100
   },
   newChatIndicator: {

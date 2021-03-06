@@ -30,6 +30,9 @@ export interface Therapist {
   lastName: string,
   email: string,
   id: string,
+  avatarURI?: string
+  bio: string,
+  specializations: string[]
 }
 
 export interface ClientTherapistRelationship {

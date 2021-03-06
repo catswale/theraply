@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import {
   View, Text, StyleSheet, TextInput, ViewStyle, TextStyle,
+  Image,
 } from 'react-native';
 import {
-  mutations, subscriptions, queries, Message, palette,
+  mutations, subscriptions, Therapist, Message, palette,
 } from '@theraply/lib';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
@@ -11,11 +12,9 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { RootStackParamList } from '../App';
 import { useChat } from './chat.hooks';
-import ChatAvatar from '../../assets/images/chat-avatar.svg';
 import { Background } from '../theme';
 import { useClient } from '../client/client.hooks';
 import ChatSendIcon from '../../assets/images/send-arrow.svg';
-import { setChats } from './chat.slice';
 
 interface Event {
   provider: object;
@@ -26,12 +25,20 @@ interface Event {
   }
 }
 
-const ChatHeader = ({ name }: { name: string }) => (
-  <View style={styles.chatHeader}>
-    <ChatAvatar height={30} width={30} />
-    <Text style={styles.chatHeaderText}>{name}</Text>
-  </View>
-);
+const ChatHeader = ({ therapist }: { therapist: Therapist }) => {
+  const name = `${therapist.firstName} ${therapist.lastName}`;
+  return (
+    <View style={styles.chatHeader}>
+      <Image
+            style={styles.avatar}
+            source={{
+              uri: therapist.avatarURI,
+            }}
+          />
+      <Text style={styles.chatHeaderText}>{name}</Text>
+    </View>
+  )
+};
 
 type ScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Chat'>;
 type ScreenRouteProp = RouteProp<RootStackParamList, 'Chat'>;
@@ -49,7 +56,7 @@ export const Chat = ({ route, navigation }: Props) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: () => <ChatHeader name={`${therapist.firstName} ${therapist.lastName}`} />,
+      headerTitle: () => <ChatHeader therapist={therapist} />,
     });
 
     const init = async () => {
@@ -143,6 +150,7 @@ interface Style {
   chatHeaderText: ViewStyle;
   chatHeaderRight: ViewStyle;
   chatSend: ViewStyle;
+  avatar: ViewStyle
 }
 
 const message: ViewStyle = {
@@ -230,4 +238,10 @@ const styles = StyleSheet.create<Style>({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  avatar: {
+    height: 30, 
+    width: 30, 
+    backgroundColor: palette.tertiary.main, 
+    borderRadius: 100
+  }
 });

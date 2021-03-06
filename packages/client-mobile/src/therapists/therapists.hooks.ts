@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  Auth, API, graphqlOperation,
+  Auth, API, Storage,
 } from 'aws-amplify';
 import { queries, ClientTherapistRelationship, Therapist } from '@theraply/lib';
 import { useEffect } from 'react';
@@ -19,13 +19,21 @@ export const useTherapist = () => {
   const { user } = useAuth();
   const { therapists }: {therapists: Therapist[]} = useSelector((state) => state.therapists);
   useEffect(() => {
-    if (user.id) {
+    if (user.id ) {
       getTherapists();
     }
   }, [user]);
 
   async function getTherapists() {
-    const {therapists} = await callAPI('get', '/client/therapists');
+    const {therapists}: {therapists: Therapist[]} 
+      = await callAPI('get', '/client/therapists');
+    for (const therapist of therapists) {
+      const avatarURI = await Storage.get('avatar', { 
+        level: 'protected', 
+        identityId: therapist.id 
+      }) as string;
+      therapist.avatarURI = avatarURI;
+    }
     dispatch(setTherapists(therapists))
   }
 
