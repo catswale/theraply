@@ -59,11 +59,7 @@ export const Chat = ({ route, navigation }: Props) => {
       headerTitle: () => <ChatHeader therapist={therapist} />,
     });
 
-    const init = async () => {
-      fetchMessages();
-    };
-
-    init();
+    setMessages(chat.chats?.[therapist.id])
   }, []);
 
   async function fetchMessages() {
