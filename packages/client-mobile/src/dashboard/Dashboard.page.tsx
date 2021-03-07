@@ -10,9 +10,7 @@ import { useClient } from '../client/client.hooks';
 import ChatIcon from '../../assets/images/chat-thin.svg';
 import CalendarIcon from '../../assets/images/calendar.svg';
 import Menu from '../../assets/images/menu.svg';
-import { useAuth } from '../auth/auth.hooks';
 import { RootStackParamList } from '../App';
-import { callAPI } from '../services/api';
 import { useTherapist } from '../therapists/therapists.hooks';
 import {TherapistCard} from './TherapistCard'
 
@@ -33,7 +31,6 @@ export const Dashboard = ({ navigation }: Props) => {
     ),});
   }, [])
 
-  const packageName = client.packageItems?.[0]?.packageName || 'None';
   return (
     <Background
       footer={
@@ -64,16 +61,10 @@ export const Dashboard = ({ navigation }: Props) => {
             <Text style={theme.primaryButtonText}>Chat with a Therapist</Text>
           </TouchableOpacity>
         }
-        {/* <TouchableOpacity
-            onPress={() => navigation.navigate('ChoosePackage')}
-          >
-            <Text style={{ color: palette.primary.main }}>Payment Flow</Text>
-          </TouchableOpacity>
-          <Text>Current Package: {packageName}</Text> */}
-          <Text style={{marginBottom: 15}}>Chats</Text>
-          {
-            therapists.map((t) => <TherapistCard key={t.id} therapist={t} navigation={navigation}/>)
-          }
+        <Text style={{marginBottom: 15}}>Chats</Text>
+        {
+          therapists.map((t) => <TherapistCard key={t.id} therapist={t} navigation={navigation}/>)
+        }
       </>
     </Background>
   );

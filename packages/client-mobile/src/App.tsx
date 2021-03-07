@@ -21,7 +21,7 @@ import { PickTherapist } from './client/pick-therapist';
 import { theme } from './theme';
 import { Loading } from './components/Loading.page';
 import {
-  ChoosePackage, CardEntry, ConfirmPackage, PaymentComplete,
+  ChoosePackage, CardEntry, ConfirmPackage, PaymentComplete, Payments,
 } from './payments';
 import store from './store';
 import {Therapist} from '@theraply/lib';
@@ -41,7 +41,6 @@ export type RootStackParamList = {
   Chat: {
     therapist: Therapist;
   };
-  Pay: undefined;
   Landing: undefined;
   SignIn: undefined;
   SignUp: undefined;
@@ -53,6 +52,7 @@ export type RootStackParamList = {
   CardEntry: {pkg: Package};
   ConfirmPackage: {pkg: Package, cardTokenID: string};
   PaymentComplete: undefined;
+  Payments: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -79,6 +79,7 @@ const App = () => {
             <>
               <Stack.Screen name="Dashboard" component={Dashboard} options={{ title: 'Home'}} />
               <Stack.Screen name="Menu" component={Menu} options={{headerShown: false}}/>
+              <Stack.Screen name="Payments" component={Payments} options={{ title: 'Payments'}} />
               <Stack.Screen name="ChoosePackage" component={ChoosePackage} options={{ title: 'Package' }} />
               <Stack.Screen name="PaymentComplete" component={PaymentComplete} options={{ title: 'Complete' }} />
               <Stack.Screen name="ConfirmPackage" component={ConfirmPackage} options={{ title: 'Confirm' }} />

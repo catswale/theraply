@@ -41,7 +41,7 @@ export const Menu = ({ navigation }: Props) => {
       </View>
       <View style={styles.menuContainer}>
         <View style={styles.menuRows}>
-          <TouchableOpacity style={styles.menuRow}>
+          <TouchableOpacity style={styles.menuRow} onPress={() => navigation.navigate('Payments')}>
             <Card/>
             <Text style={styles.menuItemText}>Payment</Text>
           </TouchableOpacity>
@@ -51,8 +51,8 @@ export const Menu = ({ navigation }: Props) => {
         </TouchableOpacity>
       </View>
       <TouchableOpacity style={styles.cancelButton} onPress={resetNav}>
-          <Cancel style={{marginLeft: 20}}/>
-        </TouchableOpacity>
+        <Cancel style={{marginLeft: 20}}/>
+      </TouchableOpacity>
     </View>
   );
 };
