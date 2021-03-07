@@ -22,13 +22,9 @@ export const getTherapist = /* GraphQL */ `
       bio
       active
       gender
-      avatar {
-        bucket
-        region
-        key
-      }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -54,6 +50,7 @@ export const listTherapists = /* GraphQL */ `
         gender
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }
@@ -78,6 +75,33 @@ export const listTherapistClientRelationships = /* GraphQL */ `
     $nextToken: String
   ) {
     listTherapistClientRelationships(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        therapistID
+        clientID
+        active
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getClientRelationships = /* GraphQL */ `
+  query GetClientRelationships(
+    $clientID: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelTherapistClientRelationshipFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    getClientRelationships(
+      clientID: $clientID
+      sortDirection: $sortDirection
       filter: $filter
       limit: $limit
       nextToken: $nextToken
@@ -221,6 +245,37 @@ export const listMessages = /* GraphQL */ `
     }
   }
 `;
+export const messagesByChannelId = /* GraphQL */ `
+  query MessagesByChannelId(
+    $channelID: ID
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelMessageFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    messagesByChannelID(
+      channelID: $channelID
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        channelID
+        body
+        therapistID
+        clientID
+        participants
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
 export const getBooking = /* GraphQL */ `
   query GetBooking($id: ID!) {
     getBooking(id: $id) {
@@ -248,64 +303,6 @@ export const listBookings = /* GraphQL */ `
         start
         end
         state
-        participants
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const getClientRelationships = /* GraphQL */ `
-  query GetClientRelationships(
-    $clientID: ID
-    $sortDirection: ModelSortDirection
-    $filter: ModelTherapistClientRelationshipFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    getClientRelationships(
-      clientID: $clientID
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        therapistID
-        clientID
-        active
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const messagesByChannelId = /* GraphQL */ `
-  query MessagesByChannelId(
-    $channelID: ID
-    $createdAt: ModelStringKeyConditionInput
-    $sortDirection: ModelSortDirection
-    $filter: ModelMessageFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    messagesByChannelID(
-      channelID: $channelID
-      createdAt: $createdAt
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        channelID
-        body
-        therapistID
-        clientID
         participants
         createdAt
         updatedAt

@@ -18,7 +18,7 @@
       "function": {
         "backend": {
           "deploymentBucketName": "amplify-theraplyapp-dev-173423-deployment",
-          "s3Key": "amplify-builds/backend-676e696362314c4a747a-build.zip"
+          "s3Key": "amplify-builds/backend-306873576a6643642f6d-build.zip"
         },
         "theraplyappc2eaddc1": {
           "deploymentBucketName": "amplify-theraplyapp-dev-173423-deployment",

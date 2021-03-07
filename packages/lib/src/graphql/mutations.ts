@@ -25,13 +25,9 @@ export const createTherapist = /* GraphQL */ `
       bio
       active
       gender
-      avatar {
-        bucket
-        region
-        key
-      }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -58,13 +54,9 @@ export const updateTherapist = /* GraphQL */ `
       bio
       active
       gender
-      avatar {
-        bucket
-        region
-        key
-      }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -91,13 +83,9 @@ export const deleteTherapist = /* GraphQL */ `
       bio
       active
       gender
-      avatar {
-        bucket
-        region
-        key
-      }
       createdAt
       updatedAt
+      owner
     }
   }
 `;

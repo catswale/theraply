@@ -3,8 +3,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const onCreateTherapist = /* GraphQL */ `
-  subscription OnCreateTherapist {
-    onCreateTherapist {
+  subscription OnCreateTherapist($owner: String) {
+    onCreateTherapist(owner: $owner) {
       id
       firstName
       lastName
@@ -22,19 +22,15 @@ export const onCreateTherapist = /* GraphQL */ `
       bio
       active
       gender
-      avatar {
-        bucket
-        region
-        key
-      }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateTherapist = /* GraphQL */ `
-  subscription OnUpdateTherapist {
-    onUpdateTherapist {
+  subscription OnUpdateTherapist($owner: String) {
+    onUpdateTherapist(owner: $owner) {
       id
       firstName
       lastName
@@ -52,19 +48,15 @@ export const onUpdateTherapist = /* GraphQL */ `
       bio
       active
       gender
-      avatar {
-        bucket
-        region
-        key
-      }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteTherapist = /* GraphQL */ `
-  subscription OnDeleteTherapist {
-    onDeleteTherapist {
+  subscription OnDeleteTherapist($owner: String) {
+    onDeleteTherapist(owner: $owner) {
       id
       firstName
       lastName
@@ -82,20 +74,16 @@ export const onDeleteTherapist = /* GraphQL */ `
       bio
       active
       gender
-      avatar {
-        bucket
-        region
-        key
-      }
       createdAt
       updatedAt
+      owner
     }
   }
 `;
 export const onCreateTherapistClientRelationship = /* GraphQL */ `
   subscription OnCreateTherapistClientRelationship(
-    $clientID: String!
-    $therapistID: String!
+    $clientID: String
+    $therapistID: String
   ) {
     onCreateTherapistClientRelationship(
       clientID: $clientID
@@ -112,8 +100,8 @@ export const onCreateTherapistClientRelationship = /* GraphQL */ `
 `;
 export const onUpdateTherapistClientRelationship = /* GraphQL */ `
   subscription OnUpdateTherapistClientRelationship(
-    $clientID: String!
-    $therapistID: String!
+    $clientID: String
+    $therapistID: String
   ) {
     onUpdateTherapistClientRelationship(
       clientID: $clientID
@@ -130,8 +118,8 @@ export const onUpdateTherapistClientRelationship = /* GraphQL */ `
 `;
 export const onDeleteTherapistClientRelationship = /* GraphQL */ `
   subscription OnDeleteTherapistClientRelationship(
-    $clientID: String!
-    $therapistID: String!
+    $clientID: String
+    $therapistID: String
   ) {
     onDeleteTherapistClientRelationship(
       clientID: $clientID
@@ -147,8 +135,8 @@ export const onDeleteTherapistClientRelationship = /* GraphQL */ `
   }
 `;
 export const onCreateClient = /* GraphQL */ `
-  subscription OnCreateClient($owner: String!, $therapistIDs: String!) {
-    onCreateClient(owner: $owner, therapistIDs: $therapistIDs) {
+  subscription OnCreateClient($owner: String) {
+    onCreateClient(owner: $owner) {
       id
       firstName
       lastName
@@ -182,8 +170,8 @@ export const onCreateClient = /* GraphQL */ `
   }
 `;
 export const onUpdateClient = /* GraphQL */ `
-  subscription OnUpdateClient($owner: String!, $therapistIDs: String!) {
-    onUpdateClient(owner: $owner, therapistIDs: $therapistIDs) {
+  subscription OnUpdateClient($owner: String) {
+    onUpdateClient(owner: $owner) {
       id
       firstName
       lastName
@@ -217,8 +205,8 @@ export const onUpdateClient = /* GraphQL */ `
   }
 `;
 export const onDeleteClient = /* GraphQL */ `
-  subscription OnDeleteClient($owner: String!, $therapistIDs: String!) {
-    onDeleteClient(owner: $owner, therapistIDs: $therapistIDs) {
+  subscription OnDeleteClient($owner: String) {
+    onDeleteClient(owner: $owner) {
       id
       firstName
       lastName
@@ -252,7 +240,7 @@ export const onDeleteClient = /* GraphQL */ `
   }
 `;
 export const onCreateNote = /* GraphQL */ `
-  subscription OnCreateNote($owner: String!) {
+  subscription OnCreateNote($owner: String) {
     onCreateNote(owner: $owner) {
       id
       title
@@ -265,7 +253,7 @@ export const onCreateNote = /* GraphQL */ `
   }
 `;
 export const onUpdateNote = /* GraphQL */ `
-  subscription OnUpdateNote($owner: String!) {
+  subscription OnUpdateNote($owner: String) {
     onUpdateNote(owner: $owner) {
       id
       title
@@ -278,7 +266,7 @@ export const onUpdateNote = /* GraphQL */ `
   }
 `;
 export const onDeleteNote = /* GraphQL */ `
-  subscription OnDeleteNote($owner: String!) {
+  subscription OnDeleteNote($owner: String) {
     onDeleteNote(owner: $owner) {
       id
       title
@@ -291,7 +279,7 @@ export const onDeleteNote = /* GraphQL */ `
   }
 `;
 export const onCreateMessage = /* GraphQL */ `
-  subscription OnCreateMessage($clientID: String!, $therapistID: String!) {
+  subscription OnCreateMessage($clientID: String, $therapistID: String) {
     onCreateMessage(clientID: $clientID, therapistID: $therapistID) {
       id
       channelID
@@ -305,7 +293,7 @@ export const onCreateMessage = /* GraphQL */ `
   }
 `;
 export const onUpdateMessage = /* GraphQL */ `
-  subscription OnUpdateMessage($clientID: String!, $therapistID: String!) {
+  subscription OnUpdateMessage($clientID: String, $therapistID: String) {
     onUpdateMessage(clientID: $clientID, therapistID: $therapistID) {
       id
       channelID
@@ -319,7 +307,7 @@ export const onUpdateMessage = /* GraphQL */ `
   }
 `;
 export const onDeleteMessage = /* GraphQL */ `
-  subscription OnDeleteMessage($clientID: String!, $therapistID: String!) {
+  subscription OnDeleteMessage($clientID: String, $therapistID: String) {
     onDeleteMessage(clientID: $clientID, therapistID: $therapistID) {
       id
       channelID
@@ -333,7 +321,7 @@ export const onDeleteMessage = /* GraphQL */ `
   }
 `;
 export const onCreateBooking = /* GraphQL */ `
-  subscription OnCreateBooking($participants: String!) {
+  subscription OnCreateBooking($participants: String) {
     onCreateBooking(participants: $participants) {
       id
       bookingID
@@ -347,7 +335,7 @@ export const onCreateBooking = /* GraphQL */ `
   }
 `;
 export const onUpdateBooking = /* GraphQL */ `
-  subscription OnUpdateBooking($participants: String!) {
+  subscription OnUpdateBooking($participants: String) {
     onUpdateBooking(participants: $participants) {
       id
       bookingID
@@ -361,7 +349,7 @@ export const onUpdateBooking = /* GraphQL */ `
   }
 `;
 export const onDeleteBooking = /* GraphQL */ `
-  subscription OnDeleteBooking($participants: String!) {
+  subscription OnDeleteBooking($participants: String) {
     onDeleteBooking(participants: $participants) {
       id
       bookingID

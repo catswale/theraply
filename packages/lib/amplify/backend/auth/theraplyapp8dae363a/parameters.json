@@ -1,6 +1,6 @@
 {
     "identityPoolName": "theraplyapp8dae363a_identitypool_8dae363a",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "therap8dae363a",
     "userPoolName": "theraplyapp8dae363a_userpool_8dae363a",
     "autoVerifiedAttributes": [
