@@ -6,9 +6,11 @@ import {
 } from '@theraply/lib';
 import { useTherapist } from '../therapists/therapists.hooks';
 import { setChats } from './chat.slice';
+import { useClient } from '../client/client.hooks';
 
 export const useChat = () => {
   const dispatch = useDispatch();
+  const {getRelationship} = useClient();
   const {therapists} = useTherapist();
   const {chats} = useSelector((state) => state.chat);
 
@@ -19,7 +21,8 @@ export const useChat = () => {
   async function getChats() {
     let chats = {} as {[key:string]: Message[]};
     for (const therapist of therapists) {
-      const msgs = await fetchMessages(therapist.relationship.id);
+      const relationship = getRelationship(therapist.id);
+      const msgs = await fetchMessages(relationship.id);
       chats[therapist.id] = msgs;
     }
     dispatch(setChats(chats));
@@ -42,7 +45,6 @@ export const useChat = () => {
   }
 
   function addMessage(id: string, message: Message) {
-    console.log(message.body)
     const newChat = [...chats[id]];
     newChat.push(message)
     const newChats = {...chats};

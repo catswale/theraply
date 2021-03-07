@@ -15,7 +15,7 @@ interface Props extends DashboardProps {
 export const TherapistCard = ({navigation, therapist}: Props) => {
   const {chats} = useChat();
   const chat = chats?.[therapist.id];
-  const message = chat?.[chat.length - 1].body
+  const message = chat?.[chat.length - 1]?.body
 
   return (
     <TouchableOpacity 

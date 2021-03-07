@@ -51,20 +51,17 @@ export const Chat = ({ route, navigation }: Props) => {
   const [messages, setMessages] = useState([] as Message[]);
   const [messageBody, setMessageBody] = useState('');
   const { therapist } = route.params;
-  const { client } = useClient();
+  const [channelID, setChannelID] = useState('');
+  const { client, getRelationship } = useClient();
   const chat = useChat();
 
   useEffect(() => {
     navigation.setOptions({
       headerTitle: () => <ChatHeader therapist={therapist} />,
     });
-
     setMessages(chat.chats?.[therapist.id])
+    setChannelID(getRelationship(therapist.id).id);
   }, []);
-
-  async function fetchMessages() {
-    setMessages(await chat.fetchMessages(therapist.relationship.id));
-  }
 
   useEffect(() => {
     const subscription = API

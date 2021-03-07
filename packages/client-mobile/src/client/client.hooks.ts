@@ -4,11 +4,11 @@ import { API, graphqlOperation } from 'aws-amplify';
 import {
   mutations, Client, queries, Therapist, ClientTherapistRelationship,
 } from '@theraply/lib';
-import { setClient, ClientState } from './client.slice';
+import { setClient, ClientState, setRelationships } from './client.slice';
 import { useAuth } from '../auth/auth.hooks';
 
 export const useClient = () => {
-  const { client }: ClientState = useSelector((state) => state.client);
+  const { client, relationships }: ClientState = useSelector((state) => state.client);
   const dispatch = useDispatch();
   const { user, fetchCurrentAuthUser } = useAuth();
   const { id, attributes } = user;
@@ -22,6 +22,7 @@ export const useClient = () => {
   useEffect(() => {
     if (id && !client?.id) {
       initClient();
+      initRelationships();
     }
   }, [user]);
 
@@ -45,8 +46,24 @@ export const useClient = () => {
     dispatch(setClient(newClient));
   }
 
+  async function initRelationships() {
+    const data = await API.graphql(graphqlOperation(queries.getClientRelationships, {
+      clientID: id,
+    })) as Data;
+    type Data = {data: {getClientRelationships: {items: ClientTherapistRelationship[]}}}
+    const result = data.data.getClientRelationships.items;
+    dispatch(setRelationships(result));
+  }
+
+  function getRelationship(therapistID: string) {
+    const result = relationships.find(r => r.therapistID === therapistID)
+    if (!result) throw new Error('No relationship found.')
+    return result;
+  }
+
   return {
     client,
+    getRelationship,
     setClient: (data: any) => dispatch(setClient(data)),
     updateClient: (data: any) => dispatch(setClient({ ...client, ...data })),
   };

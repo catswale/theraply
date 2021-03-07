@@ -25,12 +25,6 @@ export async function getClientTherapists(req, res) {
         ]}
       }
     });
-
-    therapists = therapists.map(therapist => ({
-      ...therapist,
-      relationship: relationsips[0]
-    }))
-    console.log(therapists)
     return res.json({ success: true, therapists });
   } catch (err) {
     console.log(err);
