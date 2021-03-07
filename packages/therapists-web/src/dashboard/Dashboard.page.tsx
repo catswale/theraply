@@ -7,6 +7,7 @@ import {
   Route,
   Redirect,
   NavLink,
+  useLocation,
 } from 'react-router-dom';
 import { ClientCard } from './Client.card';
 import Header from '../components/header';
@@ -16,12 +17,17 @@ import { Chat } from '../chat/Chat.page';
 
 export const Dashboard = () => {
   const [therapist, setTherapist] = useState({} as Therapist);
-  const [activeNav, setActiveNav] = useState(1);
+  const location = useLocation();
   const history = useHistory();
+
   useEffect(() => {
     fetchUserInfo();
     fetchUser();
   }, []);
+
+  const isActiveNav = (nav: string) => () => (
+    location.pathname.split('/')[1] === nav
+  );
 
   const signOut = async () => {
     try {
@@ -41,7 +47,7 @@ export const Dashboard = () => {
   async function fetchTherapist({ username, attributes }: any) {
     try {
       const data = await API.graphql(
-        graphqlOperation(queries.getTherapist, { id: username })
+        graphqlOperation(queries.getTherapist, { id: username }),
       ) as TherapistData;
       type TherapistData = { data: { getTherapist: any } }
       const foundTherapist = data.data.getTherapist;
@@ -82,18 +88,16 @@ export const Dashboard = () => {
     <>
       <Header />
       <section className={styles.wrapper}>
-        <SideNav active={activeNav} onNavClick={(nav: number) => setActiveNav(nav)} />
-        <main className={styles.mainContainerWrapper}>
-          <Switch>
-            <Route exact path="/"
-              render={() => (
-                <Redirect to="/dashboard" />
-              )}
-            />
-            <Route path="/dashboard" component={Home} />
-            <Route path="/chat" component={Chat} />
-          </Switch>
-        </main>
+        <SideNav isActiveNav={isActiveNav} />
+        <Switch>
+          <Route exact path="/"
+            render={() => (
+              <Redirect to="/dashboard" />
+            )}
+          />
+          <Route path="/dashboard" component={Home} />
+          <Route path="/chat" component={Chat} />
+        </Switch>
       </section>
       {/* <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <h1>Dashboard</h1>
@@ -111,29 +115,30 @@ export const Dashboard = () => {
 };
 
 type SideNavProps = {
-  active: number;
   // eslint-disable-next-line no-unused-vars
-  onNavClick: (x: number) => void;
+  isActiveNav: (nav: string) => () => boolean;
 }
 
-const SideNav = ({ active, onNavClick }: SideNavProps) => (
+const SideNav = ({ isActiveNav }: SideNavProps) => (
   <aside className={styles.sideNavContainer}>
     <nav className={styles.sideNav}>
       <ul>
-        <li className={active === 1 ? styles.sideNavActive : ''}>
+        <li>
           <NavLink
             to="/dashboard"
             className="regularButton"
-            onClick={() => onNavClick(1)}
+            activeClassName={styles.sideNavActive}
+            isActive={isActiveNav('dashboard')}
           >
             <span className={styles.dashboardIcon}></span> Dashboard
           </NavLink>
         </li>
-        <li className={active === 2 ? styles.sideNavActive : ''}>
+        <li>
           <NavLink
             to="/chat"
             className="regularButton"
-            onClick={() => onNavClick(2)}
+            activeClassName={styles.sideNavActive}
+            isActive={isActiveNav('chat')}
           >
             <span className={styles.chatIcon}></span> Chats
           </NavLink>

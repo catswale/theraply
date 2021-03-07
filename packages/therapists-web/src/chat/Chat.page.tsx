@@ -1,107 +1,98 @@
-import React, { useEffect, useState } from 'react';
-import { API, graphqlOperation, Auth } from 'aws-amplify';
+import React, { useEffect } from 'react';
+import { Auth } from 'aws-amplify';
+import { Switch, Route, NavLink } from 'react-router-dom';
 import '@aws-amplify/pubsub';
-// import {Message} from '@theraply/lib';
-import {
-  mutations, subscriptions, queries, Message,
-} from '@theraply/lib';
+import ChatMessage, { ChatProps } from './Chat.message.page';
+import styles from './style.module.css';
 
-import './Chat.css';
+const chats = [
+  {
+    channelID: '434ssdsd',
+    participants: ['434sdsdsdsd', 'rere343sdsd'],
+    therapistID: 'rere434sdsd',
+    chatInfo: {
+      id: '1',
+      firstName: 'Annette',
+      lastName: 'Black',
+      message: 'Hello Jane, how may I help you?',
+      color: '#E0F7FF',
+    },
+  },
+  {
+    channelID: '434ssdsd',
+    participants: ['434sdsdsdsd', 'rere343sdsd'],
+    therapistID: 'rere434sdsd',
+    chatInfo: {
+      id: '2',
+      firstName: 'Darell',
+      lastName: 'Steward',
+      message: 'Hello Jane, how may I help you?',
+      color: '#F2F07C',
+    },
+  },
+  {
+    channelID: '434ssdsd',
+    participants: ['434sdsdsdsd', 'rere343sdsd'],
+    therapistID: 'rere434sdsd',
+    chatInfo: {
+      id: '3',
+      firstName: 'Ronald',
+      lastName: 'Richards',
+      message: 'Hello Jane, how may I help you?',
+      color: '#56CCF2',
+    },
+  },
+];
 
-interface Event {
-  provider: object;
-  value: {
-    data: {
-      onCreateMessage: Message
-    }
-  }
-}
-
-export const Chat = (props: any) => {
-  const { channelID, participants } = props.location.state;
-  const [messages, setMessages] = useState([] as Message[]);
-  const [messageBody, setMessageBody] = useState('');
+export const Chat = () => {
   const [therapistID, setTherapistID] = React.useState({});
 
   useEffect(() => {
-    fetchMessages();
     fetchUserInfo();
   }, []);
   const fetchUserInfo = async () => {
     const { username } = await Auth.currentAuthenticatedUser();
     setTherapistID(username);
   };
-  useEffect(() => {
-    console.log(`clientid ${participants[0]}`);
-    console.log(`therapistid ${therapistID}`);
-    const subscription = API
-      .graphql(graphqlOperation(subscriptions.onCreateMessage, { owner: therapistID, clientID: participants[0], therapistID })) // @ts-ignore
-      .subscribe({
-        next: (event: Event) => {
-          console.log('got message');
-          console.log(event);
-          setMessages([...messages, event.value.data.onCreateMessage]);
-        },
-      });
-    console.log(subscription);
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [messages]);
-
-  async function fetchMessages() {
-    const messageData = await API.graphql(graphqlOperation(queries.messagesByChannelId, {
-      channelID,
-      sortDirection: 'ASC',
-    })) as MessageData;
-    type MessageData = {data: {messagesByChannelID: {items: Message[]}}}
-    const messages = messageData.data.messagesByChannelID.items;
-    setMessages(messages);
-  }
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMessageBody(event.target.value);
-  };
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    const input = {
-      channelID,
-      authorID: therapistID,
-      body: messageBody.trim(),
-      therapistID,
-      clientID: participants[0],
-    };
-
-    try {
-      setMessageBody('');
-      // @ts-ignore
-      await API.graphql(graphqlOperation(mutations.createMessage, { input }));
-    } catch (error) {
-      console.warn(error);
-    }
-  };
 
   return (
-    <div className="container">
-      <div className="messages">
-      {messages.map((message) => (
-        <div
-          key={message.id}
-          className={message.authorID === therapistID ? 'message me' : 'message'}>{message.body}</div>
-      ))}
+    <main className={styles.mainContainerWrapper}>
+      <aside className={styles.chatPreviewsWrapper}>
+        {
+          chats.map((chat) => (<ChatPreview {...chat} />))
+        }
+      </aside>
+      <section className={styles.mainContainer}>
+        <Switch>
+          <Route path="/chat/:chatId" component={ChatMessage} />
+        </Switch>
+      </section>
+    </main>
+  );
+};
+
+const ChatPreview = (props: ChatProps) => {
+  const {
+    id,
+    firstName,
+    lastName,
+    message,
+    color,
+  } = props.chatInfo;
+
+  return (
+    <NavLink
+      to={{ pathname: `/chat/${id}`, state: props }}
+      activeClassName={styles.activeChatPreview}
+      className={['regularButton', styles.chatPreviewContainer].join(' ')}
+    >
+      <span style={{ backgroundColor: color }} className={styles.avatarBubbleLarge}>
+        {`${firstName[0]}${lastName[0]}`}
+      </span>
+      <div className={styles.chatPreview}>
+        <p className={styles.regularBoldText}>{`${firstName} ${lastName}`}</p>
+        <span className={styles.lightText}>{message}</span>
       </div>
-      <div className="chat-bar">
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="message"
-            placeholder="Type your message here..."
-            onChange={handleChange}
-            value={messageBody}
-          />
-        </form>
-      </div>
-    </div>
+    </NavLink>
   );
 };
